@@ -30,10 +30,10 @@ export function transactionManager() {
 
         const wallet = useObject(Wallet, walletId);
 
-        if((income == false) && (wallet!.balance < total)) {
-            TransactionStore.setError('Not enough money');
-            return;
-        }
+        // if((income == false) && (wallet!.balance < total)) {
+        //     TransactionStore.setAddError('Not enough money');
+        //     return;
+        // }
 
         realm.write(() => {
             realm.create(
@@ -59,37 +59,71 @@ export function transactionManager() {
 
     }, [realm]);
 
-    // const updateTransaction = useCallback((
-    //     _id: Realm.BSON.ObjectId,
-    //     name: string,
-    //     income: boolean,
-    //     total: number,
-    //     createAt: string,
-    //     transactionTypeId: Realm.BSON.ObjectId,
-    //     walletId: Realm.BSON.ObjectId,
-    //     note: string,
-    //     imageUrl: string,
-    // ) => {
+    const updateTransactionById = useCallback((
+        _id: Realm.BSON.ObjectId,
+        name: string,
+        income: boolean,
+        total: number,
+        transactionTypeId: Realm.BSON.ObjectId,
+        note: string,
+        imageUrl: string,
+    ) => {
+        const transaction = useObject(Transaction, _id);
+        const wallet = useObject(Wallet, transaction!.walletId);
 
-    //     const wallet = useObject(Wallet, walletId);
-    //     const transaction = useObject(Transaction, _id);
+        let balance = wallet!.balance;
 
-    //     if((income == false) && (wallet!.balance < total)) {
-    //         TransactionStore.setError('Not enough money');
-    //         return;
-    //     }
+        //tinh tong vi tam thoi khi hoan lai tien tu giao dich
+        if(transaction!.income == true) {
+            balance = balance - transaction!.total;
+        } else {
+            balance = balance + transaction!.total;
+        }
 
-    //     realm.write(() => {
-    //         transaction!.name = name;
-    //         transaction!.income = income;
-    //         transaction!.total = total;
-    //         transaction!.createAt = Date.now().toString();
-    //         transaction!.transactionTypeId = 
-    //     })
-    // }, [realm]);
+        //tinh tong vi sau khi update giao dich
+        if(income == true) {
+            balance = balance + total;
+        } else {
+            balance = balance - total;
+        }
+
+        //thong bao khi loi
+        // if(balance < 0) {
+        //     TransactionStore.setUpdateError('Not enough money');
+        //     return;
+        // }
+
+        realm.write(() => {
+            wallet!.balance = balance;
+        })
+
+        realm.write(() => {
+            transaction!.name = name;
+            transaction!.income = income;
+            transaction!.total = total;
+            transaction!.transactionTypeId = transactionTypeId;
+            transaction!.note = note;
+            transaction!.imageUrl = imageUrl;
+        });
+
+
+    }, [realm]);
 
     const deleteTransactionById = useCallback((_id: Realm.BSON.ObjectId) => {
         const transaction = useObject(Transaction, _id);
+        const wallet = useObject(Wallet, transaction!.walletId);
+
+        let balance = wallet!.balance;
+        if(transaction!.income == true) {
+            balance = balance - transaction!.total;
+        } else {
+            balance = balance + transaction!.total;
+        }
+
+        realm.write(() => {
+            wallet!.balance = balance;
+        })
+
         realm.write(() => {
             realm.delete(transaction);
         });

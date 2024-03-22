@@ -6,6 +6,7 @@ export class Wallet extends Realm.Object {
     _id!: Realm.BSON.ObjectId;
     name!: string;
     balance!: number;
+    currencyUnit!: string;
 
     static schema = {
         name: 'Wallet',
@@ -14,6 +15,7 @@ export class Wallet extends Realm.Object {
             _id: 'objectId',
             name: 'string',
             balance: 'int',
+            currencyUnit: 'string',
         }
     }
 }

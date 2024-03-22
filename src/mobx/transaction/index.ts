@@ -2,13 +2,19 @@ import React from 'react';
 import { observable, action, makeObservable, makeAutoObservable } from 'mobx';
 
 class store {
-    addTransactionError = ''
+    addTransactionError = '';
+    updateTransactionError = '';
+
     constructor() {
         makeAutoObservable(this);
     }
 
-    setError(text: string) {
+    setAddError(text: string) {
         this.addTransactionError = text;
+    }
+
+    setUpdateError(text: string) {
+        this.updateTransactionError = text;
     }
 }
 

@@ -5,7 +5,7 @@ import { Realm } from "realm";
 export class TransactionType extends Realm.Object {
     _id!: Realm.BSON.ObjectId;
     name!: string;
-    type!: string;
+    income!: boolean;
     iconUrl!: string;
 
     static schema = {
@@ -14,7 +14,7 @@ export class TransactionType extends Realm.Object {
         properties: {
             _id: 'objectId',
             name: 'string',
-            type: 'string',
+            income: 'bool',
             iconUrl: 'string',
         }
     }

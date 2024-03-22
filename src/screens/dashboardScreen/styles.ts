@@ -5,17 +5,37 @@ export const styles = StyleSheet.create({
 
     },
 
-    viewHeader: {
-        width: '100%',
+    viewTopContainer: {
+
+    },
+    
+    viewHeaderBar: {
         flexDirection: 'row',
-        padding: 5,
     },
 
-    viewTotalCard: {
+    viewHeaderText: {
+        flexDirection: 'column',
+    },
+
+    txtGreeting: {
+        fontSize: 14,
+    },
+
+    txtName: {
+        fontSize: 20,
+    },
+
+    btnNotification: {
 
     },
 
-    viewTransactionList: {
+    imgButtonNotification: {
 
-    }
+    },
+
+    viewBalanceCard: {
+        position: 'absolute',
+        bottom: 0,
+        zIndex: 1,
+    },
 })
