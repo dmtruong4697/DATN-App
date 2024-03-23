@@ -11,8 +11,26 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   return (
-    <View>
-        <Text>add screen</Text>
+    <View style={styles.viewContainer}>
+      <View style={styles.viewTopContainer}>
+        <View style={styles.viewHeaderBar}>
+          <View
+            style={{
+              flex : 1,
+              transform : [ { scaleX : 0.5 } ],
+              flexDirection: 'row',
+              padding: 15,
+              // alignItems : 'center',
+              // justifyContent : 'center'
+            }}
+          >
+
+
+          </View>
+        </View>
+
+
+      </View>
     </View>
   )
 }
