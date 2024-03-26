@@ -3,7 +3,7 @@ import { colors } from "../../constants/colors";
 
 export const styles = StyleSheet.create({
     viewContainer: {
-
+        flex: 1,
     },
 
     viewTopContainer: {
@@ -69,11 +69,12 @@ export const styles = StyleSheet.create({
     viewFormItemContainer: {
         width: '100%',
         flexDirection: 'column',
+        marginBottom: 15,
     },
 
     txtFormItemTitle: {
         fontSize: 12,
-        fontWeight: '500',
+        fontWeight: '600',
         color: '#666666',
         marginBottom: 5,
     },
@@ -86,5 +87,57 @@ export const styles = StyleSheet.create({
         borderColor: '#DDDDDD',
         padding: 10,
         flexDirection: 'row',
+        alignItems: 'center',
+        
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#666666',
+    },
+
+    imgTypeIcon: {
+        width: 32,
+        height: 32,
+        borderRadius: 1000,
+        marginRight: 5,
+    },
+
+    txtTypeName: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#666666',
+        flex: 1,
+    },
+
+    viewTypeList: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: 15,
+    },
+
+    btnAddType: {
+        width: '100%',
+        height: 50,
+        borderRadius: 10,
+        borderWidth: 1.5,
+        borderStyle: 'dashed',
+        borderColor: '#DDDDDD',
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    txtAddTypeButton: {
+        fontSize: 14,
+        fontWeight: '500',
+        color: '#666666',
+    },
+
+    imgAddTypeButton: {
+        height: 24,
+        width: 24,
+        // resizeMode: 'contain',
+        marginRight: 5,
     },
 })

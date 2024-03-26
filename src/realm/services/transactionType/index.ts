@@ -3,7 +3,7 @@ import { RealmContext } from "../../models";
 import { TransactionType } from "../../models/TransactionType";
 import { BSON } from "realm";
 
-export function transactionManager() {
+export function transactionTypeManager() {
     const {useRealm, useQuery, useObject} = RealmContext
     const realm = useRealm();
     const transactionTypes = useQuery(TransactionType);

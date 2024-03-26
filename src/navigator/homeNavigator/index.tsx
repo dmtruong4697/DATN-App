@@ -22,7 +22,9 @@ const HomeNavigator = () => {
 
         tabBarItemStyle:{
 
-          }
+        },
+
+        tabBarHideOnKeyboard: true,
       };
 
     return (

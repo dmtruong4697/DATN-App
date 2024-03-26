@@ -1,7 +1,7 @@
-import { useCallback } from "react";
+import { ContextType, useCallback } from "react";
 import { RealmContext } from "../../models";
 import { Transaction } from "../../models/Transaction";
-import { BSON } from "realm";
+import { BSON, OpenRealmBehaviorType } from "realm";
 import { Realm } from "realm";
 import { TransactionType } from "../../models/TransactionType";
 import { Wallet } from "../../models/Wallet";
@@ -11,6 +11,11 @@ export function transactionManager() {
     const {useRealm, useQuery, useObject} = RealmContext
     const realm = useRealm();
     const transactions = useQuery(Transaction);
+
+    const getAllTransaction = useCallback(() => {
+        const transactions = useQuery(Transaction);
+        return transactions;
+    }, [realm]);
 
     const getTransactionById = useCallback((_id: Realm.BSON.ObjectId) => {
         const transaction = useObject(Transaction, _id);
@@ -43,7 +48,7 @@ export function transactionManager() {
                     name: name,
                     income: income,
                     total: total,
-                    createAt: Date.now().toString(),
+                    createAt: createAt,
                     transactionTypeId: transactionTypeId,
                     walletId: walletId,
                     note: note,
@@ -128,4 +133,13 @@ export function transactionManager() {
             realm.delete(transaction);
         });
     }, [realm]);
+
+    return {
+        addTransaction,
+        deleteTransactionById,
+        getAllTransaction,
+        getTransactionById,
+        updateTransactionById,
+    }
 }
+

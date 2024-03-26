@@ -4,7 +4,7 @@ import { BSON } from "realm";
 import { Wallet } from "../../models/Wallet";
 import { Transaction } from "../../models/Transaction";
 
-export function transactionManager() {
+export function walletManager() {
     const {useRealm, useQuery, useObject} = RealmContext
     const realm = useRealm();
     const wallets = useQuery(Wallet);

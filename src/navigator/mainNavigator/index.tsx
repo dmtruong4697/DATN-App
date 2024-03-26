@@ -5,6 +5,9 @@ import SignInScreen from "../../screens/signInScreen";
 import HomeNavigator from "../homeNavigator";
 import SignUpScreen from "../../screens/signUpScreen";
 import ValidateEmailScreen from "../../screens/validateEmailScreen";
+import AddTransactionScreen from "../../screens/addTransactionScreen";
+import AddTypeScreen from "../../screens/addTypeScreen";
+import AddWalletScreen from "../../screens/addWalletScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +50,22 @@ const MainNavigator = () => {
         <Stack.Screen
             name="Home"
             component={HomeNavigator}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="AddType"
+            component={AddTypeScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="AddWallet"
+            component={AddWalletScreen}
             options={{
                 headerShown: false,
             }}
