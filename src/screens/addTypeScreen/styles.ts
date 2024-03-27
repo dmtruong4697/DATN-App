@@ -102,14 +102,17 @@ export const styles = StyleSheet.create({
     },
 
     viewRadioGroup: {
-        width: '100%',
+        width: '80%',
+        alignSelf: 'center',
+        marginTop: 10,
         marginBottom: 15,
         flexDirection: 'row',
+        justifyContent: 'space-between',
     },
 
     viewRadioItem: {
         flexDirection: 'row',
-        width: '50%',
+        alignItems: 'center',
     },
 
     txtRadioItem: {
@@ -127,11 +130,12 @@ export const styles = StyleSheet.create({
         borderColor: '#DDDDDD',
         justifyContent: 'center',
         alignItems: 'center',
+        marginRight: 10,
     },
 
     btnSelectedItem: {
-        width: 20,
-        height: 20,
+        width: 17,
+        height: 17,
         borderRadius: 1000,
         backgroundColor: colors.PrimaryColor,
     }

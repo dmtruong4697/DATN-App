@@ -1,10 +1,14 @@
-import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, Image, TextInput, ImageSourcePropType } from 'react-native'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Button from '../../components/button';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
+import { TransactionType } from '../../realm/models/TransactionType';
+import { Realm } from "realm";
+import { addTransactionType, getAllTransactionType } from '../../realm/services/transactionType';
+import { RealmContext } from '../../realm/models';
 
 interface IProps {}
 
@@ -17,8 +21,25 @@ type TransactionTypeType = {
 
 const AddTypeScreen: React.FC<IProps> = () => {
 
+  const {useRealm} = RealmContext;
+  const realm = useRealm();
+
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const [name, setName] = useState('');
+  const [iconUrl, setIconUrl] = useState('');
   const [isIncome, setIsIncome] = useState(false);
+
+  const handleAddType = () => {
+    const newType = {
+      _id: new Realm.BSON.ObjectId(),
+      name: name,
+      income: isIncome,
+      iconUrl: iconUrl,
+    };
+
+    addTransactionType(realm, newType);
+    navigation.goBack();
+  }
 
     // pick icon bottom sheet
     const iconBottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -71,6 +92,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
             <TouchableOpacity
               style={styles.btnBack}
               onPress={() => {
+                console.log(getAllTransactionType(realm));
               }}
             >
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/option.png')}/>
@@ -85,6 +107,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
           <Text style={styles.txtFormItemTitle}>NAME</Text>
           <TextInput 
             style={styles.viewFormItem}
+            onChangeText={(text) => {setName(text)}}
           />
         </View>
 
@@ -100,13 +123,33 @@ const AddTypeScreen: React.FC<IProps> = () => {
 
         {/* income */}
         <View style={styles.viewRadioGroup}>
-          
+          {/* expenses */}
+          <View style={styles.viewRadioItem}>
+            <TouchableOpacity
+              style={styles.btnRadioItem}
+              onPress={() => {setIsIncome(false)}}
+            >
+              {!isIncome && <View style={styles.btnSelectedItem}/>}
+            </TouchableOpacity>
+            <Text style={styles.txtRadioItem}>Expenses</Text>
+          </View>
+
+          {/* income */}
+          <View style={styles.viewRadioItem}>
+            <TouchableOpacity
+              style={styles.btnRadioItem}
+              onPress={() => {setIsIncome(true)}}
+            >
+              {isIncome && <View style={styles.btnSelectedItem}/>}
+            </TouchableOpacity>
+            <Text style={styles.txtRadioItem}>Income</Text>
+          </View>
         </View>
 
         <Button
           content='ADD TRANSACTION TYPE'
           onPress={() => {
-
+            handleAddType();
           }}
           containerStyle={{}}
           contentStyle={{}}

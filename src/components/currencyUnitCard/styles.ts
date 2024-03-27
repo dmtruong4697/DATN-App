@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../constants/colors";
 
 export const styles = StyleSheet.create({
     viewContainer: {
@@ -6,25 +7,23 @@ export const styles = StyleSheet.create({
         height: 50,
         borderRadius: 10,
         borderWidth: 1,
-        // borderStyle: 'dashed',
         borderColor: '#DDDDDD',
         padding: 10,
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
-        // justifyContent: 'center',
     },
 
     txtName: {
         fontSize: 14,
         fontWeight: '500',
-        color: '#000000',
+        color: '#666666',
     },
 
-    imgIcon: {
-        height: 24,
-        width: 24,
-        // resizeMode: 'contain',
+    txtCode: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: colors.PrimaryColor,
         marginRight: 10,
     },
 })

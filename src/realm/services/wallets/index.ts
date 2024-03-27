@@ -30,7 +30,7 @@ export function getWalletById(
 
 export function addWallet(
     realm: Realm, 
-    wallet: Wallet
+    wallet: WalletType
 ) {
     realm.write(() => {
       realm.create('Wallet', wallet);
@@ -40,7 +40,7 @@ export function addWallet(
 export function updateWalletById(
     realm: Realm,
     _id: Realm.BSON.ObjectId,
-    updatedWallet: Wallet,
+    updatedWallet: WalletType,
 ) {
     const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', _id);
 

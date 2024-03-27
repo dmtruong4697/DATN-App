@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
-import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetFlatList, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
 import { colors } from '../../constants/colors';
 import DatePicker from 'react-native-date-picker';
@@ -14,6 +14,13 @@ import { addTransaction, getAllTransaction } from '../../realm/services/transact
 import { BSON } from 'realm';
 import Button from '../../components/button';
 import TransactionTypeCard from '../../components/transactionTypeCard';
+import { getListTransactionType } from '../../realm/services/transactionType';
+import { Realm } from "realm";
+import { FlatList } from 'react-native-gesture-handler';
+import { getAllWallet, getWalletById } from '../../realm/services/wallets';
+import WalletCard from '../../components/walletCard';
+
+const FormContext = createContext<any>(null);
 
 interface IProps {}
 
@@ -32,6 +39,16 @@ type TransactionType = {
 const ExpensesRoute = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const {useRealm} = RealmContext;
+  const realm = useRealm();
+  const {typeName, setTypeName, typeIcon, setTypeIcon, handleCloseTypeModal} = useContext(FormContext);
+
+  let transactionTypes = getListTransactionType(realm, false);
+  const isFocus = useIsFocused();
+
+  useEffect(() => {
+    transactionTypes = getListTransactionType(realm, false);
+  }, [isFocus])
 
   return (
   <View style={styles.viewTypeList}>
@@ -45,12 +62,24 @@ const ExpensesRoute = () => {
       <Text style={styles.txtAddTypeButton}>Add Transaction Type</Text>
     </TouchableOpacity>
 
-    <TransactionTypeCard
-      _id={new Realm.BSON.ObjectId()}
-      iconUrl={require('../../../assets/icon/addTransaction/addType.png')}
-      income
-      name='Phone Bill'
-      onPress={() => {}}
+    <FlatList
+      data={transactionTypes}
+      keyExtractor={item => item._id.toString()}
+      renderItem={({item}) => (
+        <TransactionTypeCard
+          _id={item._id}
+          iconUrl={item.iconUrl}
+          name={item.name}
+          income={item.income}
+          onPress={() => {
+            setTypeName(item.name);
+            setTypeIcon(item.iconUrl);
+            handleCloseTypeModal();
+          }}
+        />
+      )}
+      style={{width: '100%',}}
+      showsVerticalScrollIndicator={false}
     />
   </View>
 )};
@@ -58,6 +87,16 @@ const ExpensesRoute = () => {
 const IncomeRoute = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const {useRealm} = RealmContext;
+  const realm = useRealm();
+  const {typeName, setTypeName, typeIcon, setTypeIcon, handleCloseTypeModal} = useContext(FormContext);
+
+  let transactionTypes = getListTransactionType(realm, true);
+  const isFocus = useIsFocused();
+
+  useEffect(() => {
+    transactionTypes = getListTransactionType(realm, true);
+  }, [isFocus])
 
   return (
   <View style={styles.viewTypeList}>
@@ -70,6 +109,26 @@ const IncomeRoute = () => {
       <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
       <Text style={styles.txtAddTypeButton}>Add Transaction Type</Text>
     </TouchableOpacity>
+
+    <FlatList
+      data={transactionTypes}
+      keyExtractor={item => item._id.toString()}
+      renderItem={({item}) => (
+        <TransactionTypeCard
+          _id={item._id}
+          iconUrl={item.iconUrl}
+          name={item.name}
+          income={item.income}
+          onPress={() => {
+            setTypeName(item.name);
+            setTypeIcon(item.iconUrl);
+            handleCloseTypeModal();
+          }}
+        />
+      )}
+      style={{width: '100%',}}
+      showsVerticalScrollIndicator={false}
+    />
   </View>
 )};
 
@@ -81,15 +140,23 @@ const renderScene = SceneMap({
 const AddTransactionScreen: React.FC<IProps>  = () => {
 
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-    const [typeName, setTypeName] = useState<any>('Transaction Type');
-    const [typeIcon, setTypeIcon] = useState<any>();
+    const {useRealm} = RealmContext;
+    const realm = useRealm();
+    
+    const [typeName, setTypeName] = useState('Choose Type');
+    const [typeId, setTypeId] = useState<Realm.BSON.ObjectId>();
+    const [typeIcon, setTypeIcon] = useState();
     const [total, setTotal] = useState<any>();
     const [selectedDay, setSelectedDay] = React.useState(new Date().toISOString().slice(0, 10))
     const [note, setNote] = useState<any>();
-    const [walletId, setWalletId] = useState<Realm.BSON.ObjectId>();
+    const [walletId, setWalletId] = useState<Realm.BSON.ObjectId>(getAllWallet(realm)[0]._id);
 
-    const {useRealm} = RealmContext;
-    const realm = useRealm();
+    let wallets = getAllWallet(realm);
+    const isFocus = useIsFocused();
+  
+    useEffect(() => {
+      wallets = getAllWallet(realm);
+    }, [isFocus])
 
     // type bottom sheet tab
     const [index, setIndex] = React.useState(0);
@@ -195,6 +262,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     );
 
   return (
+    <FormContext.Provider value={{typeName, setTypeName, typeIcon, setTypeIcon, walletId, setWalletId, handleCloseTypeModal}}>
     <View style={styles.viewContainer}>
       <View style={styles.viewTopContainer}>
         <View style={styles.viewHeaderBar}>
@@ -264,6 +332,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
           <TextInput 
             style={styles.viewFormItem}
             keyboardType='numeric'
+            onChangeText={(text) => {setTotal(text)}}
           />
         </View>
 
@@ -287,7 +356,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
               handlePresentWalletModalPress();
             }}
           >
-            <Text style={styles.txtTypeName}>Default</Text>
+            <Text style={styles.txtTypeName}>{getWalletById(realm, walletId)!.name}</Text>
           </TouchableOpacity>
         </View>
 
@@ -403,8 +472,35 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
               onChange={handleWalletSheetChanges}
               backdropComponent={renderWalletBackdrop}
             >
-              <BottomSheetView style={{flex: 1}}>
-                <Text>wallet</Text>
+              <BottomSheetView style={{flex: 1, padding: 10,}}>
+                <TouchableOpacity
+                  style={styles.btnAddType}
+                  onPress={() => {
+                    navigation.navigate('AddWallet');
+                  }}
+                >
+                  <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
+                  <Text style={styles.txtAddTypeButton}>Add Wallet</Text>
+                </TouchableOpacity>
+
+                <FlatList
+                  data={wallets}
+                  keyExtractor={item => item._id.toString()}
+                  renderItem={({item}) => (
+                    <WalletCard
+                      _id={item._id}
+                      balance={item.balance}
+                      currencyUnit={item.currencyUnit}
+                      name={item.name}
+                      onPress={() => {
+                        setWalletId(item._id);
+                        handleCloseWalletModal();
+                      }}
+                    />
+                  )}
+                  style={{width: '100%',}}
+                  showsVerticalScrollIndicator={false}
+                />
               </BottomSheetView>
             </BottomSheetModal>
           </View>
@@ -433,6 +529,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
           </View>
         </BottomSheetModalProvider>
     </View>
+    </FormContext.Provider>
   )
 }
 
