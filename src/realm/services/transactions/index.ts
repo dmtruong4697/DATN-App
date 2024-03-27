@@ -1,145 +1,126 @@
 import { ContextType, useCallback } from "react";
-import { RealmContext } from "../../models";
+// import { RealmContext } from "../../models";
 import { Transaction } from "../../models/Transaction";
 import { BSON, OpenRealmBehaviorType } from "realm";
 import { Realm } from "realm";
-import { TransactionType } from "../../models/TransactionType";
 import { Wallet } from "../../models/Wallet";
 import { TransactionStore } from "../../../mobx/transaction";
+import { createRealmContext } from "@realm/react";
+import { Budget } from "../../models/Budget";
+import { RealmContext } from "../../models";
 
-export function transactionManager() {
-    const {useRealm, useQuery, useObject} = RealmContext
-    const realm = useRealm();
-    const transactions = useQuery(Transaction);
-
-    const getAllTransaction = useCallback(() => {
-        const transactions = useQuery(Transaction);
-        return transactions;
-    }, [realm]);
-
-    const getTransactionById = useCallback((_id: Realm.BSON.ObjectId) => {
-        const transaction = useObject(Transaction, _id);
-        return transaction;
-    }, [realm]);
-
-    const addTransaction = useCallback((
-        name: string,
-        income: boolean,
-        total: number,
-        createAt: string,
-        transactionTypeId: Realm.BSON.ObjectId,
-        walletId: Realm.BSON.ObjectId,
-        note: string,
-        imageUrl: string,
-    ) => {
-
-        const wallet = useObject(Wallet, walletId);
-
-        // if((income == false) && (wallet!.balance < total)) {
-        //     TransactionStore.setAddError('Not enough money');
-        //     return;
-        // }
-
-        realm.write(() => {
-            realm.create(
-                'Transaction',
-                {
-                    _id: new BSON.ObjectId(),
-                    name: name,
-                    income: income,
-                    total: total,
-                    createAt: createAt,
-                    transactionTypeId: transactionTypeId,
-                    walletId: walletId,
-                    note: note,
-                    imageUrl: imageUrl,
-                }
-            )
-        })
-
-        realm.write(() => {
-            if(income) wallet!.balance = wallet!.balance + total;
-                else wallet!.balance = wallet!.balance - total;
-        })
-
-    }, [realm]);
-
-    const updateTransactionById = useCallback((
-        _id: Realm.BSON.ObjectId,
-        name: string,
-        income: boolean,
-        total: number,
-        transactionTypeId: Realm.BSON.ObjectId,
-        note: string,
-        imageUrl: string,
-    ) => {
-        const transaction = useObject(Transaction, _id);
-        const wallet = useObject(Wallet, transaction!.walletId);
-
-        let balance = wallet!.balance;
-
-        //tinh tong vi tam thoi khi hoan lai tien tu giao dich
-        if(transaction!.income == true) {
-            balance = balance - transaction!.total;
-        } else {
-            balance = balance + transaction!.total;
-        }
-
-        //tinh tong vi sau khi update giao dich
-        if(income == true) {
-            balance = balance + total;
-        } else {
-            balance = balance - total;
-        }
-
-        //thong bao khi loi
-        // if(balance < 0) {
-        //     TransactionStore.setUpdateError('Not enough money');
-        //     return;
-        // }
-
-        realm.write(() => {
-            wallet!.balance = balance;
-        })
-
-        realm.write(() => {
-            transaction!.name = name;
-            transaction!.income = income;
-            transaction!.total = total;
-            transaction!.transactionTypeId = transactionTypeId;
-            transaction!.note = note;
-            transaction!.imageUrl = imageUrl;
-        });
-
-
-    }, [realm]);
-
-    const deleteTransactionById = useCallback((_id: Realm.BSON.ObjectId) => {
-        const transaction = useObject(Transaction, _id);
-        const wallet = useObject(Wallet, transaction!.walletId);
-
-        let balance = wallet!.balance;
-        if(transaction!.income == true) {
-            balance = balance - transaction!.total;
-        } else {
-            balance = balance + transaction!.total;
-        }
-
-        realm.write(() => {
-            wallet!.balance = balance;
-        })
-
-        realm.write(() => {
-            realm.delete(transaction);
-        });
-    }, [realm]);
-
-    return {
-        addTransaction,
-        deleteTransactionById,
-        getAllTransaction,
-        getTransactionById,
-        updateTransactionById,
-    }
+type TransactionType = {
+    _id: Realm.BSON.ObjectId;
+    name: string;
+    income: boolean;
+    total: number;
+    createAt: string;
+    transactionTypeId: Realm.BSON.ObjectID;
+    walletId: Realm.BSON.ObjectID;
+    note: string;
+    imageUrl: string;
 }
 
+export function getAllTransaction(realm: Realm) {
+    const transactions = realm.objects<Transaction>('Transaction');
+    return transactions;
+};
+
+export function addTransaction(
+    realm: Realm, 
+    transaction: TransactionType
+) {
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', transaction.walletId);
+
+    // update wallet balance
+    realm.write(() => {
+        if(transaction.income == true) {
+            wallet!.balance = wallet!.balance + transaction.total;
+        } else {
+            wallet!.balance = wallet!.balance - transaction.total;
+        }
+    })
+
+    // create transaction
+    realm.write(() => {
+      realm.create('Transaction', transaction);
+    });
+};
+
+export function getTransactionById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+) {
+    const transaction = realm.objectForPrimaryKey<Transaction>('Transaction', _id);
+    return transaction;
+};
+
+export function updateTransactionById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+    updatedTransaction: Transaction,
+) {
+    const transaction = realm.objectForPrimaryKey<Transaction>('Transaction', _id);
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', transaction!.walletId);
+
+    // return money to wallet
+    let balance = wallet?.balance;
+    if(transaction!.income == true) {
+        balance = balance! - transaction!.total;
+    } else {
+        balance = balance! + transaction!.total;
+    }
+
+    // update wallet balance
+    if(updatedTransaction.income == true) {
+        balance = balance! + updatedTransaction.total;
+    } else {
+        balance = balance! - updatedTransaction.total;
+    }
+
+    realm.write(() => {
+        wallet!.balance = balance!;
+    })
+
+    realm.write(() => {
+        transaction!.income = updatedTransaction.income;
+        transaction!.transactionTypeId = updatedTransaction.transactionTypeId;
+        transaction!.total = updatedTransaction.total;
+        transaction!.createAt = updatedTransaction.createAt;
+        transaction!.note = updatedTransaction.note;
+    })
+};
+
+export function deleteTransactionById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+) {
+    const transaction = realm.objectForPrimaryKey<Transaction>('Transaction', _id);
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', transaction!.walletId);
+
+    //return monry to wallet
+    let balance = wallet?.balance;
+    if(transaction!.income == true) {
+        balance = balance! - transaction!.total;
+    } else {
+        balance = balance! + transaction!.total;
+    }
+    realm.write(() => {
+        wallet!.balance = balance!;
+    })
+
+    realm.write(() => {
+        realm.delete(transaction);
+    })
+};
+
+export function getTransactionByWalletId(
+    realm: Realm,
+    walletId: Realm.BSON.ObjectId,
+) {
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', walletId);
+    const allTransaction = realm.objects<Transaction>('Transaction');
+
+    const transactions = allTransaction.filtered('walletId = $0', walletId);
+    return transactions;
+}

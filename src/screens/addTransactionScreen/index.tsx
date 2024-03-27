@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, SafeAreaView, Button, KeyboardAvoidingView } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, useNavigation } from '@react-navigation/native';
@@ -8,9 +8,12 @@ import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
 import { colors } from '../../constants/colors';
 import DatePicker from 'react-native-date-picker';
 import { Calendar } from 'react-native-calendars';
-import { RealmContext } from '../../realm/models';
 import { Transaction } from '../../realm/models/Transaction';
-import { useQuery } from '@realm/react';
+import { RealmContext } from '../../realm/models';
+import { addTransaction, getAllTransaction } from '../../realm/services/transactions';
+import { BSON } from 'realm';
+import Button from '../../components/button';
+import TransactionTypeCard from '../../components/transactionTypeCard';
 
 interface IProps {}
 
@@ -41,6 +44,14 @@ const ExpensesRoute = () => {
       <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
       <Text style={styles.txtAddTypeButton}>Add Transaction Type</Text>
     </TouchableOpacity>
+
+    <TransactionTypeCard
+      _id={new Realm.BSON.ObjectId()}
+      iconUrl={require('../../../assets/icon/addTransaction/addType.png')}
+      income
+      name='Phone Bill'
+      onPress={() => {}}
+    />
   </View>
 )};
 
@@ -76,8 +87,9 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     const [selectedDay, setSelectedDay] = React.useState(new Date().toISOString().slice(0, 10))
     const [note, setNote] = useState<any>();
     const [walletId, setWalletId] = useState<Realm.BSON.ObjectId>();
-    const {useQuery} = RealmContext;
-    const transactions = useQuery(Transaction);
+
+    const {useRealm} = RealmContext;
+    const realm = useRealm();
 
     // type bottom sheet tab
     const [index, setIndex] = React.useState(0);
@@ -209,7 +221,21 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
             <TouchableOpacity
               style={styles.btnBack}
               onPress={() => {
-                console.log(transactions)
+                // addTransaction(
+                //   realm,
+                //   {
+                //     _id: new BSON.ObjectId(),
+                //     name: 'transaction 1',
+                //     income: true,
+                //     total: 1234,
+                //     createAt: selectedDay,
+                //     transactionTypeId: new BSON.ObjectId(),
+                //     walletId: new BSON.ObjectId(),
+                //     note: note,
+                //     imageUrl: 'example.com',
+                //   }
+                // )
+                // console.log(getAllTransaction(realm));
               }}
             >
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/option.png')}/>
@@ -277,8 +303,17 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
             <Text style={styles.txtTypeName}>{note}</Text>
           </TouchableOpacity>
         </View>
-        
+
+        <Button
+          content='ADD TRANSACTION'
+          onPress={() => {
+
+          }}
+          containerStyle={{}}
+          contentStyle={{}}
+        />
       </View>
+
 
         {/* modal pick transaction type */}
         <BottomSheetModalProvider>

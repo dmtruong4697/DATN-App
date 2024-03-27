@@ -47,13 +47,13 @@ export const styles = StyleSheet.create({
 
     viewFormContainer: {
         width: '90%',
-        height: 500,
+        // height: 540,
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         padding: 15,
         position: 'absolute',
         alignSelf: 'center',
-        top: 100,
+        top: 90,
 
         shadowColor: "#000",
         shadowOffset: {
@@ -102,9 +102,9 @@ export const styles = StyleSheet.create({
     },
 
     txtTypeName: {
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: '400',
-        color: '#666666',
+        color: '#000000',
         flex: 1,
     },
 
@@ -126,6 +126,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 10,
     },
 
     txtAddTypeButton: {

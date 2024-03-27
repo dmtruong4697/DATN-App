@@ -3,58 +3,66 @@ import { RealmContext } from "../../models";
 import { BSON } from "realm";
 import { Wallet } from "../../models/Wallet";
 import { Transaction } from "../../models/Transaction";
+import { Realm } from "realm";
+import { getTransactionByWalletId } from "../transactions";
 
-export function walletManager() {
-    const {useRealm, useQuery, useObject} = RealmContext
-    const realm = useRealm();
-    const wallets = useQuery(Wallet);
-
-    const addWallet = useCallback((
-        name: string,
-        balance: number,
-        currencyUnit: string,
-    ) => {
-        realm.write(() => {
-            realm.create(
-                'Wallet',
-                {
-                    _id: new BSON.ObjectId(),
-                    name: name,
-                    balance: balance,
-                    currencyUnit: currencyUnit,
-                }
-            )
-        })
-    }, [realm]);
-
-    const getWalletById = useCallback((_id: Realm.BSON.ObjectId) => {
-        const wallet = useObject(Wallet, _id);
-        return wallet;
-    }, [realm]);
-
-    const updateWalletById = useCallback((
-        _id: Realm.BSON.ObjectId,
-        name: string,
-        balance: number,
-        currencyUnit: string,
-    ) => {
-        const wallet = useObject(Wallet, _id);
-        
-        realm.write(() => {
-            wallet!.name = name;
-            wallet!.balance = balance;
-            wallet!.currencyUnit = currencyUnit;
-        });
-    }, [realm]);
-
-    const deleteWalletById = useCallback((
-        _id: Realm.BSON.ObjectId,
-    ) => {
-        const wallet = useObject(Wallet, _id);
-
-        const transactions = useQuery(Transaction).filtered(`walletId = ${_id}`);
-
-        realm.delete(transactions);
-        realm.delete(wallet);
-    }, [realm]);
+type WalletType = {
+    _id: Realm.BSON.ObjectId;
+    name: string;
+    balance: number;
+    currencyUnit: string;
 }
+
+export function getAllWallet(
+    realm: Realm,
+) {
+    const wallets = realm.objects<Wallet>('Wallet');
+    return wallets;
+};
+
+export function getWalletById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+) {
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', _id);
+    return wallet;
+};
+
+export function addWallet(
+    realm: Realm, 
+    wallet: Wallet
+) {
+    realm.write(() => {
+      realm.create('Wallet', wallet);
+    });
+};
+
+export function updateWalletById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+    updatedWallet: Wallet,
+) {
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', _id);
+
+    realm.write(() => {
+        wallet!.name = updatedWallet.name;
+        wallet!.balance = updatedWallet.balance;
+    })
+};
+
+export function deleteWalletById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+) {
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', _id);
+
+    const transactions = getTransactionByWalletId(realm, _id);
+
+    realm.write(() => {
+        realm.delete(transactions);
+    })
+
+    realm.write(() => {
+        realm.delete(wallet);
+    })
+};
