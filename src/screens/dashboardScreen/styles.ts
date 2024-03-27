@@ -106,6 +106,7 @@ export const styles = StyleSheet.create({
         borderRadius: 6,
         alignItems: 'center',
         justifyContent: 'center',
+        // backgroundColor: '#16b58f',
     },
 
     imgButtonOption: {

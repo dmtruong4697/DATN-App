@@ -9,6 +9,9 @@ import { TransactionType } from '../../realm/models/TransactionType';
 import { Realm } from "realm";
 import { addTransactionType, getAllTransactionType } from '../../realm/services/transactionType';
 import { RealmContext } from '../../realm/models';
+import { FlatList } from 'react-native-gesture-handler';
+import { TransactionTypeIconData } from '../../constants/transactionTypeIcon';
+import TransactionTypeIcon from '../../components/transactionTypeIcon';
 
 interface IProps {}
 
@@ -181,7 +184,22 @@ const AddTypeScreen: React.FC<IProps> = () => {
               backdropComponent={renderIconBackdrop}
             >
               <BottomSheetView style={{flex: 1}}>
-                <Text>icon</Text>
+                <FlatList
+                  data={TransactionTypeIconData}
+                  keyExtractor={item => item.id}
+                  renderItem={({item}) => (
+                    <TransactionTypeIcon
+                      iconUri={item.uri}
+                      size={40}
+                      additionStyle={{marginHorizontal: 16,}}
+                      onPress={() => {}}
+                    />
+                  )}
+                  numColumns={5}
+                  style={{width: '100%',}}
+                  contentContainerStyle={{alignItems: 'center', gap: 10,}}
+                  showsVerticalScrollIndicator={false}
+                />
               </BottomSheetView>
             </BottomSheetModal>
           </View>
