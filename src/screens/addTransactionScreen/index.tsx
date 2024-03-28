@@ -14,7 +14,7 @@ import { addTransaction, getAllTransaction } from '../../realm/services/transact
 import { BSON } from 'realm';
 import Button from '../../components/button';
 import TransactionTypeCard from '../../components/transactionTypeCard';
-import { getListTransactionType } from '../../realm/services/transactionType';
+import { getAllTransactionType, getListTransactionType, getTransactionTypeById } from '../../realm/services/transactionType';
 import { Realm } from "realm";
 import { FlatList } from 'react-native-gesture-handler';
 import { getAllWallet, getWalletById } from '../../realm/services/wallets';
@@ -41,7 +41,7 @@ const ExpensesRoute = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const {useRealm} = RealmContext;
   const realm = useRealm();
-  const {typeName, setTypeName, typeIcon, setTypeIcon, handleCloseTypeModal} = useContext(FormContext);
+  const {typeName, typeId, setTypeId, setTypeName, typeIcon, setTypeIcon, handleCloseTypeModal} = useContext(FormContext);
 
   let transactionTypes = getListTransactionType(realm, false);
   const isFocus = useIsFocused();
@@ -72,6 +72,7 @@ const ExpensesRoute = () => {
           name={item.name}
           income={item.income}
           onPress={() => {
+            setTypeId(item._id)
             setTypeName(item.name);
             setTypeIcon(item.iconUrl);
             handleCloseTypeModal();
@@ -89,7 +90,7 @@ const IncomeRoute = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const {useRealm} = RealmContext;
   const realm = useRealm();
-  const {typeName, setTypeName, typeIcon, setTypeIcon, handleCloseTypeModal} = useContext(FormContext);
+  const {typeName, typeId, setTypeId, setTypeName, typeIcon, setTypeIcon, handleCloseTypeModal} = useContext(FormContext);
 
   let transactionTypes = getListTransactionType(realm, true);
   const isFocus = useIsFocused();
@@ -120,6 +121,7 @@ const IncomeRoute = () => {
           name={item.name}
           income={item.income}
           onPress={() => {
+            setTypeId(item._id);
             setTypeName(item.name);
             setTypeIcon(item.iconUrl);
             handleCloseTypeModal();
@@ -144,12 +146,14 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     const realm = useRealm();
     
     const [typeName, setTypeName] = useState('Choose Type');
-    const [typeId, setTypeId] = useState<Realm.BSON.ObjectId>();
+    const [typeId, setTypeId] = useState<Realm.BSON.ObjectId>(getAllTransactionType(realm)[0]._id);
+    // const [typeId, setTypeId] = useState<Realm.BSON.ObjectId>(new Realm.BSON.ObjectId());
     const [typeIcon, setTypeIcon] = useState();
     const [total, setTotal] = useState<any>();
-    const [selectedDay, setSelectedDay] = React.useState(new Date().toISOString().slice(0, 10))
+    const [selectedDay, setSelectedDay] = React.useState(new Date().toISOString().slice(0, 10));
     const [note, setNote] = useState<any>();
     const [walletId, setWalletId] = useState<Realm.BSON.ObjectId>(getAllWallet(realm)[0]._id);
+    // const [walletId, setWalletId] = useState<Realm.BSON.ObjectId>(new Realm.BSON.ObjectId());
 
     let wallets = getAllWallet(realm);
     const isFocus = useIsFocused();
@@ -157,6 +161,24 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     useEffect(() => {
       wallets = getAllWallet(realm);
     }, [isFocus])
+
+    const handleAddTransaction = () => {
+      const newTransaction = {
+        _id: new Realm.BSON.ObjectId(),
+        name: '',
+        income: getTransactionTypeById(realm, typeId)!.income,
+        total: Number(total),
+        createAt: selectedDay,
+        transactionTypeId: typeId,
+        walletId: walletId,
+        note: note,
+        imageUrl: '',
+      };
+  
+      addTransaction(realm, newTransaction);
+
+      navigation.goBack();
+    }
 
     // type bottom sheet tab
     const [index, setIndex] = React.useState(0);
@@ -262,7 +284,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     );
 
   return (
-    <FormContext.Provider value={{typeName, setTypeName, typeIcon, setTypeIcon, walletId, setWalletId, handleCloseTypeModal}}>
+    <FormContext.Provider value={{typeName, typeId, setTypeId, setTypeName, typeIcon, setTypeIcon, walletId, setWalletId, handleCloseTypeModal}}>
     <View style={styles.viewContainer}>
       <View style={styles.viewTopContainer}>
         <View style={styles.viewHeaderBar}>
@@ -289,21 +311,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
             <TouchableOpacity
               style={styles.btnBack}
               onPress={() => {
-                // addTransaction(
-                //   realm,
-                //   {
-                //     _id: new BSON.ObjectId(),
-                //     name: 'transaction 1',
-                //     income: true,
-                //     total: 1234,
-                //     createAt: selectedDay,
-                //     transactionTypeId: new BSON.ObjectId(),
-                //     walletId: new BSON.ObjectId(),
-                //     note: note,
-                //     imageUrl: 'example.com',
-                //   }
-                // )
-                // console.log(getAllTransaction(realm));
+                console.log(getAllTransaction(realm));
               }}
             >
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/option.png')}/>
@@ -322,18 +330,23 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
             style={styles.viewFormItem}
             onPress={handlePresentTypeModalPress}
           >
+            <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/type.png')}/>
             <Text style={styles.txtTypeName}>{typeName}</Text>
+            <Image style={[styles.imgIcon, {marginRight: 0,}]} source={require('../../../assets/icon/addTransaction/down-1.png')}/>
           </TouchableOpacity>
         </View>
 
         {/* total */}
         <View style={styles.viewFormItemContainer}>
           <Text style={styles.txtFormItemTitle}>TOTAL</Text>
-          <TextInput 
-            style={styles.viewFormItem}
-            keyboardType='numeric'
-            onChangeText={(text) => {setTotal(text)}}
-          />
+          <View style={[styles.viewFormItem, {padding: 0,}]}>
+            <Text style={styles.txtCode}>{getWalletById(realm, walletId)?.currencyUnit}</Text>
+            <TextInput 
+              style={[styles.txtTypeName, {flex: 1}]}
+              keyboardType='numeric'
+              onChangeText={(text) => {setTotal(text)}}
+            />
+          </View>
         </View>
 
         {/* date */}
@@ -343,7 +356,9 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
             style={styles.viewFormItem}
             onPress={handlePresentDateModalPress}
           >
+            <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/calendar.png')}/>
             <Text style={styles.txtTypeName}>{selectedDay}</Text>
+            <Image style={[styles.imgIcon, {marginRight: 0,}]} source={require('../../../assets/icon/addTransaction/down-1.png')}/>
           </TouchableOpacity>
         </View>
 
@@ -356,7 +371,9 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
               handlePresentWalletModalPress();
             }}
           >
-            <Text style={styles.txtTypeName}>{getWalletById(realm, walletId)!.name}</Text>
+            <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/wallet.png')}/>
+            <Text style={styles.txtTypeName}>{getWalletById(realm, walletId)?.name}</Text>
+            <Image style={[styles.imgIcon, {marginRight: 0,}]} source={require('../../../assets/icon/addTransaction/down-1.png')}/>
           </TouchableOpacity>
         </View>
 
@@ -376,10 +393,8 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
         <Button
           content='ADD TRANSACTION'
           onPress={() => {
-
+            handleAddTransaction();
           }}
-          containerStyle={{}}
-          contentStyle={{}}
         />
       </View>
 
@@ -522,7 +537,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
                   style={{color: '#666666', fontWeight: '400', fontSize: 16,}}
                   onChangeText={(text) => {setNote(text)}}
                   multiline
-                  placeholder='Note here'
+                  placeholder='note here ...'
                 />
               </BottomSheetView>
             </BottomSheetModal>

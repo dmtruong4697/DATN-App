@@ -4,7 +4,7 @@ import { BSON } from "realm";
 import { Wallet } from "../../models/Wallet";
 import { Transaction } from "../../models/Transaction";
 import { Realm } from "realm";
-import { getTransactionByWalletId } from "../transactions";
+import { getAllTransaction, getTransactionByWalletId } from "../transactions";
 
 type WalletType = {
     _id: Realm.BSON.ObjectId;
@@ -65,4 +65,40 @@ export function deleteWalletById(
     realm.write(() => {
         realm.delete(wallet);
     })
+};
+
+export function getWalletIncomeByWalletAndDay(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+    date: string,
+) {
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', _id);
+    const transactions = realm.objects<Transaction>('Transaction').filtered('walletId = $0 AND createAt = $1', _id, date);
+
+    let income = 0;
+    transactions.forEach((item) => {
+        if(item.income) {
+            income = income + item.total;
+        }
+    })
+
+    return income;
+};
+
+export function getWalletExpensesByWalletAndDay(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+    date: string,
+) {
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', _id);
+    const transactions = realm.objects<Transaction>('Transaction').filtered('walletId = $0 AND createAt = $1', _id, date);
+
+    let expenses = 0;
+    transactions.forEach((item) => {
+        if(!item.income) {
+            expenses = expenses + item.total;
+        }
+    })
+
+    return expenses;
 };

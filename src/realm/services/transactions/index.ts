@@ -124,3 +124,24 @@ export function getTransactionByWalletId(
     const transactions = allTransaction.filtered('walletId = $0', walletId);
     return transactions;
 }
+
+export function getTransactionByWalletAndDay(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+    date: string,
+) {
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', _id);
+    const transactions = realm.objects<Transaction>('Transaction').filtered('walletId = $0 AND createAt = $1', _id, date);
+
+    return transactions;
+};
+
+export function getTransactionHistory(
+    realm: Realm,
+    quantity: number,
+) {
+    const transactions = realm.objects<Transaction>('Transaction');
+
+    if(transactions.length <= quantity) return transactions;
+        else return transactions.slice(Math.max(transactions.length - quantity, 0));
+};

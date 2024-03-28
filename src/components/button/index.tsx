@@ -4,8 +4,8 @@ import { styles } from './styles';
 
 interface IProps {
   content: string;
-  containerStyle: StyleProp<ViewStyle>;
-  contentStyle: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  contentStyle?: StyleProp<TextStyle>;
   onPress: () => void;
 }
 

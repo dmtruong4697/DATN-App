@@ -1,8 +1,12 @@
 import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styles } from './styles'
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RealmContext } from '../../realm/models';
+import { getAllTransactionType, getTransactionTypeById } from '../../realm/services/transactionType';
+import { getWalletById } from '../../realm/services/wallets';
+import { deleteTransactionById } from '../../realm/services/transactions';
 
 export type TransactionType = {
     _id: Realm.BSON.ObjectId;
@@ -17,43 +21,52 @@ export type TransactionType = {
 }
 
 interface IProps {
-    // _id: Realm.BSON.ObjectId;
+    _id: Realm.BSON.ObjectId;
     name: string;
     income: boolean;
     total: number;
     createAt: string;
-    // transactionTypeId: Realm.BSON.ObjectID;
-    // walletId: Realm.BSON.ObjectID;
+    transactionTypeId: Realm.BSON.ObjectID;
+    walletId: Realm.BSON.ObjectID;
     note: string;
     imageUrl: string;
 }
 
 const TransactionCard: React.FC<IProps>  = ({
-    // _id,
+    _id,
     createAt,
     imageUrl,
     income,
     name,
     note,
     total,
-    // transactionTypeId,
-    // walletId,
+    transactionTypeId,
+    walletId,
 }) => {
 
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+    const {useRealm} = RealmContext;
+    const realm = useRealm();
+
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: getWalletById(realm, walletId)?.currencyUnit,
+    });
 
   return (
     <View style={styles.viewContainer}>
-        <View style={styles.viewIcon}>
+        <TouchableOpacity 
+            style={styles.viewIcon}
+        >
             
-        </View>
+        </TouchableOpacity>
 
         <View style={styles.viewContent}>
-            <Text style={styles.txtName}>Youtube</Text>
-            <Text style={styles.txtTime}>Today</Text>
+            <Text style={styles.txtName}>{getTransactionTypeById(realm, transactionTypeId)?.name}</Text>
+            <Text style={styles.txtTime}>{createAt}</Text>
         </View>
 
-        <Text style={[styles.txtTotal, {color: (income)? '#25A969':'#F95B51'}]}>+ $850</Text>
+        <Text style={[styles.txtTotal, {color: (income)? '#25A969':'#F95B51'}]}>{formatter.format(total)}</Text>
     </View>
   )
 }

@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
     },
 
     viewFormContainer: {
-        width: '90%',
+        width: '92%',
         // height: 540,
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
@@ -103,7 +103,7 @@ export const styles = StyleSheet.create({
 
     txtTypeName: {
         fontSize: 15,
-        fontWeight: '400',
+        fontWeight: '500',
         color: '#000000',
         flex: 1,
     },
@@ -139,6 +139,19 @@ export const styles = StyleSheet.create({
         height: 24,
         width: 24,
         // resizeMode: 'contain',
+        marginRight: 5,
+    },
+
+    txtCode: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: colors.PrimaryColor,
+        margin: 10,
+    },
+
+    imgIcon: {
+        height: 20,
+        width: 20,
         marginRight: 5,
     },
 })

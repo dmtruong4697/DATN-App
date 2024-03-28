@@ -55,9 +55,9 @@ export const styles = StyleSheet.create({
     },
 
     viewBalanceCard: {
-        position: 'absolute',
-        bottom: 0,
-        zIndex: 1,
+        // position: 'absolute',
+        // bottom: 0,
+        // zIndex: 1,
         width: '90%',
         height: 160,
         borderRadius: 20,
@@ -189,5 +189,24 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '400',
         color: '#666666',
+    },
+
+    viewSlideItem: {
+        width: '100%',
+        height: 160,
+        borderRadius: 20,
+        backgroundColor: '#018767',
+        padding: 10,
+        flexDirection: 'column',
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
     },
 })

@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
     },
 
     viewFormContainer: {
-        width: '90%',
+        width: '92%',
         // height: 540,
         backgroundColor: '#FFFFFF',
         borderRadius: 20,

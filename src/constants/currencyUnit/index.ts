@@ -8,7 +8,7 @@ export const CurrencyUnitData = [
     {
         id: '2',
         symbol: '₫',
-        code: 'VNĐ',
+        code: 'VND',
         name: 'Việt Nam Đồng',
     },    {
         id: '3',

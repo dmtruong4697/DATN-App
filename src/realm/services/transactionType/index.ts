@@ -28,7 +28,7 @@ export function addTransactionType(
 export function getTransactionTypeById(
     realm: Realm,
     _id: Realm.BSON.ObjectId,
-) {
+): (Realm.Object<TransactionType, never> & TransactionType) | null {
     const transactionType = realm.objectForPrimaryKey<TransactionType>('TransactionType', _id);
     return transactionType;
 };
