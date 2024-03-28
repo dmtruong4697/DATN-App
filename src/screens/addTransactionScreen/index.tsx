@@ -151,7 +151,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     const [typeIcon, setTypeIcon] = useState();
     const [total, setTotal] = useState<any>();
     const [selectedDay, setSelectedDay] = React.useState(new Date().toISOString().slice(0, 10));
-    const [note, setNote] = useState<any>();
+    const [note, setNote] = useState('');
     const [walletId, setWalletId] = useState<Realm.BSON.ObjectId>(getAllWallet(realm)[0]._id);
     // const [walletId, setWalletId] = useState<Realm.BSON.ObjectId>(new Realm.BSON.ObjectId());
 

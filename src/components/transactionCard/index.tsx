@@ -7,7 +7,9 @@ import { RealmContext } from '../../realm/models';
 import { getAllTransactionType, getTransactionTypeById } from '../../realm/services/transactionType';
 import { getWalletById } from '../../realm/services/wallets';
 import { deleteTransactionById } from '../../realm/services/transactions';
+// import image from '../../../assets/icon/socialMedia/google.png';
 
+// const DEFAULT_IMAGE = Image.resolveAssetSource(image).uri;
 export type TransactionType = {
     _id: Realm.BSON.ObjectId;
     name: string;
@@ -58,7 +60,6 @@ const TransactionCard: React.FC<IProps>  = ({
         <TouchableOpacity 
             style={styles.viewIcon}
         >
-            
         </TouchableOpacity>
 
         <View style={styles.viewContent}>
