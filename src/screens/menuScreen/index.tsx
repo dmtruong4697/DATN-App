@@ -3,6 +3,7 @@ import React from 'react'
 import { styles } from './styles'
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import MenuItem from '../../components/menuItem';
 
 interface IProps {}
 
@@ -13,6 +14,10 @@ const MenuScreen: React.FC<IProps>  = () => {
   return (
     <View>
         <Text>menu screen</Text>
+        <MenuItem
+          id='1'
+          backgroundColor='green'
+        />
     </View>
   )
 }

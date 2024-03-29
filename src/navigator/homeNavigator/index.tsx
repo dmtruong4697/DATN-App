@@ -21,7 +21,7 @@ const HomeNavigator = () => {
         },
 
         tabBarItemStyle:{
-
+            // backgroundColor: 'pink'
         },
 
         tabBarHideOnKeyboard: true,
