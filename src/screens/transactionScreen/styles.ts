@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 15,
         justifyContent: 'space-between',
+        backgroundColor: '#ffffff'
     },
 
     btnBack: {
