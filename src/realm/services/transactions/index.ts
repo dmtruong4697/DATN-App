@@ -145,3 +145,18 @@ export function getTransactionHistory(
     if(transactions.length <= quantity) return transactions;
         else return transactions.slice(Math.max(transactions.length - quantity, 0));
 };
+
+export function getTransactionByTime(
+    realm: Realm,
+    startTime: string,
+    finishTime: string,
+) {
+
+    // const start = new Date(startTime);
+    // const finish = new Date(finishTime);
+    // const createTime = newDate()
+    const transactions = realm.objects<Transaction>('Transaction').
+        filtered('createAt >= $0 AND createAt <= $1', startTime, finishTime);
+
+    return transactions;
+}

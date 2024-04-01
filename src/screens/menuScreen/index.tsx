@@ -9,7 +9,7 @@ interface IProps {}
 
 const MenuScreen: React.FC<IProps>  = () => {
 
-    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   return (
     <View>

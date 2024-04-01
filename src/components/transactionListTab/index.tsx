@@ -2,6 +2,11 @@ import { View, Text, ImageSourcePropType, TouchableOpacity, Image } from 'react-
 import React from 'react'
 import { styles } from './styles';
 import { NavigationProp } from '@react-navigation/native';
+import Button from '../button';
+import { getTransactionByTime } from '../../realm/services/transactions';
+import { RealmContext } from '../../realm/models';
+import { FlatList } from 'react-native-gesture-handler';
+import TransactionCard from '../transactionCard';
 
 interface IProps {
     navigation: NavigationProp<any, any>,
@@ -12,9 +17,32 @@ interface IProps {
 }
 
 const TransactionListTab: React.FC<IProps> = ({id, finishTime, name, navigation, startTime}) => {
+
+  const {useRealm} = RealmContext;
+  const realm = useRealm();
+  const transactions = getTransactionByTime(realm, startTime, finishTime);
+
   return (
     <View style={styles.viewContainer}>
-        <Text>{name}</Text>
+        <FlatList
+          data={transactions}
+          keyExtractor={item => item._id.toString()}
+          renderItem={({item}) => (
+            <TransactionCard
+              _id={item._id}
+              createAt={item.createAt}
+              imageUrl={item.imageUrl}
+              income={item.income}
+              name={item.name}
+              note={item.note}
+              total={item.total}
+              transactionTypeId={item.transactionTypeId}
+              walletId={item.walletId}
+            />
+          )}
+          style={{width: '100%',}}
+          showsVerticalScrollIndicator={false}
+        />
     </View>
   )
 }

@@ -1,32 +1,29 @@
 export function generateWeek(numOfWeeks: number) {
     const dataArray = [];
 
-    // Hàm để tính ngày bắt đầu của tuần hiện tại
     function getStartOfWeek() {
         const today = new Date();
-        const dayOfWeek = today.getDay() || 7; // Lấy ngày trong tuần (0 - 6), chuyển thành (1 - 7)
+        const dayOfWeek = today.getDay() || 7; 
         return new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2 - dayOfWeek);
     }
 
-    // Hàm để tính ngày kết thúc của tuần hiện tại
     function getEndOfWeek() {
         const today = new Date();
-        const dayOfWeek = today.getDay() || 7; // Lấy ngày trong tuần (0 - 6), chuyển thành (1 - 7)
+        const dayOfWeek = today.getDay() || 7; 
         return new Date(today.getFullYear(), today.getMonth(), today.getDate() + 8 - dayOfWeek);
     }
 
-    // Tạo mảng dữ liệu
     for (let i = 0; i < numOfWeeks; i++) {
         const startTime = new Date(getStartOfWeek());
-        startTime.setDate(startTime.getDate() - 7 * i); // Điều chỉnh ngày bắt đầu cho tuần trước
+        startTime.setDate(startTime.getDate() - 7 * i); 
         const finishTime = new Date(getEndOfWeek());
-        finishTime.setDate(finishTime.getDate() - 7 * i); // Điều chỉnh ngày kết thúc cho tuần trước
-        const id = (i + 1).toString(); // ID bắt đầu từ 1
+        finishTime.setDate(finishTime.getDate() - 7 * i); 
+        const id = (i + 1).toString(); 
         dataArray.push({
             id: id,
-            startTime: startTime.toISOString().slice(0, 10), // Format ngày YYYY/MM/DD
+            startTime: startTime.toISOString().slice(0, 10), 
             finishTime: finishTime.toISOString().slice(0, 10),
-            name: startTime.toISOString().slice(0, 10).toString() + ' - ' + finishTime.toISOString().slice(0, 10).toString(),
+            name: startTime.toISOString().slice(0, 10).toString() + ' ~ ' + finishTime.toISOString().slice(0, 10).toString(),
         });
     }
 
@@ -34,22 +31,35 @@ export function generateWeek(numOfWeeks: number) {
 }
 
 export function generateMonth(monthCount: number) {
-    const currentDate = new Date(); // Lấy thời gian hiện tại
+    const currentDate = new Date(); 
     const result = [];
 
-    // Lặp qua số lượng tháng cần tạo
     for (let i = 0; i < monthCount; i++) {
-        const startTime = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 2); // Ngày đầu tiên của tháng
-        const finishTime = new Date(currentDate.getFullYear(), currentDate.getMonth() - i + 1, 1); // Ngày cuối cùng của tháng
-        const id = i + 1; // ID của tháng, bắt đầu từ 1
+        const startTime = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 2); 
+        const finishTime = new Date(currentDate.getFullYear(), currentDate.getMonth() - i + 1, 1);
+        const id = (i + 1).toString(); 
 
         result.push({
+            id: id,
             startTime: startTime.toISOString().slice(0, 10),
             finishTime: finishTime.toISOString().slice(0, 10),
-            id: id,
-            name: Number(startTime.getMonth() + 1).toString() + ' - ' + startTime.getFullYear().toString(),
+            name: Number(startTime.getMonth() + 1).toString() + ' ~ ' + startTime.getFullYear().toString(),
         });
     }
 
     return result;
 }
+
+export function generateCustomTime(startTime: string, finishTime: string,) {
+    const result = [];
+
+    result.push({
+        id: '1',
+        startTime: startTime,
+        finishTime: finishTime,
+        name: startTime + ' ~ ' + finishTime,
+    });
+
+    return result;
+}
+

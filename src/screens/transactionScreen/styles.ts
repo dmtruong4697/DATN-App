@@ -32,4 +32,11 @@ export const styles = StyleSheet.create({
         color: '#000000',
         marginTop: 5,
     },
+
+    txtPeriod: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        padding: 10,
+    },
 })

@@ -1,15 +1,17 @@
 import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions } from 'react-native'
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
-import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { CalendarProvider, ExpandableCalendar, WeekCalendar } from 'react-native-calendars';
 import { colors } from '../../constants/colors';
 import { generateMonth, generateWeek } from '../../realm/services/dateTime';
 import { SceneMap, TabBar, TabBarProps, TabView } from 'react-native-tab-view';
 import TransactionListTab from '../../components/transactionListTab';
 import { ScrollView } from 'react-native-gesture-handler';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetFlatList, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
+import OptionButton from '../../components/optionButton';
+import { RangeContext } from '../../navigator/mainNavigator';
 
 interface IProps {}
 
@@ -17,10 +19,12 @@ const TransactionScreen: React.FC<IProps>  = () => {
 
     const layout = useWindowDimensions();
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+    const {startTime, setStartTime, finishTime, setFinishTime, inputType, setInputType, tabData, setTabData} = useContext(RangeContext);
 
-    const tabData = generateMonth(5).reverse();
+    // const tabData = generateWeek(5).reverse();
+    // const [tabData, setTabData] = useState(generateWeek(5).reverse());
     const renderScene = SceneMap(
-      tabData.reduce((scenes: any, tab) => {
+      tabData.reduce((scenes: any, tab: any) => {
         scenes[tab.id] = () =>  
           <TransactionListTab
             id={tab.id.toString()}
@@ -33,55 +37,117 @@ const TransactionScreen: React.FC<IProps>  = () => {
       }, {})
     );
 
-  // Sử dụng indexState và setIndexState thay vì index và setIndex
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = React.useState(tabData.length);
 
-  // Tạo routes dựa trên data được truyền vào
   const routes= React.useMemo(() => (
-    tabData.map((item) => ({ key: item.id, title: item.name, }))
+    tabData.map((item: any) => ({ key: item.id, title: item.name, }))
   ), [tabData]);
 
   const renderTabBar = (props: any) => (
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: colors.PrimaryColor, }}
-      style={{ backgroundColor: '#FFFFFF',}}
+      style={{ backgroundColor: '#FFFFFF', width: 500}}
       labelStyle={{ textTransform: 'capitalize', fontSize: 14, fontWeight: '700', color: '#A5A7B9' }}
       activeColor={colors.PrimaryColor}
       scrollEnabled
     />
   );
+
+  // option bottom sheet
+  const optionBottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const optionSnapPoints = useMemo(() => ['25%', '42%'], []);
+  const handlePresentOptionModalPress = useCallback(() => {
+    optionBottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleCloseOptionModal = useCallback(() => {
+    optionBottomSheetModalRef.current?.close();
+  }, []);
+
+  const handleOptionSheetChanges = useCallback((index: number) => {
+    // console.log('handleSheetChanges', index);
+  }, []);
+
+  const renderOptionBackdrop = useCallback(
+    (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} 
+      disappearsOnIndex={-1}
+      appearsOnIndex={0}
+      onPress={handleCloseOptionModal}
+    />,
+    []
+  );
+
+  // close bottom sheet when focus
+  const isFocus = useIsFocused();
+  useEffect(() => {
+    handleCloseOptionModal();
+  }, [isFocus])
+  
   return (
     <View style={styles.viewContainer}>
-          <View style={styles.viewHeader}>
-            <TouchableOpacity
-              style={styles.btnBack}
-              onPress={() => {navigation.goBack()}}
-            >
-              <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
-            </TouchableOpacity>
+      <View style={styles.viewHeader}>
+        <TouchableOpacity
+          style={styles.btnBack}
+          onPress={() => {navigation.goBack()}}
+        >
+          <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
+        </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Transactions</Text>
-            
-            <TouchableOpacity
-              style={styles.btnBack}
-              onPress={() => {
-                console.log(generateWeek(4));
-              }}
-            >
-              <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/>
-            </TouchableOpacity>
-          </View>
+        <Text style={styles.txtTitle}>Transactions</Text>
+        
+        <TouchableOpacity
+          style={styles.btnBack}
+          onPress={() => {
+            handlePresentOptionModalPress();
+          }}
+        >
+          <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/>
+        </TouchableOpacity>
+      </View>
 
-          <TabView
-            navigationState={{ index, routes }}
-            renderScene={renderScene}
-            onIndexChange={setIndex }
-            initialLayout={{ width: layout.width }}
-            overScrollMode={'always'}
-            // style={{width: 600}}
-            renderTabBar={renderTabBar}
-          />
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex }
+        initialLayout={{ width: layout.width }}
+        overScrollMode={'always'}
+        // style={{width: 600}}
+        renderTabBar={renderTabBar}
+      />
+
+      {/* modal option */}
+      <BottomSheetModalProvider>
+        <View style={{}}>
+          <BottomSheetModal
+            ref={optionBottomSheetModalRef}
+            index={1}
+            snapPoints={optionSnapPoints}
+            onChange={handleOptionSheetChanges}
+            backdropComponent={renderOptionBackdrop}
+          >
+            <BottomSheetView style={{flex: 1}}>
+              <Text style={styles.txtPeriod}>Select time range</Text>
+              <OptionButton
+                content='Day'
+                onPress={() => {}}
+              />
+              <OptionButton
+                content='Week'
+                onPress={() => {}}
+              />
+              <OptionButton
+                content='Month'
+                onPress={() => {}}
+              />
+              <OptionButton
+                content='Custom'
+                onPress={() => {navigation.navigate('RangePicker')}}
+              />
+            </BottomSheetView>
+          </BottomSheetModal>
+        </View>
+      </BottomSheetModalProvider>
           
     </View>
   )
