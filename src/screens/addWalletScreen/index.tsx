@@ -91,7 +91,7 @@ const AddWalletScreen: React.FC<IProps> = () => {
             <TouchableOpacity
               style={styles.btnBack}
               onPress={() => {
-                console.log(getAllWallet(realm))
+                // console.log(getAllWallet(realm))
               }}
             >
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/option.png')}/>

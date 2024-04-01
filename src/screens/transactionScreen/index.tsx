@@ -47,7 +47,7 @@ const TransactionScreen: React.FC<IProps>  = () => {
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: colors.PrimaryColor, }}
-      style={{ backgroundColor: '#FFFFFF', width: 500}}
+      style={{ backgroundColor: '#FFFFFF', width: 'auto'}}
       labelStyle={{ textTransform: 'capitalize', fontSize: 14, fontWeight: '700', color: '#A5A7B9' }}
       activeColor={colors.PrimaryColor}
       scrollEnabled
@@ -134,11 +134,17 @@ const TransactionScreen: React.FC<IProps>  = () => {
               />
               <OptionButton
                 content='Week'
-                onPress={() => {}}
+                onPress={() => {
+                  setTabData(generateWeek(5).reverse());
+                  handleCloseOptionModal();
+                }}
               />
               <OptionButton
                 content='Month'
-                onPress={() => {}}
+                onPress={() => {
+                  setTabData(generateMonth(5).reverse());
+                  handleCloseOptionModal();
+                }}
               />
               <OptionButton
                 content='Custom'

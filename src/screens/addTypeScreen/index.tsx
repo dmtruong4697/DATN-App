@@ -95,7 +95,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
             <TouchableOpacity
               style={styles.btnBack}
               onPress={() => {
-                console.log(getAllTransactionType(realm));
+                // console.log(getAllTransactionType(realm));
               }}
             >
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/option.png')}/>
