@@ -5,7 +5,7 @@ import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/na
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { CalendarProvider, ExpandableCalendar, WeekCalendar } from 'react-native-calendars';
 import { colors } from '../../constants/colors';
-import { generateMonth, generateWeek } from '../../realm/services/dateTime';
+import { generateDay, generateMonth, generateWeek } from '../../realm/services/dateTime';
 import { SceneMap, TabBar, TabBarProps, TabView } from 'react-native-tab-view';
 import TransactionListTab from '../../components/transactionListTab';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -130,7 +130,10 @@ const TransactionScreen: React.FC<IProps>  = () => {
               <Text style={styles.txtPeriod}>Select time range</Text>
               <OptionButton
                 content='Day'
-                onPress={() => {}}
+                onPress={() => {
+                  setTabData(generateDay(10).reverse());
+                  handleCloseOptionModal();
+                }}
               />
               <OptionButton
                 content='Week'

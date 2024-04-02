@@ -1,3 +1,22 @@
+export function generateDay(numOfDays: number) {
+    const today = new Date();
+    const dataArray = [];
+
+    for (let i = 0; i < numOfDays; i++) {
+        const date = new Date();
+        date.setDate(today.getDate() - i);
+        const id = (i + 1).toString(); 
+        dataArray.push({
+            id: id,
+            startTime: date.toISOString().slice(0, 10), 
+            finishTime: date.toISOString().slice(0, 10),
+            name: date.toISOString().slice(0, 10).toString(),
+        });
+    }
+
+    return dataArray;
+}
+
 export function generateWeek(numOfWeeks: number) {
     const dataArray = [];
 
@@ -43,7 +62,7 @@ export function generateMonth(monthCount: number) {
             id: id,
             startTime: startTime.toISOString().slice(0, 10),
             finishTime: finishTime.toISOString().slice(0, 10),
-            name: Number(startTime.getMonth() + 1).toString() + ' ~ ' + startTime.getFullYear().toString(),
+            name: Number(startTime.getMonth() + 1).toString() + ' - ' + startTime.getFullYear().toString(),
         });
     }
 

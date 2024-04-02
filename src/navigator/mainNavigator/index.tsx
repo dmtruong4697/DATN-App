@@ -11,6 +11,7 @@ import AddWalletScreen from "../../screens/addWalletScreen";
 import RangePickerScreen from "../../screens/rangePickerScreen";
 import CalendarListScreen from "../../screens/calendarListScreen";
 import { generateWeek } from "../../realm/services/dateTime";
+import EditProfileScreen from "../../screens/editProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -93,6 +94,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="CalendarList"
             component={CalendarListScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="EditProfile"
+            component={EditProfileScreen}
             options={{
                 headerShown: false,
             }}
