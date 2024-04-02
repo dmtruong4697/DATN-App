@@ -154,7 +154,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
         </View>
 
         <FlatList
-          data={transactions.reverse()}
+          data={transactions}
           keyExtractor={item => item._id.toString()}
           renderItem={({item}) => (
             <TransactionCard

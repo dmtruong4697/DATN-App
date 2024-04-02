@@ -4,9 +4,9 @@ export const MenuData1 = [
     {
         id: '1',
         iconUrl: require('../../../assets/icon/menu/edit.png'),
-        title: 'Menu Item 1',
+        title: 'My Wallet',
         onPress: (navigation: NavigationProp<any, any>) => {
-            // navigation.navigate('Setting');
+            navigation.navigate('MyWallet');
         },
     },
     {

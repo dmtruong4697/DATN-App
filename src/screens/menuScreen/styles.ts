@@ -8,14 +8,14 @@ export const styles = StyleSheet.create({
 
     viewTopContainer: {
         // backgroundColor: 'pink',
-        height: 280,
+        height: 260,
         alignItems: 'center',
         marginBottom: 10,
     },
     
     viewHeaderBar: {
         flexDirection: 'row',
-        height: 180,
+        height: 160,
         width: '100%',
         // padding: 10,
         backgroundColor: colors.PrimaryColor,

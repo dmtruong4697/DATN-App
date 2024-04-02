@@ -56,11 +56,12 @@ const TransactionCard: React.FC<IProps>  = ({
     });
 
   return (
-    <View style={styles.viewContainer}>
-        <TouchableOpacity 
-            style={styles.viewIcon}
-        >
-        </TouchableOpacity>
+    <TouchableOpacity 
+        style={styles.viewContainer}
+        onPress={() => {navigation.navigate('TransactionDetail', {_id: _id})}}
+    >
+        <View style={styles.viewIcon}>
+        </View>
 
         <View style={styles.viewContent}>
             <Text style={styles.txtName}>{getTransactionTypeById(realm, transactionTypeId)?.name}</Text>
@@ -68,7 +69,7 @@ const TransactionCard: React.FC<IProps>  = ({
         </View>
 
         <Text style={[styles.txtTotal, {color: (income)? '#25A969':'#F95B51'}]}>{formatter.format(total)}</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 

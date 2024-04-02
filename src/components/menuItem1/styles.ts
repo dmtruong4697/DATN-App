@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     viewContainer: {
         width: '95%',
         height: 50,
-        borderRadius: 10,
+        borderRadius: 5,
         flexDirection: 'row',
         padding: 5,
         alignItems: 'center',

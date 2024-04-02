@@ -12,7 +12,10 @@ interface IProps {
 
 const MenuItem1: React.FC<IProps> = ({backgroundColor, iconUrl, id, onPress, title}) => {
   return (
-    <TouchableOpacity style={styles.viewContainer}>
+    <TouchableOpacity 
+        style={styles.viewContainer}
+        onPress={onPress}
+    >
         <Image style={styles.imgIcon} source={iconUrl}/>
         <Text style={styles.txtTitle}>{title}</Text>
         <Image style={styles.imgIcon} source={require('../../../assets/icon/menu/edit.png')}/>

@@ -12,8 +12,41 @@ import RangePickerScreen from "../../screens/rangePickerScreen";
 import CalendarListScreen from "../../screens/calendarListScreen";
 import { generateWeek } from "../../realm/services/dateTime";
 import EditProfileScreen from "../../screens/editProfileScreen";
+import MyWalletScreen from "../../screens/myWalletScreen";
+import TransactionDetailScreen from "../../screens/transactionDetailScreen";
+import EditTransactionScreen from "../../screens/editTransactionScreen";
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+    Splash: {};
+
+    SignIn: {};
+
+    SignUp: {};
+
+    ValidateEmail: {};
+
+    Home: {};
+
+    AddType: {};
+
+    AddWallet: {};
+
+    RangePicker: {};
+
+    CalendarList: {};
+
+    EditProfile: {};
+
+    MyWallet: {};
+
+    TransactionDetail: {
+        _id: Realm.BSON.ObjectId,
+    };
+
+    EditTransaction: {};
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RangeContext = createContext<any>(null);
 
@@ -102,6 +135,30 @@ const MainNavigator = () => {
         <Stack.Screen
             name="EditProfile"
             component={EditProfileScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="MyWallet"
+            component={MyWalletScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="TransactionDetail"
+            component={TransactionDetailScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="EditTransaction"
+            component={EditTransactionScreen}
             options={{
                 headerShown: false,
             }}
