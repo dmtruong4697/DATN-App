@@ -33,6 +33,19 @@ export function getTransactionTypeById(
     return transactionType;
 };
 
+export function updateTransactionTypeById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+    updatedType: TransactionTypeType,
+) {
+    const type = realm.objectForPrimaryKey<TransactionType>('TransactionType', _id);
+
+    realm.write(() => {
+        type!.name = updatedType.name;
+        type!.iconUrl = updatedType.iconUrl;
+    })
+};
+
 export function deleteTransactionTypeById(
     realm: Realm,
     _id: Realm.BSON.ObjectId,

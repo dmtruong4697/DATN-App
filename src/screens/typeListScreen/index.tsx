@@ -48,7 +48,7 @@ const ExpensesRoute = () => {
             name={item.name}
             income={item.income}
             onPress={() => {
-
+                navigation.navigate('TypeDetail', {_id: item._id});
             }}
           />
         )}
@@ -93,7 +93,7 @@ const IncomeRoute = () => {
             name={item.name}
             income={item.income}
             onPress={() => {
-
+                navigation.navigate('TypeDetail', {_id: item._id});
             }}
           />
         )}

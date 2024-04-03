@@ -10,7 +10,7 @@ import AddTypeScreen from "../../screens/addTypeScreen";
 import AddWalletScreen from "../../screens/addWalletScreen";
 import RangePickerScreen from "../../screens/rangePickerScreen";
 import CalendarListScreen from "../../screens/calendarListScreen";
-import { generateWeek } from "../../realm/services/dateTime";
+import { generateDay, generateWeek } from "../../realm/services/dateTime";
 import EditProfileScreen from "../../screens/editProfileScreen";
 import MyWalletScreen from "../../screens/myWalletScreen";
 import TransactionDetailScreen from "../../screens/transactionDetailScreen";
@@ -19,6 +19,8 @@ import SettingScreen from "../../screens/settingScreen";
 import WalletDetailScreen from "../../screens/walletDetailScreen";
 import EditWalletScreen from "../../screens/editWalletScreen";
 import TypeListScreen from "../../screens/typeListScreen";
+import TypeDetailScreen from "../../screens/typeDetailScreen";
+import EditTypeScreen from "../../screens/editTypeScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -62,6 +64,14 @@ export type RootStackParamList = {
     };
 
     TypeList: {};
+
+    TypeDetail: {
+        _id: Realm.BSON.ObjectId,
+    };
+
+    EditType: {
+        _id: Realm.BSON.ObjectId,
+    };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -73,7 +83,7 @@ const MainNavigator = () => {
     const [startTime, setStartTime] = useState(new Date().toISOString().slice(0, 10));
     const [finishTime, setFinishTime] = useState(new Date().toISOString().slice(0, 10));
     const [inputType, setInputType] = useState(0);
-    const [tabData, setTabData] = useState(generateWeek(5).reverse());
+    const [tabData, setTabData] = useState(generateDay(5).reverse());
 
   return (
     <RangeContext.Provider value={{startTime, setStartTime, finishTime, setFinishTime, inputType, setInputType, tabData, setTabData}}>
@@ -209,6 +219,22 @@ const MainNavigator = () => {
         <Stack.Screen
             name="TypeList"
             component={TypeListScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="TypeDetail"
+            component={TypeDetailScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="EditType"
+            component={EditTypeScreen}
             options={{
                 headerShown: false,
             }}
