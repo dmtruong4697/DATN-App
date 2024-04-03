@@ -177,6 +177,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
+        marginBottom: 5,
     },
 
     txtTitle: {

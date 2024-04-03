@@ -15,6 +15,10 @@ import EditProfileScreen from "../../screens/editProfileScreen";
 import MyWalletScreen from "../../screens/myWalletScreen";
 import TransactionDetailScreen from "../../screens/transactionDetailScreen";
 import EditTransactionScreen from "../../screens/editTransactionScreen";
+import SettingScreen from "../../screens/settingScreen";
+import WalletDetailScreen from "../../screens/walletDetailScreen";
+import EditWalletScreen from "../../screens/editWalletScreen";
+import TypeListScreen from "../../screens/typeListScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -43,7 +47,21 @@ export type RootStackParamList = {
         _id: Realm.BSON.ObjectId,
     };
 
-    EditTransaction: {};
+    EditTransaction: {
+        _id: Realm.BSON.ObjectId,
+    };
+
+    Setting: {};
+
+    WalletDetail: {
+        _id: Realm.BSON.ObjectId,
+    };
+
+    EditWallet: {
+        _id: Realm.BSON.ObjectId,
+    };
+
+    TypeList: {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -159,6 +177,38 @@ const MainNavigator = () => {
         <Stack.Screen
             name="EditTransaction"
             component={EditTransactionScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="Setting"
+            component={SettingScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="WalletDetail"
+            component={WalletDetailScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="EditWallet"
+            component={EditWalletScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="TypeList"
+            component={TypeListScreen}
             options={{
                 headerShown: false,
             }}

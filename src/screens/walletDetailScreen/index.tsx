@@ -7,35 +7,31 @@ import { RootStackParamList } from '../../navigator/mainNavigator';
 import { deleteTransactionById, getTransactionById } from '../../realm/services/transactions';
 import { RealmContext } from '../../realm/models';
 import { getTransactionTypeById } from '../../realm/services/transactionType';
-import { getWalletById } from '../../realm/services/wallets';
+import { deleteWalletById, getWalletById } from '../../realm/services/wallets';
 
 interface IProps {
 
 }
 
-const TransactionDetailScreen: React.FC<IProps>  = () => {
+const WalletDetailScreen: React.FC<IProps>  = () => {
 
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
 
-    const route = useRoute<RouteProp<RootStackParamList, 'TransactionDetail'>>();
+    const route = useRoute<RouteProp<RootStackParamList, 'WalletDetail'>>();
     const {_id} = route.params;
 
-    let transaction = getTransactionById(realm, _id);
-    let transactionType = getTransactionTypeById(realm, transaction!.transactionTypeId);
-    let wallet = getWalletById(realm, transaction!.walletId);
+    let wallet = getWalletById(realm, _id);
 
     const isFocus = useIsFocused();
     useEffect(() => {
-        transaction = getTransactionById(realm, _id);
-        transactionType = getTransactionTypeById(realm, transaction!.transactionTypeId);
-        wallet = getWalletById(realm, transaction!.walletId);
+        let wallet = getWalletById(realm, _id);
     },[isFocus])
 
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: getWalletById(realm, transaction!.walletId)?.currencyUnit,
+        currency: wallet!.currencyUnit,
     });
   
   return (
@@ -48,45 +44,35 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Transaction Detail</Text>
+        <Text style={styles.txtTitle}>Wallet Detail</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
-          onPress={() => {
-
-          }}
+          onPress={() => {navigation.navigate('EditWallet', {_id: _id})}}
         >
-          <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/>
+          <Text style={styles.txtEdit}>Edit</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.view1}>
           <View style={styles.imgTypeIcon}/>
           <View>
-            <Text style={styles.txtType}>{transactionType?.name}</Text>
-            <Text style={[styles.txtTotal, {color: (transaction?.income)? '#25A969':'#F95B51'}]}>{formatter.format(Number(transaction?.total))}</Text>
+            <Text style={styles.txtType}>{wallet!.name}</Text>
+            <Text style={[styles.txtTotal, {color: '#25A969'}]}>{formatter.format(Number(wallet!.balance))}</Text>
           </View>
       </View>
 
-      <View style={styles.view2}>
-        <Image style={styles.imgDateIcon} source={require('../../../assets/icon/transactionDetail/calendar.png')}/>
-        <View style={{gap: 10,}}>
-            <Text style={styles.txtDate}>{transaction?.createAt}</Text>
-            <Text style={styles.txtDate}>{wallet?.name}</Text>
-        </View>
-      </View>
-
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.btnEdit}
-        onPress={() => {navigation.navigate('EditTransaction', {_id: _id})}}
+        onPress={() => {navigation.navigate('EditWallet', {_id: _id})}}
       >
-        <Text style={styles.txtEdit}>Edit Transaction</Text>
-      </TouchableOpacity>
+        <Text style={styles.txtEdit}>Edit Wallet</Text>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         style={styles.btnDelete}
         onPress={() => {
-            deleteTransactionById(realm, _id);
+            deleteWalletById(realm, _id);
             navigation.goBack();
         }}
       >
@@ -97,4 +83,4 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
   )
 }
 
-export default TransactionDetailScreen    
+export default WalletDetailScreen    

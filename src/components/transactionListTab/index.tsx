@@ -24,6 +24,7 @@ const TransactionListTab: React.FC<IProps> = ({id, finishTime, name, navigation,
 
   return (
     <View style={styles.viewContainer}>
+        {(transactions.length > 0) &&
         <FlatList
           data={transactions}
           keyExtractor={item => item._id.toString()}
@@ -43,6 +44,14 @@ const TransactionListTab: React.FC<IProps> = ({id, finishTime, name, navigation,
           style={{width: '100%',}}
           showsVerticalScrollIndicator={false}
         />
+        }
+
+        {(transactions.length == 0) && 
+          <View>
+            <Image style={styles.imgEmpty} source={require('../../../assets/illustration/transactionScreen/empty-box.png')}/>
+            <Text style={styles.txtEmpty}>No Transactions</Text>
+          </View>
+        }
     </View>
   )
 }

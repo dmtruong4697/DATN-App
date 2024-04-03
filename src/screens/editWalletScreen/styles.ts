@@ -8,14 +8,14 @@ export const styles = StyleSheet.create({
 
     viewTopContainer: {
         // backgroundColor: 'pink',
-        height: 230,
+        height: 250,
         alignItems: 'center',
         marginBottom: 10,
     },
     
     viewHeaderBar: {
         flexDirection: 'row',
-        height: 180,
+        height: 200,
         width: '100%',
         // padding: 10,
         backgroundColor: colors.PrimaryColor,
@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
         padding: 15,
         position: 'absolute',
         alignSelf: 'center',
-        top: 70,
+        top: 90,
 
         shadowColor: "#000",
         shadowOffset: {
@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
     viewFormItemContainer: {
         width: '100%',
         flexDirection: 'column',
-        marginBottom: 13,
+        marginBottom: 15,
     },
 
     txtFormItemTitle: {
@@ -94,64 +94,49 @@ export const styles = StyleSheet.create({
         color: '#666666',
     },
 
-    imgTypeIcon: {
-        width: 32,
-        height: 32,
-        borderRadius: 1000,
-        marginRight: 5,
-    },
-
     txtTypeName: {
         fontSize: 15,
-        fontWeight: '500',
+        fontWeight: '400',
         color: '#000000',
         flex: 1,
     },
 
-    viewTypeList: {
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: 15,
+    viewRadioGroup: {
+        width: '80%',
+        alignSelf: 'center',
+        marginTop: 10,
+        marginBottom: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
 
-    btnAddType: {
-        width: '100%',
-        height: 50,
-        borderRadius: 10,
-        borderWidth: 1.5,
-        borderStyle: 'dashed',
-        borderColor: '#DDDDDD',
-        padding: 10,
+    viewRadioItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 10,
     },
 
-    txtAddTypeButton: {
-        fontSize: 14,
-        fontWeight: '500',
+    txtRadioItem: {
+        fontSize: 12,
+        fontWeight: '600',
         color: '#666666',
+        marginBottom: 5,
     },
 
-    imgAddTypeButton: {
-        height: 24,
+    btnRadioItem: {
         width: 24,
-        // resizeMode: 'contain',
-        marginRight: 5,
+        height: 24,
+        borderRadius: 1000,
+        borderWidth: 1,
+        borderColor: '#DDDDDD',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 10,
     },
 
-    txtCode: {
-        fontSize: 16,
-        fontWeight: '700',
-        color: colors.PrimaryColor,
-        margin: 10,
-    },
-
-    imgIcon: {
-        height: 20,
-        width: 20,
-        marginRight: 5,
-    },
+    btnSelectedItem: {
+        width: 17,
+        height: 17,
+        borderRadius: 1000,
+        backgroundColor: colors.PrimaryColor,
+    }
 })

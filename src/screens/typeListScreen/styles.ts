@@ -13,8 +13,8 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         backgroundColor: '#ffffff',
         alignItems: 'center',
-        borderBottomWidth: 1,
-        borderColor: '#DDDDDD',
+        // borderBottomWidth: 1,
+        // borderColor: '#DDDDDD',
     },
 
     btnBack: {
@@ -37,19 +37,18 @@ export const styles = StyleSheet.create({
         marginTop: 5,
     },
 
-    viewWalletList: {
+    viewTypeList: {
         flex: 1,
         padding: 10,
     },
 
-    btnAddWallet: {
+    btnAddType: {
         width: '100%',
         height: 50,
         borderRadius: 10,
         borderWidth: 1.5,
         // borderStyle: 'dashed',
         borderColor: '#DDDDDD',
-        // borderColor: colors.PrimaryColor,
         padding: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -58,17 +57,16 @@ export const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
 
-    txtAddWalletButton: {
+    txtAddTypeButton: {
         fontSize: 14,
         fontWeight: '500',
         color: '#666666',
     },
 
-    imgAddWalletButton: {
+    imgAddTypeButton: {
         height: 24,
         width: 24,
         // resizeMode: 'contain',
         marginRight: 5,
     },
-
 })

@@ -18,7 +18,7 @@ const MenuItem1: React.FC<IProps> = ({backgroundColor, iconUrl, id, onPress, tit
     >
         <Image style={styles.imgIcon} source={iconUrl}/>
         <Text style={styles.txtTitle}>{title}</Text>
-        <Image style={styles.imgIcon} source={require('../../../assets/icon/menu/edit.png')}/>
+        <Image style={styles.imgIcon} source={require('../../../assets/icon/menu/right.png')}/>
     </TouchableOpacity>
   )
 }

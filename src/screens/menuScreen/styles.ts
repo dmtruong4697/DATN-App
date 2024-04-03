@@ -8,14 +8,14 @@ export const styles = StyleSheet.create({
 
     viewTopContainer: {
         // backgroundColor: 'pink',
-        height: 260,
+        height: 250,
         alignItems: 'center',
         marginBottom: 10,
     },
     
     viewHeaderBar: {
         flexDirection: 'row',
-        height: 160,
+        height: 150,
         width: '100%',
         // padding: 10,
         backgroundColor: colors.PrimaryColor,
@@ -75,7 +75,9 @@ export const styles = StyleSheet.create({
         height: 130,
         width: 130,
         borderRadius: 1000,
-        backgroundColor: 'gray',
+        backgroundColor: 'pink',
+        borderColor: '#efefef',
+        borderWidth: 2,
     },
 
     txtName: {

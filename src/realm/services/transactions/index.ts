@@ -58,7 +58,7 @@ export function getTransactionById(
 export function updateTransactionById(
     realm: Realm,
     _id: Realm.BSON.ObjectId,
-    updatedTransaction: Transaction,
+    updatedTransaction: TransactionType,
 ) {
     const transaction = realm.objectForPrimaryKey<Transaction>('Transaction', _id);
     const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', transaction!.walletId);

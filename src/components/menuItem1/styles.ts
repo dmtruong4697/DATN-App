@@ -14,15 +14,16 @@ export const styles = StyleSheet.create({
     },
 
     imgIcon: {
-        height: 30,
-        width: 30,
+        height: 20,
+        width: 20,
+        marginLeft: 5,
     },
 
     txtTitle: {
         flex: 1,
         fontSize: 16,
         fontWeight: '400',
-        color: '#000000',
+        color: '#666666',
         marginHorizontal: 10,
     },
 

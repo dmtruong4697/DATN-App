@@ -6,4 +6,16 @@ export const styles = StyleSheet.create({
         padding: 10,
     },
 
+    imgEmpty: {
+        width: 200,
+        height: 200,
+        alignSelf: 'center',
+    },
+
+    txtEmpty: {
+        fontSize: 16,
+        fontWeight: '400',
+        alignSelf: 'center',
+    }
+
 })

@@ -111,6 +111,7 @@ export const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         flexDirection: 'row',
         padding: 15,
+        marginTop: 30,
         alignItems: 'center',
         justifyContent: 'center',
     },
