@@ -21,6 +21,7 @@ import EditWalletScreen from "../../screens/editWalletScreen";
 import TypeListScreen from "../../screens/typeListScreen";
 import TypeDetailScreen from "../../screens/typeDetailScreen";
 import EditTypeScreen from "../../screens/editTypeScreen";
+import ConvertScreen from "../../screens/convertScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -72,6 +73,8 @@ export type RootStackParamList = {
     EditType: {
         _id: Realm.BSON.ObjectId,
     };
+
+    Convert: {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -235,6 +238,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="EditType"
             component={EditTypeScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="Convert"
+            component={ConvertScreen}
             options={{
                 headerShown: false,
             }}

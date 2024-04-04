@@ -180,12 +180,12 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
       navigation.goBack();
     }
 
-    // type bottom sheet tab
-    const [index, setIndex] = React.useState(0);
-    const [routes] = React.useState([
-      { key: 'first', title: 'Expenses' },
-      { key: 'second', title: 'Income' },
-    ]);
+  // type bottom sheet tab
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: 'Expenses' },
+    { key: 'second', title: 'Income' },
+  ]);
 
   // type bottom sheet
   const typeBottomSheetModalRef = useRef<BottomSheetModal>(null);

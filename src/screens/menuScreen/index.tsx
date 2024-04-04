@@ -77,6 +77,13 @@ const MenuScreen: React.FC<IProps>  = () => {
         // contentContainerStyle={{width: layout.width-18, gap: 5,}}
       />
 
+      <MenuItem
+        id='1'
+        title='convert'
+        backgroundColor='pink'
+        onPress={() => {navigation.navigate('Convert')}}
+      />
+
     </ScrollView>
   )
 }
