@@ -174,6 +174,7 @@ const AddWalletScreen: React.FC<IProps> = () => {
                       id={item.id}
                       code={item.code}
                       symbol={item.symbol}
+                      iconUri={item.iconUri}
                       name={item.name}
                       onPress={() => {
                         setCurrencyUnitCode(item.code);

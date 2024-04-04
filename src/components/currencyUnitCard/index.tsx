@@ -7,10 +7,11 @@ interface IProps {
     name: string,
     symbol: string,
     code: string,
+    iconUri: ImageSourcePropType,
     onPress: () => void,
 }
 
-const CurrencyUnitCard: React.FC<IProps> = ({id, name, symbol, code, onPress}) => {
+const CurrencyUnitCard: React.FC<IProps> = ({id, name, symbol, code, onPress, iconUri}) => {
   return (
     <TouchableOpacity
         style={styles.viewContainer}
@@ -18,6 +19,7 @@ const CurrencyUnitCard: React.FC<IProps> = ({id, name, symbol, code, onPress}) =
     >
         <Text style={styles.txtCode}>{code}</Text>
         <Text style={styles.txtName}>{name}</Text>
+        <Image style={styles.imgFlag} source={iconUri}/>
     </TouchableOpacity>
   )
 }

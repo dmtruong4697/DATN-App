@@ -4,11 +4,12 @@ export const styles = StyleSheet.create({
     viewContainer: {
         width: 90,
         alignItems: 'center',
+        justifyContent: 'center',
     },
 
     btnContainer: {
-        width: 90,
-        height: 90,
+        width: 70,
+        height: 70,
         borderRadius: 15,
         backgroundColor: 'pink',
         justifyContent: 'center',
@@ -32,8 +33,9 @@ export const styles = StyleSheet.create({
 
     txtTitle: {
         fontSize: 14,
-        fontWeight: '700',
+        fontWeight: '500',
         color: '#666666',
         marginTop: 5,
+        textAlign: 'center',
     },
 })

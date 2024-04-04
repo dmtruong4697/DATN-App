@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     },
 
     txtName: {
+        flex: 1,
         fontSize: 14,
         fontWeight: '500',
         color: '#666666',
@@ -25,5 +26,11 @@ export const styles = StyleSheet.create({
         fontWeight: '700',
         color: colors.PrimaryColor,
         marginRight: 10,
+    },
+
+    imgFlag: {
+        height: 20,
+        width: 30,
+        borderRadius: 3,
     },
 })

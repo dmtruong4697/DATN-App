@@ -9,6 +9,7 @@ import { colors } from '../../constants/colors';
 import { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import { CurrencyUnitData } from '../../constants/currencyUnit';
 import CurrencyUnitCard from '../../components/currencyUnitCard';
+import { convert } from '../../services/currencyConvert';
 
 interface IProps {}
 
@@ -17,9 +18,16 @@ const ConvertScreen: React.FC<IProps>  = () => {
     const layout = useWindowDimensions();
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
-    const [baseCurrency, setBaseCurrency] = useState(CurrencyUnitData[0].code);
-    const [convertCurrency, setConvertCurrency] = useState(CurrencyUnitData[1].code);
+    const [baseCurrency, setBaseCurrency] = useState({
+        code: CurrencyUnitData[0].code,
+        iconUri: CurrencyUnitData[0].iconUri,
+    });
+    const [convertCurrency, setConvertCurrency] = useState({
+        code: CurrencyUnitData[1].code,
+        iconUri: CurrencyUnitData[1].iconUri,
+    });
     const [baseTotal, setBaseTotal] = useState(0);
+    const [convertTotal, setConvertTotal] = useState<number>(0);
     const [type, setType] = useState(true);
 
     const handleSwap = () => {
@@ -52,6 +60,11 @@ const ConvertScreen: React.FC<IProps>  = () => {
         []
     );
   
+    const formatter = (currency: any) => new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currency,
+    });
+
   return (
     <View style={styles.viewContainer}>
       <View style={styles.viewHeader}>
@@ -85,8 +98,8 @@ const ConvertScreen: React.FC<IProps>  = () => {
                         handlePresentCurrencyModalPress();
                     }}
                 >
-                    <Image style={styles.imgFlag} source={require('../../../assets/illustration/transactionScreen/empty-box.png')}/>
-                    <Text style={styles.txtCurrency}>{baseCurrency}</Text>
+                    <Image style={styles.imgFlag} source={baseCurrency.iconUri}/>
+                    <Text style={styles.txtCurrency}>{baseCurrency.code}</Text>
                     <Image style={styles.imgDown} source={require('../../../assets/icon/convertScreen/down.png')}/>
                 </TouchableOpacity>
 
@@ -119,14 +132,15 @@ const ConvertScreen: React.FC<IProps>  = () => {
                         handlePresentCurrencyModalPress();
                     }}
                 >
-                    <Image style={styles.imgFlag} source={require('../../../assets/illustration/transactionScreen/empty-box.png')}/>
-                    <Text style={styles.txtCurrency}>{convertCurrency}</Text>
+                    <Image style={styles.imgFlag} source={convertCurrency.iconUri}/>
+                    <Text style={styles.txtCurrency}>{convertCurrency.code}</Text>
                     <Image style={styles.imgDown} source={require('../../../assets/icon/convertScreen/down.png')}/>
                 </TouchableOpacity>
 
                 <TextInput 
                     style={styles.viewInput}
                     editable={false}
+                    value={convertTotal.toString()}
                 />
             </View>
         </View>
@@ -134,9 +148,13 @@ const ConvertScreen: React.FC<IProps>  = () => {
 
       <Button
         content='Convert'
-        onPress={() => {}}
-        containerStyle={{backgroundColor: 'transparent'}}
-        contentStyle={{color: colors.PrimaryColor}}
+        onPress={() => {
+            convert(baseTotal, baseCurrency.code, convertCurrency.code)
+                .then((result) => {setConvertTotal(Math.round(Number(result) * 100) / 100)});
+
+        }}
+        containerStyle={{backgroundColor: colors.PrimaryColor, width: '95%'}}
+        contentStyle={{color: '#ffffff'}}
       />
 
         {/* modal pick currency */}
@@ -158,10 +176,11 @@ const ConvertScreen: React.FC<IProps>  = () => {
                       id={item.id}
                       code={item.code}
                       symbol={item.symbol}
+                      iconUri={item.iconUri}
                       name={item.name}
                       onPress={() => {
                         handleCloseCurrencyModal();
-                        (type)? setBaseCurrency(item.code): setConvertCurrency(item.code);
+                        (type)? setBaseCurrency({iconUri: item.iconUri, code: item.code}): setConvertCurrency({iconUri: item.iconUri, code: item.code});
                       }}
                     />
                   )}

@@ -79,7 +79,7 @@ const MenuScreen: React.FC<IProps>  = () => {
 
       <MenuItem
         id='1'
-        title='convert'
+        title='Currency Convert'
         backgroundColor='pink'
         onPress={() => {navigation.navigate('Convert')}}
       />

@@ -45,6 +45,7 @@ export const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         alignSelf: 'center',
         marginTop: 50,
+        marginBottom: 20,
 
         shadowColor: "#000",
         shadowOffset: {
