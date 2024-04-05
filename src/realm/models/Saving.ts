@@ -15,9 +15,9 @@ export class Saving extends Realm.Object {
         properties: {
             _id: 'objectId',
             name: 'string',
-            total: 'number',
+            total: 'int',
             createAt: 'string',
-            profit: 'number',
+            profit: 'float',
         }
     }
 }
