@@ -4,6 +4,7 @@ import { TransactionType } from "./TransactionType";
 import { Wallet } from "./Wallet";
 import { Budget } from "./Budget";
 import { Saving } from "./Saving";
+import { Loan } from "./Loan";
 
 export const RealmContext = createRealmContext({
     schema: [
@@ -12,5 +13,6 @@ export const RealmContext = createRealmContext({
         Wallet,
         Budget,
         Saving,
+        Loan,
     ],
 })
