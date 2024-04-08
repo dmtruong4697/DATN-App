@@ -98,7 +98,7 @@ export function deleteTransactionById(
     const transaction = realm.objectForPrimaryKey<Transaction>('Transaction', _id);
     const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', transaction!.walletId);
 
-    //return monry to wallet
+    //return money to wallet
     let balance = wallet?.balance;
     if(transaction!.income == true) {
         balance = balance! - transaction!.total;

@@ -84,6 +84,13 @@ const MenuScreen: React.FC<IProps>  = () => {
         onPress={() => {navigation.navigate('Convert')}}
       />
 
+      <MenuItem
+        id='2'
+        title='Loan/Debt'
+        backgroundColor='green'
+        onPress={() => {navigation.navigate('LoanList')}}
+      />
+
     </ScrollView>
   )
 }

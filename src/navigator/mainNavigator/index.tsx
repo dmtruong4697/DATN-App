@@ -22,6 +22,10 @@ import TypeListScreen from "../../screens/typeListScreen";
 import TypeDetailScreen from "../../screens/typeDetailScreen";
 import EditTypeScreen from "../../screens/editTypeScreen";
 import ConvertScreen from "../../screens/convertScreen";
+import LoanListScreen from "../../screens/loanListScreen";
+import AddLoanScreen from "../../screens/addLoanScreen";
+import LoanDetailScreen from "../../screens/loanDetail";
+import EditLoanScreen from "../../screens/editLoanScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -75,6 +79,18 @@ export type RootStackParamList = {
     };
 
     Convert: {};
+
+    LoanList: {};
+
+    AddLoan: {};
+
+    LoanDetail: {
+        _id: Realm.BSON.ObjectId,
+    };
+
+    EditLoan: {
+        _id: Realm.BSON.ObjectId,
+    };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -246,6 +262,38 @@ const MainNavigator = () => {
         <Stack.Screen
             name="Convert"
             component={ConvertScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="LoanList"
+            component={LoanListScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="AddLoan"
+            component={AddLoanScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="LoanDetail"
+            component={LoanDetailScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="EditLoan"
+            component={EditLoanScreen}
             options={{
                 headerShown: false,
             }}

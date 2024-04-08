@@ -37,14 +37,89 @@ export function addLoan(
     // update wallet balance
     realm.write(() => {
         if(loan.isLoan == true) {
-            wallet!.balance = wallet!.balance + loan.total;
-        } else {
             wallet!.balance = wallet!.balance - loan.total;
+        } else {
+            wallet!.balance = wallet!.balance + loan.total;
         }
     })
 
-    // create loan
     realm.write(() => {
       realm.create('Loan', loan);
     });
+};
+
+export function getLoanById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+) {
+    const loan = realm.objectForPrimaryKey<Loan>('Loan', _id);
+    return loan;
+};
+
+export function updateLoanById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+    updatedLoan: LoanType,
+) {
+    const loan = realm.objectForPrimaryKey<Loan>('Loan', _id);
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', loan!.walletId);
+
+    // return money to wallet
+    let balance = wallet?.balance;
+    if(loan!.isLoan == true) {
+        balance = balance! + loan!.total;
+    } else {
+        balance = balance! - loan!.total;
+    }
+
+    // update wallet balance
+    if(updatedLoan.isLoan == true) {
+        balance = balance! - updatedLoan.total;
+    } else {
+        balance = balance! + updatedLoan.total;
+    }
+
+    realm.write(() => {
+        wallet!.balance = balance!;
+    })
+
+    realm.write(() => {
+        loan!.isLoan = updatedLoan.isLoan;
+        loan!.people = updatedLoan.people;
+        loan!.total = updatedLoan.total;
+        loan!.createAt = updatedLoan.createAt;
+        loan!.note = updatedLoan.note;
+        loan!.interest = updatedLoan.interest;
+        loan!.cycle = updatedLoan.cycle;
+    })
+};
+
+export function deleteLoanById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+) {
+    const loan = realm.objectForPrimaryKey<Loan>('Loan', _id);
+    const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', loan!.walletId);
+
+    //return money to wallet
+    let balance = wallet?.balance;
+    if(loan!.isLoan == true) {
+        balance = balance! - loan!.total;
+    } else {
+        balance = balance! + loan!.total;
+    }
+    realm.write(() => {
+        wallet!.balance = balance!;
+    })
+
+    realm.write(() => {
+        realm.delete(loan);
+    })
+};
+export function getListLoanByType(
+    realm: Realm,
+    isLoan: boolean,
+) {
+    const loans = realm.objects<Loan>('Loan');
+    return loans.filtered('isLoan = $0', isLoan);
 };
