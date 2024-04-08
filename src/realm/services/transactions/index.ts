@@ -157,6 +157,28 @@ export function getTransactionByTime(
     // const createTime = newDate()
     const transactions = realm.objects<Transaction>('Transaction').
         filtered('createAt >= $0 AND createAt <= $1', startTime, finishTime);
+    
+    // let total = 0;
+    // transactions.map(item => {
+    //     total = total + item.total;
+    // })
 
+    // const result = {
+    //     transactions: transactions,
+    //     total: total,
+    // }
     return transactions;
 }
+
+// export function getTotalByTime(
+//     realm: Realm,
+//     startTime: string,
+//     finishTime: string,
+// ) {
+//     const transactions = realm.objects<Transaction>('Transaction').
+//         filtered('createAt >= $0 AND createAt <= $1', startTime, finishTime);
+    
+//     let income = 0;
+//     let expenese = 0;
+
+// }

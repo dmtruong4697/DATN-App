@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, Dimensions } from 'react-native'
 import React from 'react'
 import { styles } from './styles'
 import { ParamListBase, useNavigation } from '@react-navigation/native';
@@ -6,13 +6,14 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import MenuItem from '../../components/menuItem';
 import { ScrollView } from 'react-native-gesture-handler';
 import MenuItem1 from '../../components/menuItem1';
-import { MenuData1 } from '../../data/menuData';
+import { MenuData1, MenuData2 } from '../../data/menuData';
 
 interface IProps {}
 
 const MenuScreen: React.FC<IProps>  = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const windowWidth = Dimensions.get('window').width;
 
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>
@@ -77,7 +78,23 @@ const MenuScreen: React.FC<IProps>  = () => {
         // contentContainerStyle={{width: layout.width-18, gap: 5,}}
       />
 
-      <MenuItem
+      <FlatList
+        data={MenuData2}
+        keyExtractor={item => item.id}
+        scrollEnabled={false}
+        numColumns={4}
+        renderItem={({item}) => (
+          <MenuItem
+            id={item.id}
+            title={item.title}
+            backgroundColor={item.backgroundColor}
+            onPress={() => item.onPress(navigation)}
+          />
+        )}
+        contentContainerStyle={{width: windowWidth, gap: 5,}}
+      />
+
+      {/* <MenuItem
         id='1'
         title='Currency Convert'
         backgroundColor='pink'
@@ -89,7 +106,7 @@ const MenuScreen: React.FC<IProps>  = () => {
         title='Loan/Debt'
         backgroundColor='green'
         onPress={() => {navigation.navigate('LoanList')}}
-      />
+      /> */}
 
     </ScrollView>
   )

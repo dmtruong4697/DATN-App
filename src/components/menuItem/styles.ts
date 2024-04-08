@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     viewContainer: {
         width: 90,
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
     },
 
     btnContainer: {
