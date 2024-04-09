@@ -17,7 +17,7 @@ const MenuItem: React.FC<IProps> = ({backgroundColor, iconUrl, id, onPress, titl
             style={[styles.btnContainer, {backgroundColor: backgroundColor}]}
             onPress={onPress}
         >
-            <Text>MenuItem</Text>
+            {/* <Text>MenuItem</Text> */}
         </TouchableOpacity>
 
         <Text style={styles.txtTitle}>{title}</Text>

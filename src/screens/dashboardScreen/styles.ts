@@ -3,7 +3,7 @@ import { colors } from "../../constants/colors";
 
 export const styles = StyleSheet.create({
     viewContainer: {
-
+        paddingBottom: 50,
     },
 
     viewTopContainer: {
@@ -170,6 +170,7 @@ export const styles = StyleSheet.create({
         width: '100%',
         padding: 10,
         flexDirection: 'column',
+        marginBottom: 5,
     },
 
     viewTitle: {
@@ -177,7 +178,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-        marginBottom: 5,
+        marginBottom: 10,
     },
 
     txtTitle: {

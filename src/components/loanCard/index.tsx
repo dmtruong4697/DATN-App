@@ -68,7 +68,7 @@ const LoanCard: React.FC<IProps>  = ({
         </View>
 
         <View style={styles.viewContent}>
-            <Text style={styles.txtName}>{people}</Text>
+            <Text style={styles.txtName}>{isLoan? 'Loan:':'Debt:'} {people}</Text>
             <Text style={styles.txtTime}>{createAt}</Text>
         </View>
 

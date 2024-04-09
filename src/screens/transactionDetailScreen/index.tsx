@@ -72,6 +72,7 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
         <Image style={styles.imgDateIcon} source={require('../../../assets/icon/transactionDetail/calendar.png')}/>
         <View style={{gap: 10,}}>
             <Text style={styles.txtDate}>{transaction?.createAt}</Text>
+            <Text style={styles.txtDate}>Note: {transaction?.note}</Text>
             <Text style={styles.txtDate}>{wallet?.name}</Text>
         </View>
       </View>

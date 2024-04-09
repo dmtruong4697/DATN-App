@@ -10,6 +10,10 @@ import { RealmContext } from '../../realm/models';
 import { getAllTransaction, getTransactionHistory } from '../../realm/services/transactions';
 import { getAllWallet, getWalletById, getWalletExpensesByWalletAndDay, getWalletIncomeByWalletAndDay } from '../../realm/services/wallets';
 import Carousel from 'react-native-snap-carousel';
+import { BarChart } from 'react-native-gifted-charts';
+import { getDayOfWeekAnalyst, getWeekAnalyst } from '../../realm/services/analyst';
+import LoanCard from '../../components/loanCard';
+import { getLoanHistory } from '../../realm/services/loan';
 
 interface IProps {}
 
@@ -33,12 +37,16 @@ const DashboardScreen: React.FC<IProps>  = () => {
     const {useRealm} = RealmContext;
     const realm = useRealm();
 
-    // let transactions = getAllTransaction(realm);
     let transactions = getTransactionHistory(realm, 5);
+    let loans = getLoanHistory(realm, 5);
+    // let barData = getDayOfWeekAnalyst(realm);
+    let barData = getWeekAnalyst(realm, 7);
     const isFocus = useIsFocused();
     useEffect(() => {
-      // transactions = getAllTransaction(realm);
       transactions = getTransactionHistory(realm, 5);
+      loans = getLoanHistory(realm, 5);
+      // barData = getDayOfWeekAnalyst(realm);
+      barData = getWeekAnalyst(realm, 7);
     }, [isFocus])
 
     const ref = React.createRef<any>();
@@ -141,6 +149,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
         </SafeAreaView>
       </View>
 
+      {/* transaction history */}
       <View style={styles.viewTransactionHistory}>
         <View style={styles.viewTitle}>
           <Text style={styles.txtTitle}>Transactions History</Text>
@@ -167,6 +176,68 @@ const DashboardScreen: React.FC<IProps>  = () => {
               total={item.total}
               transactionTypeId={item.transactionTypeId}
               walletId={item.walletId}
+            />
+          )}
+          style={{width: '100%',}}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+
+      {/* chart */}
+      <View style={styles.viewTransactionHistory}>
+        <View style={styles.viewTitle}>
+          <Text style={styles.txtTitle}>Statistics</Text>
+          <TouchableOpacity
+            onPress={() => {
+              // navigation.navigate('Transaction');
+            }}
+          >
+            <Text style={styles.txtSeeAll}>Detail</Text>
+          </TouchableOpacity>
+        </View>
+
+        <BarChart
+          noOfSections={3}
+          frontColor={'#177AD5'}
+          barWidth={22}
+          data={barData}
+          width={windowWidth - 50}
+          yAxisThickness={0}
+          xAxisThickness={0}
+          barBorderRadius={4}
+        />
+
+      </View>
+
+      {/* loan/debt history */}
+      <View style={styles.viewTransactionHistory}>
+        <View style={styles.viewTitle}>
+          <Text style={styles.txtTitle}>Loans/Debts History</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('LoanList');
+            }}
+          >
+            <Text style={styles.txtSeeAll}>See all</Text>
+          </TouchableOpacity>
+        </View>
+
+        <FlatList
+          data={loans}
+          keyExtractor={item => item._id.toString()}
+          renderItem={({item}) => (
+            <LoanCard
+              _id={item._id}
+              createAt={item.createAt}
+              imageUrl={item.imageUrl}
+              isLoan={item.isLoan}
+              name={item.name}
+              note={item.note}
+              total={item.total}
+              walletId={item.walletId}
+              cycle={item.cycle}
+              interest={item.interest}
+              people={item.people}
             />
           )}
           style={{width: '100%',}}

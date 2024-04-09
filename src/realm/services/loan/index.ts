@@ -123,3 +123,13 @@ export function getListLoanByType(
     const loans = realm.objects<Loan>('Loan');
     return loans.filtered('isLoan = $0', isLoan);
 };
+
+export function getLoanHistory(
+    realm: Realm,
+    quantity: number,
+) {
+    const loans = realm.objects<Loan>('Loan');
+
+    if(loans.length <= quantity) return loans;
+        else return loans.slice(Math.max(loans.length - quantity, 0));
+};

@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
     },
 
     btnContainer: {
-        width: 70,
-        height: 70,
+        width: 60,
+        height: 60,
         borderRadius: 15,
         backgroundColor: 'pink',
         justifyContent: 'center',
@@ -32,8 +32,8 @@ export const styles = StyleSheet.create({
     },
 
     txtTitle: {
-        fontSize: 14,
-        fontWeight: '500',
+        fontSize: 13,
+        fontWeight: '400',
         color: '#666666',
         marginTop: 5,
         textAlign: 'center',

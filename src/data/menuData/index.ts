@@ -31,7 +31,7 @@ export const MenuData2 = [
     {
         id: '1',
         title: 'Currency Convert',
-        backgroundColor: 'pink',
+        backgroundColor: 'white',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('Convert');
         },
@@ -39,7 +39,7 @@ export const MenuData2 = [
     {
         id: '2',
         title: 'Loan/Debt',
-        backgroundColor: 'green',
+        backgroundColor: 'white',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('LoanList');
         },
@@ -47,17 +47,17 @@ export const MenuData2 = [
     {
         id: '3',
         title: 'Shopping List',
-        backgroundColor: 'purple',
+        backgroundColor: 'white',
         onPress: (navigation: NavigationProp<any, any>) => {
             // navigation.navigate('Convert');
         },
     },
     {
         id: '4',
-        title: 'Loan/Debt',
-        backgroundColor: 'green',
+        title: 'Group',
+        backgroundColor: 'white',
         onPress: (navigation: NavigationProp<any, any>) => {
-            navigation.navigate('LoanList');
+            // navigation.navigate('LoanList');
         },
     },
 ]

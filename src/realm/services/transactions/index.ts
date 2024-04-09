@@ -170,15 +170,34 @@ export function getTransactionByTime(
     return transactions;
 }
 
-// export function getTotalByTime(
-//     realm: Realm,
-//     startTime: string,
-//     finishTime: string,
-// ) {
-//     const transactions = realm.objects<Transaction>('Transaction').
-//         filtered('createAt >= $0 AND createAt <= $1', startTime, finishTime);
+export function getIncomeTotalByTime(
+    realm: Realm,
+    startTime: string,
+    finishTime: string,
+) {
+    const transactions = realm.objects<Transaction>('Transaction').
+        filtered('createAt >= $0 AND createAt <= $1', startTime, finishTime);
     
-//     let income = 0;
-//     let expenese = 0;
+    let total = 0;
+    transactions.map(item => {
+        if(item.income) total = total + item.total;
+    })
 
-// }
+    return total;
+}
+
+export function getExpensesTotalByTime(
+    realm: Realm,
+    startTime: string,
+    finishTime: string,
+) {
+    const transactions = realm.objects<Transaction>('Transaction').
+        filtered('createAt >= $0 AND createAt <= $1', startTime, finishTime);
+    
+    let total = 0;
+    transactions.map(item => {
+        if(!item.income) total = total + item.total;
+    })
+
+    return total;
+}
