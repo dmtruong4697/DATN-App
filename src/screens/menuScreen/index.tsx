@@ -40,7 +40,7 @@ const MenuScreen: React.FC<IProps>  = () => {
             <TouchableOpacity
               style={styles.btnNotification}
             >
-              <Image style={styles.imgButtonNotification} source={require('../../../assets/icon/dashboard/bell.png')}/>
+              <Image style={styles.imgButtonNotification} source={require('../../../assets/icon/menu/sync.png')}/>
             </TouchableOpacity>
           </View>
         </View>
@@ -91,7 +91,7 @@ const MenuScreen: React.FC<IProps>  = () => {
             onPress={() => item.onPress(navigation)}
           />
         )}
-        contentContainerStyle={{width: windowWidth, gap: 5,}}
+        contentContainerStyle={{width: windowWidth, gap: 5, marginTop: 10,}}
       />
 
       {/* <MenuItem

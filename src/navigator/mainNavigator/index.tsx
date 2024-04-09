@@ -26,6 +26,7 @@ import LoanListScreen from "../../screens/loanListScreen";
 import AddLoanScreen from "../../screens/addLoanScreen";
 import LoanDetailScreen from "../../screens/loanDetail";
 import EditLoanScreen from "../../screens/editLoanScreen";
+import GroupListScreen from "../../screens/groupListScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -91,6 +92,8 @@ export type RootStackParamList = {
     EditLoan: {
         _id: Realm.BSON.ObjectId,
     };
+
+    GroupList: {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -294,6 +297,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="EditLoan"
             component={EditLoanScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="GroupList"
+            component={GroupListScreen}
             options={{
                 headerShown: false,
             }}

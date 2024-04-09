@@ -75,7 +75,7 @@ export const styles = StyleSheet.create({
         height: 130,
         width: 130,
         borderRadius: 1000,
-        backgroundColor: 'pink',
+        backgroundColor: 'white',
         borderColor: '#efefef',
         borderWidth: 2,
     },

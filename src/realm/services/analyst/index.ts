@@ -6,6 +6,7 @@ import { generateWeek } from "../dateTime";
 
 export function getDayOfWeekAnalyst(
     realm: Realm,
+    income: boolean,
 ) {
     function getStartOfWeek() {
         const today = new Date();
@@ -28,7 +29,7 @@ export function getDayOfWeekAnalyst(
         date.setDate(startTime.getDate() + i -1);
         // const id = (i + 1).toString(); 
         result.push({
-            value: getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10)),
+            value: (income)? getIncomeTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10)):getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10)),
             label: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()],
         });
     }
@@ -40,12 +41,13 @@ export function getDayOfWeekAnalyst(
 export function getWeekAnalyst(
     realm: Realm,
     numOfWeeks: number,
+    income: boolean,
 ) {
     const weekArray = generateWeek(numOfWeeks);
     const result = [];
     for (let i = numOfWeeks - 1; i >= 0; i--) {
         result.push({
-            value: getExpensesTotalByTime(realm, weekArray[i].startTime, weekArray[i].finishTime),
+            value: (income)? getIncomeTotalByTime(realm, weekArray[i].startTime, weekArray[i].finishTime):getExpensesTotalByTime(realm, weekArray[i].startTime, weekArray[i].finishTime),
             label: weekArray[i].name.slice(5, 10),
         })
     }

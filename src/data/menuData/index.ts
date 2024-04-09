@@ -57,7 +57,7 @@ export const MenuData2 = [
         title: 'Group',
         backgroundColor: 'white',
         onPress: (navigation: NavigationProp<any, any>) => {
-            // navigation.navigate('LoanList');
+            navigation.navigate('GroupList');
         },
     },
 ]

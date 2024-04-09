@@ -40,13 +40,13 @@ const DashboardScreen: React.FC<IProps>  = () => {
     let transactions = getTransactionHistory(realm, 5);
     let loans = getLoanHistory(realm, 5);
     // let barData = getDayOfWeekAnalyst(realm);
-    let barData = getWeekAnalyst(realm, 7);
+    let barData = getWeekAnalyst(realm, 7, false);
     const isFocus = useIsFocused();
     useEffect(() => {
       transactions = getTransactionHistory(realm, 5);
       loans = getLoanHistory(realm, 5);
       // barData = getDayOfWeekAnalyst(realm);
-      barData = getWeekAnalyst(realm, 7);
+      barData = getWeekAnalyst(realm, 7, false);
     }, [isFocus])
 
     const ref = React.createRef<any>();
