@@ -7,6 +7,7 @@ import MenuItem from '../../components/menuItem';
 import { ScrollView } from 'react-native-gesture-handler';
 import MenuItem1 from '../../components/menuItem1';
 import { MenuData1, MenuData2 } from '../../data/menuData';
+import { UserStore } from '../../mobx/auth';
 
 interface IProps {}
 
@@ -49,7 +50,7 @@ const MenuScreen: React.FC<IProps>  = () => {
         <View style={styles.viewInfo}>
           <Image style={styles.imgAvatar} source={{uri: ''}}/>
           <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 27,}}>
-            <Text style={styles.txtName}>User Name</Text>
+            <Text style={styles.txtName}>{UserStore.user.userName}</Text>
             <TouchableOpacity
               style={styles.btnEdit}
               onPress={() => {
@@ -59,7 +60,7 @@ const MenuScreen: React.FC<IProps>  = () => {
               <Image style={styles.imgEdit} source={require('../../../assets/icon/menu/edit.png')}/>
             </TouchableOpacity>
           </View>
-          <Text style={styles.txtEmail}>useremail@gmail.com</Text>
+          <Text style={styles.txtEmail}>{UserStore.user.email}</Text>
         </View>
       </View>
 

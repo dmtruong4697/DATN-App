@@ -14,6 +14,7 @@ import { BarChart } from 'react-native-gifted-charts';
 import { getDayOfWeekAnalyst, getWeekAnalyst } from '../../realm/services/analyst';
 import LoanCard from '../../components/loanCard';
 import { getLoanHistory } from '../../realm/services/loan';
+import { UserStore } from '../../mobx/auth';
 
 interface IProps {}
 
@@ -117,7 +118,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
           >
             <View style={styles.viewHeaderText}>
               <Text style={styles.txtGreeting}>Good morning,</Text>
-              <Text style={styles.txtName}>Truong Duong</Text>
+              <Text style={styles.txtName}>{UserStore.user.userName}</Text>
             </View>
 
             <TouchableOpacity

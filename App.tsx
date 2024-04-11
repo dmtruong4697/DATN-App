@@ -31,6 +31,7 @@ import MainNavigator from './src/navigator/mainNavigator';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import messaging, { firebase } from '@react-native-firebase/messaging';
 import installations from '@react-native-firebase/installations';
+import { UserStore } from './src/mobx/auth';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -52,6 +53,7 @@ function App(): React.JSX.Element {
 
   const getToken = async() => {
     const token = await messaging().getToken();
+    UserStore.setDeviceToken(token);
     const id = await installations().getId();
     console.log("Token: ", token);
     console.log("ID: ", id);

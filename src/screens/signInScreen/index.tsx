@@ -4,6 +4,9 @@ import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { styles } from './styles'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { colors } from '../../constants/colors'
+import { UserStore } from '../../mobx/auth'
+import { observer } from 'mobx-react'
+import { login } from '../../services/auth'
 
 type User = {
     uid: string;
@@ -95,7 +98,8 @@ const SignInScreen: FC = () => {
             style={styles.signInButton}
             onPress={() => {
                 // fetchSignIn();
-                navigation.navigate('Home');
+                // navigation.navigate('Home');
+                login(navigation, email, password, UserStore.deviceToken);
             }}
         >
             <Text style={{fontSize: 16, fontWeight: '700', color: '#FFFFFF'}}
@@ -122,7 +126,7 @@ const SignInScreen: FC = () => {
 
       </View>
 
-      {(isLoading) && 
+      {(UserStore.isLoading) && 
         <View style={styles.viewLoading}>
             {/* <Text style={styles.txtLoading}>Loading...</Text> */}
             <ActivityIndicator color={'#E53935'} size={100}/>
@@ -133,4 +137,4 @@ const SignInScreen: FC = () => {
   )
 }
 
-export default SignInScreen
+export default observer(SignInScreen)
