@@ -39,3 +39,34 @@ export async function login(
         throw error;
     }
 }
+
+export async function logout(
+    navigation: NavigationProp<any, any>,
+    userId: object | null,
+    deviceToken: string,
+) {
+    try {
+        // UserStore.setIsLoading(true);
+        const responce = await axios.post(API + '/logout', 
+        {
+            userId: userId,
+            deviceToken: deviceToken,
+        },
+        {
+            headers: {
+                Authorization: UserStore.user.token,
+            }
+        });
+
+        if (responce.status == 200) {
+            UserStore.logoutUser();
+            console.log(responce.data);
+            navigation.navigate('SignIn');
+        } else {
+            console.log(responce.status);
+        }
+    } catch (error) {
+      console.log(error);
+        throw error;
+    }
+}

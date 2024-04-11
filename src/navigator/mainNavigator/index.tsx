@@ -27,6 +27,7 @@ import AddLoanScreen from "../../screens/addLoanScreen";
 import LoanDetailScreen from "../../screens/loanDetail";
 import EditLoanScreen from "../../screens/editLoanScreen";
 import GroupListScreen from "../../screens/groupListScreen";
+import GroupDetailScreen from "../../screens/groupDetailScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -94,6 +95,10 @@ export type RootStackParamList = {
     };
 
     GroupList: {};
+
+    GroupDetail: {
+        _id: Realm.BSON.ObjectId,
+    }
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -109,7 +114,7 @@ const MainNavigator = () => {
 
   return (
     <RangeContext.Provider value={{startTime, setStartTime, finishTime, setFinishTime, inputType, setInputType, tabData, setTabData}}>
-      <Stack.Navigator initialRouteName="Splash">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen 
             name="Splash" 
             component={SplashScreen}
@@ -305,6 +310,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="GroupList"
             component={GroupListScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="GroupDetail"
+            component={GroupDetailScreen}
             options={{
                 headerShown: false,
             }}

@@ -4,7 +4,7 @@ import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import TransactionCard from '../../components/transactionCard';
-import { Realm } from "realm";
+import { Realm, User } from "realm";
 import { FlatList } from 'react-native-gesture-handler';
 import { RealmContext } from '../../realm/models';
 import { getAllTransaction, getTransactionHistory } from '../../realm/services/transactions';
@@ -48,7 +48,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
       loans = getLoanHistory(realm, 5);
       // barData = getDayOfWeekAnalyst(realm);
       barData = getWeekAnalyst(realm, 7, false);
-    }, [isFocus])
+    }, [isFocus]);
 
     const ref = React.createRef<any>();
     const state = {
@@ -101,6 +101,12 @@ const DashboardScreen: React.FC<IProps>  = () => {
         </View>
       );
     };
+
+    useEffect(() => {
+      if(UserStore.user.id == null) {
+        navigation.navigate('SignIn');
+      }
+    },[])
 
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>

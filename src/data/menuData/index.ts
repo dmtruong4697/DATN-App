@@ -1,4 +1,7 @@
 import { NavigationProp } from "@react-navigation/native";
+import { logout } from "../../services/auth";
+import { UserStore } from "../../mobx/auth";
+import { User } from "realm";
 
 export const MenuData1 = [
     {
@@ -58,6 +61,17 @@ export const MenuData2 = [
         backgroundColor: 'white',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('GroupList');
+        },
+    },
+]
+
+export const MenuData3 = [
+    {
+        id: '1',
+        iconUrl: require('../../../assets/icon/menu/transaction.png'),
+        title: 'Sign Out',
+        onPress: (navigation: NavigationProp<any, any>) => {
+            logout(navigation, UserStore.user.id, UserStore.deviceToken)
         },
     },
 ]

@@ -35,4 +35,18 @@ export const styles = StyleSheet.create({
         color: '#000000',
         marginTop: 5,
     },
+
+    viewGroupList: {
+        // flex: 1,
+        padding: 10,
+    },
+
+    viewSearchInput: {
+        width: '100%',
+        borderRadius: 5,
+        padding: 5,
+        backgroundColor: '#c7c7c7',
+        marginBottom: 10,
+    },
+
 })

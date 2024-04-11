@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import MenuItem from '../../components/menuItem';
 import { ScrollView } from 'react-native-gesture-handler';
 import MenuItem1 from '../../components/menuItem1';
-import { MenuData1, MenuData2 } from '../../data/menuData';
+import { MenuData1, MenuData2, MenuData3 } from '../../data/menuData';
 import { UserStore } from '../../mobx/auth';
 
 interface IProps {}
@@ -92,7 +92,22 @@ const MenuScreen: React.FC<IProps>  = () => {
             onPress={() => item.onPress(navigation)}
           />
         )}
-        contentContainerStyle={{width: windowWidth, gap: 5, marginTop: 10,}}
+        contentContainerStyle={{width: windowWidth, gap: 5, marginTop: 10, marginBottom: 10,}}
+      />
+
+      <FlatList
+        data={MenuData3}
+        keyExtractor={item => item.id}
+        scrollEnabled={false}
+        renderItem={({item}) => (
+          <MenuItem1
+            id={item.id}
+            title={item.title}
+            iconUrl={item.iconUrl}
+            onPress={() => item.onPress(navigation)}
+          />
+        )}
+        // contentContainerStyle={{width: layout.width-18, gap: 5,}}
       />
 
       {/* <MenuItem
