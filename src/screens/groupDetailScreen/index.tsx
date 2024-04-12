@@ -8,6 +8,7 @@ import { RealmContext } from '../../realm/models';
 import { getWalletById } from '../../realm/services/wallets';
 import { deleteLoanById, getLoanById } from '../../realm/services/loan';
 import { getGroupDetail } from '../../services/group';
+import { getUserInfo } from '../../services/user';
 
 interface IProps {}
 
@@ -20,9 +21,17 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
     const route = useRoute<RouteProp<RootStackParamList, 'GroupDetail'>>();
     const {_id} = route.params;
 
-    let groupDetail;
+    const [groupDetail, setGroupDetail] = useState<any>();
+    const [ownerDetail, setOwnerDetail] = useState<any>();
+
     const fetchGroupInfo = async() => {
-      groupDetail = await getGroupDetail(_id);
+      await getGroupDetail(_id)
+        .then (async(group) => {
+          setGroupDetail(group);
+          // console.log(groupDetail)
+          let owner = await getUserInfo(groupDetail.groupOwnerId);
+          setOwnerDetail(owner);
+        });
     }
 
     useEffect(() => {

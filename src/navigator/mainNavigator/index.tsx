@@ -97,7 +97,7 @@ export type RootStackParamList = {
     GroupList: {};
 
     GroupDetail: {
-        _id: Realm.BSON.ObjectId,
+        _id: String,
     }
 };
 

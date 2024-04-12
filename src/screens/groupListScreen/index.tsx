@@ -24,10 +24,15 @@ const GroupListScreen: React.FC<IProps>  = () => {
       // console.log(groupIds)
     }
 
+    const fetchData = async() => {
+      // const formsResult = getAllWallet(realm);
+      // await makeFile(formsResult);
+      // console.log(formsResult.toJSON());
+    }
+
     useEffect( () => {
       fetchGroupList();
-      // const formsResult = getAllWallet(realm);
-      // console.log(formsResult.toJSON());
+      fetchData();
     },[])
   
   return (
