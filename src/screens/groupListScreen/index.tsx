@@ -5,6 +5,8 @@ import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/na
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import GroupCard from '../../components/groupCard';
 import { getGroupList } from '../../services/group';
+import { RealmContext } from '../../realm/models';
+import { getAllWallet } from '../../realm/services/wallets';
 
 interface IProps {}
 
@@ -12,7 +14,10 @@ const GroupListScreen: React.FC<IProps>  = () => {
 
     const layout = useWindowDimensions();
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-    const [groupIds, setGroupIds] = useState([]);
+    const {useRealm} = RealmContext;
+    const realm = useRealm();
+
+    const [groupIds, setGroupIds] = useState<any[]>([]);
     const fetchGroupList = async() => {
       let groupIds = await getGroupList();
       setGroupIds(groupIds);
@@ -21,6 +26,8 @@ const GroupListScreen: React.FC<IProps>  = () => {
 
     useEffect( () => {
       fetchGroupList();
+      // const formsResult = getAllWallet(realm);
+      // console.log(formsResult.toJSON());
     },[])
   
   return (
@@ -41,7 +48,8 @@ const GroupListScreen: React.FC<IProps>  = () => {
 
           }}
         >
-          <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/>
+          <Text style={styles.txtEdit}>ADD</Text>
+          {/* <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/> */}
         </TouchableOpacity>
       </View>
 
@@ -57,9 +65,7 @@ const GroupListScreen: React.FC<IProps>  = () => {
           renderItem={({item}) => (
             <GroupCard
               groupId={item._id.toString()}
-              name='name'
-              onPress={() => {}}
-              ownerId='id'
+
             />
           )}
           // contentContainerStyle={{width: layout.width-18, gap: 5,}}

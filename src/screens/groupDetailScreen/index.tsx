@@ -7,6 +7,7 @@ import { RootStackParamList } from '../../navigator/mainNavigator';
 import { RealmContext } from '../../realm/models';
 import { getWalletById } from '../../realm/services/wallets';
 import { deleteLoanById, getLoanById } from '../../realm/services/loan';
+import { getGroupDetail } from '../../services/group';
 
 interface IProps {}
 
@@ -18,6 +19,15 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
 
     const route = useRoute<RouteProp<RootStackParamList, 'GroupDetail'>>();
     const {_id} = route.params;
+
+    let groupDetail;
+    const fetchGroupInfo = async() => {
+      groupDetail = await getGroupDetail(_id);
+    }
+
+    useEffect(() => {
+      fetchGroupInfo();
+    },[])
   
   return (
     <View style={styles.viewContainer}>

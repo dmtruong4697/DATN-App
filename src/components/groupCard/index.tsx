@@ -1,28 +1,47 @@
 import { View, Text, ImageSourcePropType, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { styles } from './styles';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { getUserInfo } from '../../services/user';
+import { getGroupDetail } from '../../services/group';
 
 interface IProps {
     groupId: string,
-    name: string,
-    ownerId: string,
     iconUri?: ImageSourcePropType,
-    onPress: () => void,
 }
 
-const GroupCard: React.FC<IProps> = ({groupId, name, onPress, iconUri, ownerId}) => {
+const GroupCard: React.FC<IProps> = ({groupId, iconUri}) => {
+
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  const [groupDetail, setGroupDetail] = useState<any>();
+  const [ownerDetail, setOwnerDetail] = useState<any>();
+  const fetchInfo = async() => {
+    let group = await getGroupDetail(groupId);
+    setGroupDetail(group);
+    // console.log(groupDetail)
+    let owner = await getUserInfo(groupDetail.groupOwnerId);
+    setOwnerDetail(owner);
+    // console.log(owner)
+  }
+
+  useEffect(() => {
+    fetchInfo();
+  },[])
+
   return (
     <TouchableOpacity
         style={styles.viewContainer}
-        onPress={onPress}
+        onPress={() => {navigation.navigate('GroupDetail', {_id: groupId})}}
     >
         <View style={styles.viewIcon}>
 
         </View>
 
         <View style={styles.viewContent}>
-            <Text style={styles.txtName}>{groupId}</Text>
-            <Text style={styles.txtOwner}>Owner Name</Text>
+            <Text style={styles.txtName}>{groupDetail?.name}</Text>
+            <Text style={styles.txtOwner}>{ownerDetail?.userName}</Text>
         </View>
     </TouchableOpacity>
   )

@@ -29,10 +29,33 @@ export async function getGroupList(): Promise<any> {
         }
       );
     const result = responce.data.groupIds;
-    console.log(result)
+    // console.log(result)
       return result;
     } catch (error) {
       console.log(error);
         throw error;
     }
+}
+
+export async function getGroupDetail(
+  groupId: String,
+): Promise<any> {
+  try {
+    const responce = await axios.post(API + '/get-group',
+      {
+          groupId: groupId,
+      },
+      {
+          headers: {
+              Authorization: UserStore.user.token,
+          }
+      }
+    );
+  const result = responce.data.group;
+  // console.log(result)
+    return result;
+  } catch (error) {
+    console.log(error);
+      throw error;
+  }
 }

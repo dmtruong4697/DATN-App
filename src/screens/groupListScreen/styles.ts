@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../constants/colors";
 
 export const styles = StyleSheet.create({
     viewContainer: {
@@ -47,6 +48,12 @@ export const styles = StyleSheet.create({
         padding: 5,
         backgroundColor: '#c7c7c7',
         marginBottom: 10,
+    },
+
+    txtEdit: {
+        fontSize: 18,
+        fontWeight: '400',
+        color: colors.PrimaryColor,
     },
 
 })
