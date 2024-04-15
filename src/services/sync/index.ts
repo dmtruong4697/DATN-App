@@ -4,6 +4,9 @@ import { Realm } from "realm";
 import { getAllTransaction } from '../../realm/services/transactions';
 import { getAllTransactionType } from '../../realm/services/transactionType';
 import { getAllWallet } from '../../realm/services/wallets';
+import axios from 'axios';
+import { API } from '../../constants/api';
+import { UserStore } from '../../mobx/auth';
 
 export const makeDataFile = async (realm: Realm) => {
     try {
@@ -28,3 +31,37 @@ export const makeDataFile = async (realm: Realm) => {
       console.log(error);
     }
   };
+
+export const uploadData = async (realm: Realm) => {
+  try {
+      const loans = getAllLoan(realm);
+      const transactions = getAllTransaction(realm);
+      const transactionTypes = getAllTransactionType(realm);
+      const wallets = getAllWallet(realm);
+
+      console.log(wallets);
+
+      const responce = await axios.post(API + '/upload-user-data', {
+        loans: loans,
+        transactions: transactions,
+        transactionTypes: transactionTypes,
+        wallets: wallets,
+      },
+    {
+      headers: {
+        Authorization: UserStore.user.token,
+      }
+    })
+
+  } catch (error) { 
+    console.log(error);
+  }
+};
+
+export const syncData = async (realm: Realm) => {
+  try {
+     
+  } catch (error) { 
+    console.log(error);
+  }
+};
