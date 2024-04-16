@@ -63,6 +63,30 @@ export const MenuData2 = [
             navigation.navigate('GroupList');
         },
     },
+    {
+        id: '5',
+        title: 'Personal Tax',
+        backgroundColor: 'white',
+        onPress: (navigation: NavigationProp<any, any>) => {
+            // navigation.navigate('GroupList');
+        },
+    },
+    {
+        id: '6',
+        title: 'Nearby ATM',
+        backgroundColor: 'white',
+        onPress: (navigation: NavigationProp<any, any>) => {
+            // navigation.navigate('GroupList');
+        },
+    },
+    {
+        id: '7',
+        title: 'Export Data',
+        backgroundColor: 'white',
+        onPress: (navigation: NavigationProp<any, any>) => {
+            // navigation.navigate('GroupList');
+        },
+    },
 ]
 
 export const MenuData3 = [

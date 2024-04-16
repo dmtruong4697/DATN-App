@@ -115,4 +115,81 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 30,
     },
+
+    viewTopGroup: {
+        width: '100%',
+        padding: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
+    viewMember: {
+        width: 155,
+        height: 155,
+        borderRadius: 10,
+        // alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'column',
+        padding: 12,
+
+        backgroundColor: '#ffffff',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+    },
+
+    txtTotalText: {
+        fontSize: 16,
+        fontWeight: '400',
+        color: '#222222',
+    },
+
+    btnAddTransaction: {
+        width: '100%',
+        height: 35,
+        borderRadius: 2,
+        backgroundColor: colors.PrimaryColor,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    txtButton: {
+        fontSize: 16,
+        fontWeight: '400',
+        color: '#ffffff',
+    },
+
+    viewTransactionHistory: {
+        width: '100%',
+        padding: 10,
+        flexDirection: 'column',
+        marginBottom: 5,
+    },
+
+    viewTitle: {
+        width: '100%',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginBottom: 10,
+    },
+
+    txtSeeAll: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#666666',
+    },
+
+    viewMemberImage: {
+        width: 30,
+        height: 30,
+        borderRadius: 2,
+        backgroundColor: '#e8e8e8',
+    },
 })

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions, ScrollView } from 'react-native'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, RouteProp, useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
@@ -21,17 +21,12 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
     const route = useRoute<RouteProp<RootStackParamList, 'GroupDetail'>>();
     const {_id} = route.params;
 
-    const [groupDetail, setGroupDetail] = useState<any>();
-    const [ownerDetail, setOwnerDetail] = useState<any>();
+    const [groupDetail, setGroupDetail] = useState<any>({});
+    // const [ownerDetail, setOwnerDetail] = useState<any>();
 
     const fetchGroupInfo = async() => {
-      await getGroupDetail(_id)
-        .then (async(group) => {
-          setGroupDetail(group);
-          // console.log(groupDetail)
-          let owner = await getUserInfo(groupDetail.groupOwnerId);
-          setOwnerDetail(owner);
-        });
+      const group = await getGroupDetail(_id);
+      setGroupDetail(group);
     }
 
     useEffect(() => {
@@ -39,7 +34,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
     },[])
   
   return (
-    <View style={styles.viewContainer}>
+    <ScrollView contentContainerStyle={styles.viewContainer}>
       <View style={styles.viewHeader}>
         <TouchableOpacity
           style={styles.btnBack}
@@ -48,19 +43,63 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Group Detail</Text>
+        <Text style={styles.txtTitle}>{groupDetail.name}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
           onPress={() => {
             // navigation.navigate('EditLoan', {_id: _id})
+            // console.log(groupDetail);
           }}
         >
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/>
           {/* <Text style={styles.txtEdit}>Edit</Text> */}
         </TouchableOpacity>
       </View>
-    </View>
+
+      {/* top group */}
+      <View style={styles.viewTopGroup}>
+
+        <View style={styles.viewMember}>
+          <TouchableOpacity
+            style={styles.btnAddTransaction}
+          >
+            <Text style={styles.txtButton}>Add Transaction</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.viewMember}>
+
+          <TouchableOpacity>
+            <View style={styles.viewMemberImage}></View>
+          </TouchableOpacity>
+
+          <Text style={styles.txtTotalText}>Members: </Text>
+          <TouchableOpacity
+            style={styles.btnAddTransaction}
+          >
+            <Text style={styles.txtButton}>Split Money</Text>
+          </TouchableOpacity>
+
+        </View>
+
+      </View>
+
+      {/* transaction history */}
+      <View style={styles.viewTransactionHistory}>
+        <View style={styles.viewTitle}>
+          <Text style={styles.txtTitle}>Transactions History</Text>
+          <TouchableOpacity
+            onPress={() => {
+              // navigation.navigate('Transaction');
+            }}
+          >
+            <Text style={styles.txtSeeAll}>See all</Text>
+          </TouchableOpacity>
+        </View>
+
+      </View>
+    </ScrollView>
   )
 }
 

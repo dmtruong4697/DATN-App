@@ -39,7 +39,7 @@ export const uploadData = async (realm: Realm) => {
       const transactionTypes = getAllTransactionType(realm);
       const wallets = getAllWallet(realm);
 
-      console.log(wallets);
+      // console.log(wallets);
 
       const responce = await axios.post(API + '/upload-user-data', {
         loans: loans,
@@ -52,6 +52,8 @@ export const uploadData = async (realm: Realm) => {
         Authorization: UserStore.user.token,
       }
     })
+
+    console.log(responce.status)
 
   } catch (error) { 
     console.log(error);

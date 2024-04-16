@@ -8,6 +8,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import MenuItem1 from '../../components/menuItem1';
 import { MenuData1, MenuData2, MenuData3 } from '../../data/menuData';
 import { UserStore } from '../../mobx/auth';
+import { uploadData } from '../../services/sync';
+import { RealmContext } from '../../realm/models';
 
 interface IProps {}
 
@@ -15,6 +17,12 @@ const MenuScreen: React.FC<IProps>  = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const windowWidth = Dimensions.get('window').width;
+  const {useRealm} = RealmContext;
+  const realm = useRealm();
+
+  const uploadUserData = async() => {
+    await uploadData(realm);
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>
@@ -40,6 +48,9 @@ const MenuScreen: React.FC<IProps>  = () => {
 
             <TouchableOpacity
               style={styles.btnNotification}
+              onPress={() => {
+                uploadUserData();
+              }}
             >
               <Image style={styles.imgButtonNotification} source={require('../../../assets/icon/menu/sync.png')}/>
             </TouchableOpacity>
