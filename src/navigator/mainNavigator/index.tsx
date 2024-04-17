@@ -28,6 +28,8 @@ import LoanDetailScreen from "../../screens/loanDetail";
 import EditLoanScreen from "../../screens/editLoanScreen";
 import GroupListScreen from "../../screens/groupListScreen";
 import GroupDetailScreen from "../../screens/groupDetailScreen";
+import AddGroupScreen from "../../screens/addGroupScreen";
+import PersonalTaxScreen from "../../screens/personalTaxScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -98,7 +100,11 @@ export type RootStackParamList = {
 
     GroupDetail: {
         _id: String,
-    }
+    };
+
+    AddGroup: {};
+
+    PersonalTax: {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -318,6 +324,22 @@ const MainNavigator = () => {
         <Stack.Screen
             name="GroupDetail"
             component={GroupDetailScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="AddGroup"
+            component={AddGroupScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="PersonalTax"
+            component={PersonalTaxScreen}
             options={{
                 headerShown: false,
             }}
