@@ -68,7 +68,7 @@ export const MenuData2 = [
         title: 'Personal Tax',
         backgroundColor: 'white',
         onPress: (navigation: NavigationProp<any, any>) => {
-            // navigation.navigate('GroupList');
+            navigation.navigate('PersonalTax');
         },
     },
     {

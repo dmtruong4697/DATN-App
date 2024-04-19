@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
 
     txtEdit: {
         fontSize: 18,
-        fontWeight: '400',
+        fontWeight: '500',
         color: colors.PrimaryColor,
     },
 

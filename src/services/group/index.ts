@@ -5,11 +5,26 @@ import { UserStore } from "../../mobx/auth";
 
 export async function createGroup(
     navigation: NavigationProp<any, any>,
-    userId: object | null,
-    deviceToken: string,
+    name: string,
+    currencyUnit: string,
 ) {
     try {
-      
+      const responce = await axios.post(API + '/create-group',
+        {
+          name: name,
+          currencyUnit: currencyUnit,
+          createAt: new Date().toISOString(),
+        },
+        {
+          headers: {
+              Authorization: UserStore.user.token,
+          }
+        }
+      )
+      if (responce.status == 201) {
+        navigation.navigate('GroupDetail', {_id: responce.data.group._id})
+        return responce.data.group;
+      }
     } catch (error) {
       console.log(error);
         throw error;

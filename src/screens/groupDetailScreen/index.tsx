@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions, ScrollView, ToastAndroid } from 'react-native'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, RouteProp, useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
@@ -9,29 +9,44 @@ import { getWalletById } from '../../realm/services/wallets';
 import { deleteLoanById, getLoanById } from '../../realm/services/loan';
 import { getGroupDetail } from '../../services/group';
 import { getUserInfo } from '../../services/user';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface IProps {}
 
 const GroupDetailScreen: React.FC<IProps>  = () => {
 
-    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-    const {useRealm} = RealmContext;
-    const realm = useRealm();
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const {useRealm} = RealmContext;
+  const realm = useRealm();
 
-    const route = useRoute<RouteProp<RootStackParamList, 'GroupDetail'>>();
-    const {_id} = route.params;
+  const route = useRoute<RouteProp<RootStackParamList, 'GroupDetail'>>();
+  const {_id} = route.params;
 
-    const [groupDetail, setGroupDetail] = useState<any>({});
-    // const [ownerDetail, setOwnerDetail] = useState<any>();
+  const [groupDetail, setGroupDetail] = useState<any>({});
+  const [ownerDetail, setOwnerDetail] = useState<any>({});
+  // const [ownerDetail, setOwnerDetail] = useState<any>();
 
-    const fetchGroupInfo = async() => {
-      const group = await getGroupDetail(_id);
-      setGroupDetail(group);
-    }
+  const fetchGroupInfo = async() => {
+    const group = await getGroupDetail(_id);
+    const owner = await getUserInfo(group.groupOwnerId);
+    // console.log(owner)
+    setOwnerDetail(owner);
+    setGroupDetail(group);
+  }
 
-    useEffect(() => {
-      fetchGroupInfo();
-    },[])
+  useEffect(() => {
+    fetchGroupInfo();
+  },[])
+
+  const showToast = () => {
+    ToastAndroid.showWithGravityAndOffset(
+      'Copied to clipboard!',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
   
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>
@@ -61,6 +76,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
       <View style={styles.viewTopGroup}>
 
         <View style={styles.viewMember}>
+          <Text style={styles.txtOwnerText}>Total: </Text>
           <TouchableOpacity
             style={styles.btnAddTransaction}
           >
@@ -71,10 +87,29 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
         <View style={styles.viewMember}>
 
           <TouchableOpacity>
-            <View style={styles.viewMemberImage}></View>
+            <FlatList
+              data={groupDetail.memberIds}
+              keyExtractor={item => item.toString()}
+              scrollEnabled={false}
+              horizontal
+              renderItem={({item}) => (
+                <View style={styles.viewMemberImage}></View>
+              )}
+              // contentContainerStyle={{width: layout.width-18, gap: 5,}}
+            />
           </TouchableOpacity>
 
-          <Text style={styles.txtTotalText}>Members: </Text>
+          <Text style={styles.txtOwnerText}>Invite Code: </Text>
+          <TouchableOpacity
+            style={styles.viewInviteCode}
+            onPress={() => {
+              Clipboard.setString(groupDetail.inviteCode);
+              showToast();
+            }}
+          >
+            <Text style={styles.txtInviteCode}>{groupDetail.inviteCode}</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.btnAddTransaction}
           >

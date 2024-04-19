@@ -50,7 +50,7 @@ const GroupListScreen: React.FC<IProps>  = () => {
         <TouchableOpacity
           style={styles.btnBack}
           onPress={() => {
-
+            navigation.navigate('AddGroup');
           }}
         >
           <Text style={styles.txtEdit}>ADD</Text>

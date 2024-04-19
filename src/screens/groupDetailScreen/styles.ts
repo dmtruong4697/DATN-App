@@ -144,16 +144,34 @@ export const styles = StyleSheet.create({
         elevation: 3,
     },
 
-    txtTotalText: {
+    txtOwnerText: {
         fontSize: 16,
         fontWeight: '400',
+        color: '#666666',
+    },
+
+    viewInviteCode: {
+        flexDirection: 'row',
+        borderRadius: 5,
+        padding: 3,
+        backgroundColor: '#e8e8e8',
+    },
+
+    imgCopy: {
+        width: 18,
+        height: 18,
+    },
+
+    txtInviteCode: {
+        fontSize: 20,
+        fontWeight: '500',
         color: '#222222',
     },
 
     btnAddTransaction: {
         width: '100%',
         height: 35,
-        borderRadius: 2,
+        borderRadius: 5,
         backgroundColor: colors.PrimaryColor,
         justifyContent: 'center',
         alignItems: 'center',

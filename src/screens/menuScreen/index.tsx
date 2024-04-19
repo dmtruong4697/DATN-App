@@ -101,6 +101,7 @@ const MenuScreen: React.FC<IProps>  = () => {
             title={item.title}
             backgroundColor={item.backgroundColor}
             onPress={() => item.onPress(navigation)}
+            iconUrl={require('../../../assets/icon/menu/transaction.png')}
           />
         )}
         contentContainerStyle={{width: windowWidth, gap: 5, marginTop: 10, marginBottom: 10,}}

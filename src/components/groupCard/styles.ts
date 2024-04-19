@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     viewContainer: {
         width: '100%',
         backgroundColor: '#FFFFFF',
-        borderRadius: 10,
+        borderRadius: 5,
         flexDirection: 'row',
         padding: 10,
         marginBottom: 10,
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     viewIcon: {
         width: 50,
         height: 50,
-        borderRadius: 5,
+        borderRadius: 3,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'pink',

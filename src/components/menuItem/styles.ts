@@ -27,8 +27,8 @@ export const styles = StyleSheet.create({
     },
 
     imgIcon: {
-        height: 60,
-        width: 60,
+        height: 30,
+        width: 30,
     },
 
     txtTitle: {

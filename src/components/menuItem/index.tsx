@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ImageSourcePropType } from 'react-native'
+import { View, Text, TouchableOpacity, ImageSourcePropType, Image } from 'react-native'
 import React from 'react'
 import { styles } from './styles'
 
@@ -18,6 +18,7 @@ const MenuItem: React.FC<IProps> = ({backgroundColor, iconUrl, id, onPress, titl
             onPress={onPress}
         >
             {/* <Text>MenuItem</Text> */}
+            <Image style={styles.imgIcon} source={iconUrl}/>
         </TouchableOpacity>
 
         <Text style={styles.txtTitle}>{title}</Text>
