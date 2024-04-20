@@ -7,6 +7,8 @@ import GroupCard from '../../components/groupCard';
 import { getGroupList } from '../../services/group';
 import { RealmContext } from '../../realm/models';
 import { getAllWallet } from '../../realm/services/wallets';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
+import Button from '../../components/button';
 
 interface IProps {}
 
@@ -21,19 +23,37 @@ const GroupListScreen: React.FC<IProps>  = () => {
     const fetchGroupList = async() => {
       let groupIds = await getGroupList();
       setGroupIds(groupIds);
-      // console.log(groupIds)
-    }
-
-    const fetchData = async() => {
-      // const formsResult = getAllWallet(realm);
-      // await makeFile(formsResult);
-      // console.log(formsResult.toJSON());
     }
 
     useEffect( () => {
       fetchGroupList();
-      fetchData();
     },[])
+
+    // bottom sheet
+    const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+    const snapPoints = useMemo(() => ['35%', '40%'], []);
+    const handlePresentModalPress = useCallback(() => {
+      bottomSheetModalRef.current?.present();
+    }, []);
+  
+    const handleCloseModal = useCallback(() => {
+      bottomSheetModalRef.current?.close();
+    }, []);
+  
+    const handleSheetChanges = useCallback((index: number) => {
+      // console.log('handleSheetChanges', index);
+    }, []);
+  
+    const renderBackdrop = useCallback(
+      (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} 
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        onPress={handleCloseModal}
+      />,
+      []
+    );
+
+    const [code, setCode] = useState<any>('');
   
   return (
     <View style={styles.viewContainer}>
@@ -50,11 +70,12 @@ const GroupListScreen: React.FC<IProps>  = () => {
         <TouchableOpacity
           style={styles.btnBack}
           onPress={() => {
-            navigation.navigate('AddGroup');
+            // navigation.navigate('AddGroup');
+            handlePresentModalPress();
           }}
         >
-          <Text style={styles.txtEdit}>ADD</Text>
-          {/* <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/> */}
+          {/* <Text style={styles.txtEdit}>ADD</Text> */}
+          <Image style={styles.imgButtonAdd} source={require('../../../assets/icon/groupList/add.png')}/>
         </TouchableOpacity>
       </View>
 
@@ -76,6 +97,61 @@ const GroupListScreen: React.FC<IProps>  = () => {
           // contentContainerStyle={{width: layout.width-18, gap: 5,}}
         />
       </View>
+
+      {/* bottom modal */}
+      <BottomSheetModalProvider>
+        <View style={{}}>
+          <BottomSheetModal
+            ref={bottomSheetModalRef}
+            index={1}
+            snapPoints={snapPoints}
+            onChange={handleSheetChanges}
+            backdropComponent={renderBackdrop}
+          >
+            <BottomSheetView style={{flex: 1}}>
+              <TouchableOpacity
+                style={styles.btnBottomSheet}
+                onPress={() => {
+                  navigation.navigate('AddGroup');
+                }}
+              >
+                <Image style={styles.imgButtomIcon} source={require('../../../assets/icon/groupList/create.png')}/>
+                <Text style={styles.txtButton}>Create a new Group</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.btnBottomSheet}
+              >
+                <Image style={styles.imgButtomIcon} source={require('../../../assets/icon/groupList/hastag.png')}/>
+                <Text style={styles.txtButton}>Join a Group via invite code</Text>
+              </TouchableOpacity>
+
+              <TextInput 
+                style={styles.inputCode}
+                inputMode='numeric'
+                placeholder='Enter Code'
+                value={code}
+                onChangeText={(text) => {
+                  setCode(text);
+                }}
+              />
+
+              <Button
+                containerStyle={{
+                  alignSelf: 'center',
+                  width: '35%',
+                  height: 45,
+                  borderRadius: 5,
+                }}
+                content='Join Group'
+                onPress={() => {
+
+                }}
+              />
+            </BottomSheetView>
+          </BottomSheetModal>
+        </View>
+      </BottomSheetModalProvider>
 
     </View>
   )

@@ -30,6 +30,11 @@ export const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
 
+    imgButtonAdd: {
+        height: 40,
+        resizeMode: 'contain',
+    },
+
     txtTitle: {
         fontSize: 16,
         fontWeight: '700',
@@ -54,6 +59,41 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
         color: colors.PrimaryColor,
+    },
+
+    btnBottomSheet: {
+        width: '100%',
+        height: 40,
+        flexDirection: 'row',
+        padding: 5,
+        alignItems: 'center',
+        // justifyContent: 'center',
+        marginBottom: 10,
+    },
+
+    imgButtomIcon: {
+        width: 26,
+        height: 26,
+        marginHorizontal: 15,
+    },
+
+    txtButton: {
+        fontSize: 17,
+        fontWeight: '400',
+        color: '#666666',
+    },
+
+    inputCode: {
+        width: '92%',
+        height: 40,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: '#e0e0de',
+        alignSelf: 'center',
+
+        fontSize: 16,
+        fontWeight: '400',
+        color: '#666666',
     },
 
 })

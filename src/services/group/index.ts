@@ -116,3 +116,24 @@ export async function getGroupTransactions(groupId: string): Promise<any> {
       throw error;
   }
 }
+
+export async function joinGroup(inviteCode: string): Promise<any> {
+  try {
+    const responce = await axios.post(API + '/group-transactions',
+      {
+        inviteCode: inviteCode,
+      },
+      {
+          headers: {
+              Authorization: UserStore.user.token,
+          }
+      }
+    );
+  const result = responce.data.message;
+  // console.log(result)
+    return result;
+  } catch (error) {
+    console.log(error);
+      throw error;
+  }
+}

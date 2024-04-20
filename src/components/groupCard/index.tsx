@@ -15,16 +15,16 @@ const GroupCard: React.FC<IProps> = ({groupId, iconUri}) => {
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
-  const [groupDetail, setGroupDetail] = useState<any>();
-  const [ownerDetail, setOwnerDetail] = useState<any>();
+  const [groupDetail, setGroupDetail] = useState<any>({});
+  const [ownerDetail, setOwnerDetail] = useState<any>({});
+  // const [ownerDetail, setOwnerDetail] = useState<any>();
+
   const fetchGroupInfo = async() => {
-    await getGroupDetail(groupId)
-      .then (async(group) => {
-        setGroupDetail(group);
-        // console.log(groupDetail)
-        let owner = await getUserInfo(groupDetail.groupOwnerId);
-        setOwnerDetail(owner);
-      });
+    const group = await getGroupDetail(groupId);
+    const owner = await getUserInfo(group.groupOwnerId);
+    // console.log(owner)
+    setOwnerDetail(owner);
+    setGroupDetail(group);
   }
 
   useEffect(() => {
