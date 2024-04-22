@@ -54,7 +54,7 @@ export const MenuData2 = [
         title: 'Shopping List',
         backgroundColor: 'white',
         onPress: (navigation: NavigationProp<any, any>) => {
-            // navigation.navigate('Convert');
+            navigation.navigate('ShoppingList');
         },
         iconUrl: require('../../../assets/icon/menu/menu2/shopping.png'),
     },
