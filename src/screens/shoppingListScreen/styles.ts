@@ -95,4 +95,32 @@ export const styles = StyleSheet.create({
         marginTop: 40,
     },
 
+    txtModalTitle: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: '#000000',
+        marginTop: 5,
+        width: '100%',
+    },
+
+    viewModal: {
+        flex: 1,
+        paddingHorizontal: 15,
+        flexDirection: 'column',
+        gap: 10,
+    },
+
+    inputName: {
+        width: '100%',
+        height: 40,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: '#e0e0de',
+        alignSelf: 'center',
+
+        fontSize: 16,
+        fontWeight: '400',
+        color: '#666666',
+    },
+
 })

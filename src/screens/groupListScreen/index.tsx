@@ -102,6 +102,8 @@ const GroupListScreen: React.FC<IProps>  = () => {
       <BottomSheetModalProvider>
         <View style={{}}>
           <BottomSheetModal
+            handleIndicatorStyle={{
+            }}
             ref={bottomSheetModalRef}
             index={1}
             snapPoints={snapPoints}

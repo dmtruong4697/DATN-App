@@ -21,7 +21,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
 
     // bottom sheet
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-    const snapPoints = useMemo(() => ['35%', '40%'], []);
+    const snapPoints = useMemo(() => ['25%', '30%'], []);
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
     }, []);
@@ -42,7 +42,6 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
         />,
         []
     );
-    
   
   return (
     <View style={styles.viewContainer}>
@@ -93,9 +92,27 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
             snapPoints={snapPoints}
             onChange={handleSheetChanges}
             backdropComponent={renderBackdrop}
+            handleIndicatorStyle={{
+              backgroundColor: 'transparent',
+            }}
           >
-            <BottomSheetView style={{flex: 1}}>
-                <Text>text</Text>
+            <BottomSheetView style={styles.viewModal}>
+                <Text style={styles.txtModalTitle}>Create a new list</Text>
+                <TextInput
+                  style={styles.inputName}
+                  placeholder='New List'
+                />
+              <Button
+                containerStyle={{
+                  alignSelf: 'center',
+                  height: 45,
+                  borderRadius: 1000,
+                }}
+                content='SAVE'
+                onPress={() => {
+
+                }}
+              />
             </BottomSheetView>
           </BottomSheetModal>
         </View>
