@@ -4,7 +4,7 @@ import { colors } from "../../constants/colors";
 export const styles = StyleSheet.create({
     viewContainer: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        // backgroundColor: '#FFFFFF',
     },
 
     viewHeader: {
@@ -44,8 +44,8 @@ export const styles = StyleSheet.create({
     },
 
     viewList: {
-        // flex: 1,
-        padding: 10,
+        flex: 1,
+        // padding: 10,
     },
 
     btnAdd: {

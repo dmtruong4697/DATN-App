@@ -9,6 +9,11 @@ import { RealmContext } from '../../realm/models';
 import { getAllWallet } from '../../realm/services/wallets';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import Button from '../../components/button';
+import { Realm } from "realm";
+import { CurrencyUnitData } from '../../constants/currencyUnit';
+import { addShoppingList, getAllShoppingList } from '../../realm/services/shoppingList';
+import ShoppingListCard from '../../components/shoppingListCard';
+
 
 interface IProps {}
 
@@ -42,6 +47,30 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
         />,
         []
     );
+
+    const [name, setName] = useState('');
+    const [createAt, setCreateAt] = React.useState(new Date().toISOString().slice(0, 10));
+    const [newId, setNewId] = useState(new Realm.BSON.ObjectId());
+    const handleAddShoppingList = () => {
+      const newList = {
+        _id: newId,
+        name: name,
+        createAt: createAt,
+        currencyUnit: CurrencyUnitData[1].code,
+        note: '',
+      };
+  
+      addShoppingList(realm, newList)
+      navigation.navigate('ShoppingListDetail', {_id: newId});
+    }
+
+    let lists = getAllShoppingList(realm);
+
+    const isFocus = useIsFocused();
+    useEffect(() => {
+      handleCloseModal();
+      lists = getAllShoppingList(realm);
+    },[isFocus])
   
   return (
     <View style={styles.viewContainer}>
@@ -64,15 +93,28 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
         </TouchableOpacity>
       </View>
 
-      {/* <View style={styles.viewList}>
-
-      </View> */}
-
-      <View style={styles.viewGroup}>
-        <Image style={styles.imgShopping} source={require('../../../assets/illustration/shoppingListScreen/add-to-cart.png')}/>
-        <Text style={styles.txtEmptyTitle}>Let's plan your shopping!</Text>
-        <Text style={styles.txtDescription}>Tap the plus button to create your first list</Text>
+      <View style={styles.viewList}>
+        <FlatList
+          data={lists}
+          keyExtractor={item => item._id.toString()}
+          renderItem={({item}) => (
+            <ShoppingListCard
+              _id={item._id}
+            />
+          )}
+          contentContainerStyle={{width: '100%', height: '100%', padding: 15, gap: 10, }}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
+
+      {
+        (lists.length == 0) &&
+        <View style={styles.viewGroup}>
+          <Image style={styles.imgShopping} source={require('../../../assets/illustration/shoppingListScreen/add-to-cart.png')}/>
+          <Text style={styles.txtEmptyTitle}>Let's plan your shopping!</Text>
+          <Text style={styles.txtDescription}>Tap the plus button to create your first list</Text>
+        </View>
+      }
 
       <TouchableOpacity
         style={styles.btnAdd}
@@ -101,6 +143,8 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
                 <TextInput
                   style={styles.inputName}
                   placeholder='New List'
+                  value={name}
+                  onChangeText={(text) => {setName(text)}}
                 />
               <Button
                 containerStyle={{
@@ -110,7 +154,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
                 }}
                 content='SAVE'
                 onPress={() => {
-
+                  handleAddShoppingList();
                 }}
               />
             </BottomSheetView>

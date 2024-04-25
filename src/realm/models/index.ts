@@ -5,6 +5,8 @@ import { Wallet } from "./Wallet";
 import { Budget } from "./Budget";
 import { Saving } from "./Saving";
 import { Loan } from "./Loan";
+import { ShoppingList } from "./ShoppingList";
+import { ShoppingListItem } from "./ShoppingListItem";
 
 export const RealmContext = createRealmContext({
     schema: [
@@ -14,5 +16,7 @@ export const RealmContext = createRealmContext({
         Budget,
         Saving,
         Loan,
+        ShoppingList,
+        ShoppingListItem,
     ],
 })

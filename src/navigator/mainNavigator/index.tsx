@@ -31,6 +31,7 @@ import GroupDetailScreen from "../../screens/groupDetailScreen";
 import AddGroupScreen from "../../screens/addGroupScreen";
 import PersonalTaxScreen from "../../screens/personalTaxScreen";
 import ShoppingListScreen from "../../screens/shoppingListScreen";
+import ShoppingListDetailScreen from "../../screens/shoppingListDetailScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -108,6 +109,10 @@ export type RootStackParamList = {
     PersonalTax: {};
 
     ShoppingList: {};
+
+    ShoppingListDetail: {
+        _id: Realm.BSON.ObjectId,
+    }
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -351,6 +356,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="ShoppingList"
             component={ShoppingListScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="ShoppingListDetail"
+            component={ShoppingListDetailScreen}
             options={{
                 headerShown: false,
             }}

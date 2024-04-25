@@ -6,6 +6,7 @@ import { Transaction } from "../../models/Transaction";
 import { Realm } from "realm";
 import { getAllTransaction, getTransactionByWalletId } from "../transactions";
 import { ShoppingList } from "../../models/ShoppingList";
+import { ShoppingListItem } from "../../models/ShoppingListItem";
 
 type ShoppingListItemType = {
     _id: Realm.BSON.ObjectId;
@@ -27,7 +28,7 @@ type ShoppingListType = {
     currencyUnit: string;
 }
 
-export function getShoppingList(
+export function getAllShoppingList(
     realm: Realm,
 ) {
     const lists = realm.objects<ShoppingList>('ShoppingList');
@@ -64,19 +65,43 @@ export function updateShoppingListById(
     })
 };
 
-export function deleteShoppingListById(
+// export function deleteShoppingListById(
+//     realm: Realm,
+//     _id: Realm.BSON.ObjectId,
+// ) {
+//     const list = realm.objectForPrimaryKey<ShoppingList>('ShoppingList', _id);
+
+//     // const items = getTransactionByWalletId(realm, _id);
+
+//     realm.write(() => {
+//         realm.delete(items);
+//     })
+
+//     realm.write(() => {
+//         realm.delete(list);
+//     })
+// };
+
+export function getShoppingListProgress(
     realm: Realm,
     _id: Realm.BSON.ObjectId,
 ) {
     const list = realm.objectForPrimaryKey<ShoppingList>('ShoppingList', _id);
+    const items = realm.objects<ShoppingListItem>('ShoppingListItem').
+    filtered('_id = $0', _id);
 
-    // const items = getTransactionByWalletId(realm, _id);
+    const doneItems = realm.objects<ShoppingListItem>('ShoppingListItem').
+    filtered('_id = $0 AND isDone = true', _id);
 
-    realm.write(() => {
-        realm.delete(items);
-    })
+    if(items.length == 0) return {
+        percent: 0,
+        total: items.length,
+        done: doneItems.length,
+    }
 
-    realm.write(() => {
-        realm.delete(list);
-    })
+    return {
+        percent: (doneItems.length)/(items.length),
+        total: items.length,
+        done: doneItems.length,
+    };
 };
