@@ -9,9 +9,10 @@ import { getShoppingListById, getShoppingListProgress } from '../../realm/servic
 
 interface IProps {
     _id: Realm.BSON.ObjectId,
+    onPressOption: () => void,
 }
 
-const ShoppingListCard: React.FC<IProps>  = ({_id}) => {
+const ShoppingListCard: React.FC<IProps>  = ({_id, onPressOption}) => {
 
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
@@ -28,11 +29,15 @@ const ShoppingListCard: React.FC<IProps>  = ({_id}) => {
   return (
     <TouchableOpacity
         style={styles.viewContainer}
+        onPress={() => {
+          navigation.navigate('ShoppingListDetail', {_id: _id});
+        }}
     >
       <View style={styles.viewName}>
         <Text style={styles.txtName}>{list!.name}</Text>
         <TouchableOpacity
           style={styles.btnOption}
+          onPress={onPressOption}
         >
           <Image style={styles.btnOption} source={require('../../../assets/icon/shoppingListCard/option.png')}/>
         </TouchableOpacity>

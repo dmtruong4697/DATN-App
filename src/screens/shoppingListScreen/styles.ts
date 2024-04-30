@@ -123,4 +123,24 @@ export const styles = StyleSheet.create({
         color: '#666666',
     },
 
+    btnOption: {
+        width: '100%',
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    imgOptionIcon: {
+        width: 24,
+        height: 24,
+        marginRight: 10,
+    },
+
+    txtOptionButton: {
+        flex: 1,
+        fontSize: 15,
+        fontWeight: '500',
+        color: '#111111',
+    },
+
 })

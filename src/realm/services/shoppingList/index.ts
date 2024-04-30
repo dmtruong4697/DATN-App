@@ -65,22 +65,45 @@ export function updateShoppingListById(
     })
 };
 
-// export function deleteShoppingListById(
-//     realm: Realm,
-//     _id: Realm.BSON.ObjectId,
-// ) {
-//     const list = realm.objectForPrimaryKey<ShoppingList>('ShoppingList', _id);
+export function updateShoppingListNameById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+    name: string,
+) {
+    const list = realm.objectForPrimaryKey<ShoppingList>('ShoppingList', _id);
 
-//     // const items = getTransactionByWalletId(realm, _id);
+    realm.write(() => {
+        list!.name = name;
+    })
+};
 
-//     realm.write(() => {
-//         realm.delete(items);
-//     })
+export function getShoppingListItems(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+) {
+    const list = realm.objectForPrimaryKey<ShoppingList>('ShoppingList', _id);
 
-//     realm.write(() => {
-//         realm.delete(list);
-//     })
-// };
+    const allItem = realm.objects<ShoppingListItem>('ShoppingListItem');
+    const items = allItem.filtered('listId = $0', _id);
+    return items;
+};
+
+export function deleteShoppingListById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+) {
+    const list = realm.objectForPrimaryKey<ShoppingList>('ShoppingList', _id);
+
+    const items = getShoppingListItems(realm, _id);
+
+    realm.write(() => {
+        realm.delete(items);
+    })
+
+    realm.write(() => {
+        realm.delete(list);
+    })
+};
 
 export function getShoppingListProgress(
     realm: Realm,

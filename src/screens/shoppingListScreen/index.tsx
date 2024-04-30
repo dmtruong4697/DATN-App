@@ -11,8 +11,9 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheet
 import Button from '../../components/button';
 import { Realm } from "realm";
 import { CurrencyUnitData } from '../../constants/currencyUnit';
-import { addShoppingList, getAllShoppingList } from '../../realm/services/shoppingList';
+import { addShoppingList, deleteShoppingListById, getAllShoppingList, getShoppingListById, updateShoppingListNameById } from '../../realm/services/shoppingList';
 import ShoppingListCard from '../../components/shoppingListCard';
+import { colors } from '../../constants/colors';
 
 
 interface IProps {}
@@ -24,26 +25,74 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
     const {useRealm} = RealmContext;
     const realm = useRealm();
 
-    // bottom sheet
-    const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-    const snapPoints = useMemo(() => ['25%', '30%'], []);
-    const handlePresentModalPress = useCallback(() => {
-        bottomSheetModalRef.current?.present();
+    //add list bottom sheet
+    const bottomSheetAddModalRef = useRef<BottomSheetModal>(null);
+    const addSnapPoints = useMemo(() => ['25%', '30%'], []);
+    const handlePresentAddModalPress = useCallback(() => {
+        bottomSheetAddModalRef.current?.present();
     }, []);
     
-    const handleCloseModal = useCallback(() => {
-        bottomSheetModalRef.current?.close();
+    const handleCloseAddModal = useCallback(() => {
+        bottomSheetAddModalRef.current?.close();
     }, []);
     
-    const handleSheetChanges = useCallback((index: number) => {
+    const handleAddSheetChanges = useCallback((index: number) => {
         // console.log('handleSheetChanges', index);
     }, []);
     
-    const renderBackdrop = useCallback(
+    const renderAddBackdrop = useCallback(
         (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} 
         disappearsOnIndex={-1}
         appearsOnIndex={0}
-        onPress={handleCloseModal}
+        onPress={handleCloseAddModal}
+        />,
+        []
+    );
+
+    //option bottom sheet
+    const bottomSheetOptionModalRef = useRef<BottomSheetModal>(null);
+    const optionSnapPoints = useMemo(() => ['25%', '30%'], []);
+    const handlePresentOptionModalPress = useCallback(() => {
+        bottomSheetOptionModalRef.current?.present();
+    }, []);
+    
+    const handleCloseOptionModal = useCallback(() => {
+        bottomSheetOptionModalRef.current?.close();
+    }, []);
+    
+    const handleOptionSheetChanges = useCallback((index: number) => {
+        // console.log('handleSheetChanges', index);
+    }, []);
+    
+    const renderOptionBackdrop = useCallback(
+        (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} 
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        onPress={handleCloseOptionModal}
+        />,
+        []
+    );
+
+    //rename list bottom sheet
+    const bottomSheetRenameModalRef = useRef<BottomSheetModal>(null);
+    const renameSnapPoints = useMemo(() => ['25%', '35%'], []);
+    const handlePresentRenameModalPress = useCallback(() => {
+        bottomSheetRenameModalRef.current?.present();
+    }, []);
+    
+    const handleCloseRenameModal = useCallback(() => {
+        bottomSheetRenameModalRef.current?.close();
+    }, []);
+    
+    const handleRenameSheetChanges = useCallback((index: number) => {
+        // console.log('handleSheetChanges', index);
+    }, []);
+    
+    const renderRenameBackdrop = useCallback(
+        (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} 
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        onPress={handleCloseRenameModal}
         />,
         []
     );
@@ -60,17 +109,34 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
         note: '',
       };
   
-      addShoppingList(realm, newList)
+      addShoppingList(realm, newList);
+      setName('');
+      setNewId(new Realm.BSON.ObjectId());
       navigation.navigate('ShoppingListDetail', {_id: newId});
     }
 
-    let lists = getAllShoppingList(realm);
+    const [lists, setLists] = useState(getAllShoppingList(realm));
+    const [sellectedList, setSellectedList] = useState(new Realm.BSON.ObjectId);
+    const [newName, setNewName] = useState('');
 
     const isFocus = useIsFocused();
     useEffect(() => {
-      handleCloseModal();
-      lists = getAllShoppingList(realm);
+      handleCloseAddModal();
+      setLists(getAllShoppingList(realm));
     },[isFocus])
+
+    const handleDelete = () => {
+      deleteShoppingListById(realm, sellectedList);
+      setLists(getAllShoppingList(realm));
+      handleCloseOptionModal();
+      setSellectedList(new Realm.BSON.ObjectId);
+    }
+
+    const handleUpdate = () => {
+      updateShoppingListNameById(realm, sellectedList, newName);
+      handleCloseRenameModal();
+      setLists(getAllShoppingList(realm));
+    }
   
   return (
     <View style={styles.viewContainer}>
@@ -92,20 +158,28 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonAdd} source={require('../../../assets/icon/groupList/add.png')}/>
         </TouchableOpacity>
       </View>
-
-      <View style={styles.viewList}>
-        <FlatList
-          data={lists}
-          keyExtractor={item => item._id.toString()}
-          renderItem={({item}) => (
-            <ShoppingListCard
-              _id={item._id}
-            />
-          )}
-          contentContainerStyle={{width: '100%', height: '100%', padding: 15, gap: 10, }}
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
+      
+      {
+        (lists.length != 0) &&
+        <View style={styles.viewList}>
+          <FlatList
+            data={lists}
+            keyExtractor={item => item._id.toString()}
+            renderItem={({item}) => (
+              <ShoppingListCard
+                _id={item._id}
+                onPressOption={() => {
+                  setSellectedList(item._id);
+                  setNewName(item.name);
+                  handlePresentOptionModalPress();
+                }}
+              />
+            )}
+            contentContainerStyle={{width: '100%', height: '100%', padding: 15, gap: 10, }}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      }
 
       {
         (lists.length == 0) &&
@@ -119,49 +193,143 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
       <TouchableOpacity
         style={styles.btnAdd}
         onPress={() => {
-            handlePresentModalPress();
+            handlePresentAddModalPress();
         }}
       >
         <Text style={styles.txtButtonAdd}>+ NEW LIST</Text>
       </TouchableOpacity>
 
-    {/* bottom modal */}
+    {/* add list bottom modal */}
+    <BottomSheetModalProvider>
+      <View style={{}}>
+        <BottomSheetModal
+          ref={bottomSheetAddModalRef}
+          index={1}
+          snapPoints={addSnapPoints}
+          onChange={handleAddSheetChanges}
+          backdropComponent={renderAddBackdrop}
+          handleIndicatorStyle={{
+            backgroundColor: 'transparent',
+          }}
+        >
+          <BottomSheetView style={styles.viewModal}>
+              <Text style={styles.txtModalTitle}>Create a new list</Text>
+              <TextInput
+                style={styles.inputName}
+                placeholder='New List'
+                value={name}
+                onChangeText={(text) => {setName(text)}}
+              />
+            <Button
+              containerStyle={{
+                alignSelf: 'center',
+                height: 45,
+                borderRadius: 1000,
+              }}
+              content='SAVE'
+              onPress={() => {
+                handleAddShoppingList();
+              }}
+            />
+          </BottomSheetView>
+        </BottomSheetModal>
+      </View>
+    </BottomSheetModalProvider>
+
+    {/* rename bottom modal */}
+    <BottomSheetModalProvider>
+      <View style={{}}>
+        <BottomSheetModal
+          ref={bottomSheetRenameModalRef}
+          index={1}
+          snapPoints={renameSnapPoints}
+          onChange={handleRenameSheetChanges}
+          backdropComponent={renderRenameBackdrop}
+          handleIndicatorStyle={{
+            backgroundColor: 'transparent',
+          }}
+        >
+          <BottomSheetView style={styles.viewModal}>
+              <Text style={styles.txtModalTitle}>Rename list</Text>
+              <TextInput
+                style={styles.inputName}
+                // placeholder='New List'
+                value={newName}
+                onChangeText={(text) => {setNewName(text)}}
+              />
+            <Button
+              containerStyle={{
+                alignSelf: 'center',
+                height: 45,
+                borderRadius: 1000,
+              }}
+              content='SAVE'
+              onPress={() => {
+                handleUpdate();
+              }}
+            />
+            <Button
+              containerStyle={{
+                alignSelf: 'center',
+                height: 45,
+                borderRadius: 1000,
+                backgroundColor: 'transparent',
+              }}
+              contentStyle={{
+                color: '#555555',
+              }}
+              content='CANCEL'
+              onPress={() => {
+                handleCloseRenameModal();
+              }}
+            />
+          </BottomSheetView>
+        </BottomSheetModal>
+      </View>
+    </BottomSheetModalProvider>
+
+    {/* bottom option modal */}
     <BottomSheetModalProvider>
         <View style={{}}>
           <BottomSheetModal
-            ref={bottomSheetModalRef}
+            ref={bottomSheetOptionModalRef}
             index={1}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            backdropComponent={renderBackdrop}
+            snapPoints={optionSnapPoints}
+            onChange={handleOptionSheetChanges}
+            backdropComponent={renderOptionBackdrop}
             handleIndicatorStyle={{
               backgroundColor: 'transparent',
             }}
           >
             <BottomSheetView style={styles.viewModal}>
-                <Text style={styles.txtModalTitle}>Create a new list</Text>
-                <TextInput
-                  style={styles.inputName}
-                  placeholder='New List'
-                  value={name}
-                  onChangeText={(text) => {setName(text)}}
-                />
-              <Button
-                containerStyle={{
-                  alignSelf: 'center',
-                  height: 45,
-                  borderRadius: 1000,
-                }}
-                content='SAVE'
+              <Text style={styles.txtModalTitle}>Manage List</Text>
+              {/* rename */}
+              <TouchableOpacity
+                style={styles.btnOption}
                 onPress={() => {
-                  handleAddShoppingList();
+                  handleCloseOptionModal();
+                  handlePresentRenameModalPress();
                 }}
-              />
+              >
+                <Image style={styles.imgOptionIcon} source={require('../../../assets/icon/shoppingListScreen/edit.png')}/>
+                <Text style={styles.txtOptionButton}>Rename</Text>
+              </TouchableOpacity>
+
+              {/* delete */}
+              <TouchableOpacity
+                style={styles.btnOption}
+                onPress={() => {
+                  handleDelete();
+                }}
+              >
+                <Image style={[styles.imgOptionIcon]} source={require('../../../assets/icon/shoppingListScreen/delete.png')}/>
+                <Text style={[styles.txtOptionButton, {color: '#CD3131'}]}>Delete</Text>
+              </TouchableOpacity>
+
             </BottomSheetView>
           </BottomSheetModal>
         </View>
       </BottomSheetModalProvider>
-    
 
     </View>
   )
