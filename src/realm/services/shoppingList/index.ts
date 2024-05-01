@@ -77,6 +77,15 @@ export function updateShoppingListNameById(
     })
 };
 
+export function addShoppingListItem(
+    realm: Realm, 
+    item: ShoppingListItemType
+) {
+    realm.write(() => {
+      realm.create('ShoppingListItem', item);
+    });
+};
+
 export function getShoppingListItems(
     realm: Realm,
     _id: Realm.BSON.ObjectId,
@@ -86,6 +95,59 @@ export function getShoppingListItems(
     const allItem = realm.objects<ShoppingListItem>('ShoppingListItem');
     const items = allItem.filtered('listId = $0', _id);
     return items;
+};
+
+export function getShoppingListItemById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+) {
+    const item = realm.objectForPrimaryKey<ShoppingListItem>('ShoppingListItem', _id);
+    return item;
+};
+
+// export function updateShoppingListItem(
+//     realm: Realm,
+//     _id: Realm.BSON.ObjectId,
+//     updatedItem: ShoppingListItemType,
+// ) {
+//     const item = realm.objectForPrimaryKey<ShoppingListItem>('ShoppingListItem', _id);
+
+//     realm.write(() => {
+//         item!.name = updatedItem.name;
+//         item!.isDone = updatedItem.isDone;
+//         item!.note = updatedItem.note;
+//         item!.quantity = updatedItem.quantity;
+//         item!.price = updatedItem.price;
+//         item!.unit = updatedItem.unit;
+//         item!.iconUrl = updatedItem.iconUrl;
+//     })
+
+//     return item;
+// };
+
+export function setIsDoneShoppingListItem(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+    isDone: boolean,
+) {
+    const item = realm.objectForPrimaryKey<ShoppingListItem>('ShoppingListItem', _id);
+
+    realm.write(() => {
+        item!.isDone = isDone;
+    })
+
+    return item;
+};
+
+export function deleteShoppingListItemById(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+) {
+    const item = realm.objectForPrimaryKey<ShoppingListItem>('ShoppingListItem', _id);
+
+    realm.write(() => {
+        realm.delete(item);
+    })
 };
 
 export function deleteShoppingListById(
@@ -111,10 +173,10 @@ export function getShoppingListProgress(
 ) {
     const list = realm.objectForPrimaryKey<ShoppingList>('ShoppingList', _id);
     const items = realm.objects<ShoppingListItem>('ShoppingListItem').
-    filtered('_id = $0', _id);
+    filtered('listId = $0', _id);
 
     const doneItems = realm.objects<ShoppingListItem>('ShoppingListItem').
-    filtered('_id = $0 AND isDone = true', _id);
+    filtered('listId = $0 AND isDone = true', _id);
 
     if(items.length == 0) return {
         percent: 0,

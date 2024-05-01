@@ -112,4 +112,8 @@ export const styles = StyleSheet.create({
         fontWeight: '400',
         color: '#666666',
     },
+
+    viewList: {
+
+    },
 })

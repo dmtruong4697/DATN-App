@@ -6,9 +6,10 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RealmContext } from '../../realm/models';
 import { Realm } from "realm";
 import { RootStackParamList } from '../../navigator/mainNavigator';
-import { getShoppingListById, getShoppingListItems } from '../../realm/services/shoppingList';
+import { addShoppingListItem, getShoppingListById, getShoppingListItems } from '../../realm/services/shoppingList';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import Button from '../../components/button';
+import ShoppingListItemCard from '../../components/shoppingListItemCard';
 
 
 interface IProps {}
@@ -57,6 +58,25 @@ const ShoppingListDetailScreen: React.FC<IProps>  = () => {
     },[isFocus])
 
     const [name, setName] = useState('');
+    const [createAt, setCreateAt] = React.useState(new Date().toISOString().slice(0, 10));
+    const handleAddShoppingListItem = () => {
+      const newItem = {
+        _id: new Realm.BSON.ObjectId,
+        name: name,
+        createAt: createAt,
+        note: '',
+        quantity: 0,
+        unit: '',
+        price: 0,
+        iconUrl: '',
+        isDone: false,
+        listId: _id,
+      };
+  
+      addShoppingListItem(realm, newItem);
+      setName('');
+      setItems(getShoppingListItems(realm, _id));
+    }
   
   return (
     <View style={styles.viewContainer}>
@@ -87,6 +107,23 @@ const ShoppingListDetailScreen: React.FC<IProps>  = () => {
       >
         <Text style={styles.txtButtonAdd}>+ ADD</Text>
       </TouchableOpacity>
+
+      {
+        (items.length != 0) &&
+        <View style={styles.viewList}>
+          <FlatList
+            data={items}
+            keyExtractor={item => item._id.toString()}
+            renderItem={({item}) => (
+              <ShoppingListItemCard
+                _id={item._id}
+              />
+            )}
+            contentContainerStyle={{width: '100%', padding: 15, gap: 10, }}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      }
 
       {
         (items.length == 0) &&
@@ -126,7 +163,8 @@ const ShoppingListDetailScreen: React.FC<IProps>  = () => {
                 }}
                 content='SAVE'
                 onPress={() => {
-                  // handleAddShoppingList();
+                  handleAddShoppingListItem();
+                  handleCloseAddModal();
                 }}
               />
             </BottomSheetView>

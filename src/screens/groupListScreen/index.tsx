@@ -94,7 +94,7 @@ const GroupListScreen: React.FC<IProps>  = () => {
 
             />
           )}
-          // contentContainerStyle={{width: layout.width-18, gap: 5,}}
+          contentContainerStyle={{width: '100%', height: '100%', padding: 5, gap: 5,}}
         />
       </View>
 
