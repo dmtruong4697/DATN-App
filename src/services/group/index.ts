@@ -109,7 +109,7 @@ export async function getGroupTransactions(groupId: string): Promise<any> {
       }
     );
   const result = responce.data.transactions;
-  // console.log(result)
+  // console.log(responce.status)
     return result;
   } catch (error) {
     console.log(error);

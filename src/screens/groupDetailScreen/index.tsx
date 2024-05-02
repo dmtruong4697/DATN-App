@@ -12,6 +12,7 @@ import { getUserInfo } from '../../services/user';
 import Clipboard from '@react-native-clipboard/clipboard';
 import TransactionCard from '../../components/transactionCard';
 import { Realm } from "realm";
+import GroupTransactionCard from '../../components/groupTransactionCard';
 
 interface IProps {}
 
@@ -39,9 +40,10 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
     setTransactions(transaction);
   }
 
+  const isFocus = useIsFocused();
   useEffect(() => {
     fetchGroupInfo();
-  },[])
+  },[isFocus])
 
   const showToast = () => {
     ToastAndroid.showWithGravityAndOffset(
@@ -69,7 +71,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
           style={styles.btnBack}
           onPress={() => {
             // navigation.navigate('EditLoan', {_id: _id})
-            // console.log(groupDetail);
+            console.log(groupDetail);
           }}
         >
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/>
@@ -94,7 +96,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
 
         <View style={styles.viewMember}>
 
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <FlatList
               data={groupDetail.memberIds}
               keyExtractor={item => item.toString()}
@@ -105,7 +107,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
               )}
               // contentContainerStyle={{width: layout.width-18, gap: 5,}}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <Text style={styles.txtOwnerText}>Invite Code: </Text>
           <TouchableOpacity
@@ -146,16 +148,16 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
           keyExtractor={item => item.toString()}
           scrollEnabled={false}
           renderItem={({item}) => (
-            <TransactionCard
+            <GroupTransactionCard
               _id={item._id}
               createAt={item.createAt}
-              income={false}
+              groupId={item.groupId}
+              imageUrl={item.imageUrl}
               name={item.name}
               note={item.note}
               total={item.total}
-              transactionTypeId={new Realm.BSON.ObjectId}
-              imageUrl=''
-              walletId={new Realm.BSON.ObjectId}
+              unit={groupDetail.currencyUnit}
+              userId={item.userId}
             />
           )}
           // contentContainerStyle={{width: layout.width-18, gap: 5,}}

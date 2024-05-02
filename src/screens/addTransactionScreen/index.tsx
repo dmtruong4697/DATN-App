@@ -267,7 +267,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     }, []);
   
     const handleCloseNoteModal = useCallback(() => {
-      walletBottomSheetModalRef.current?.close();
+      noteBottomSheetModalRef.current?.close();
     }, []);
   
     const handleNoteSheetChanges = useCallback((index: number) => {
