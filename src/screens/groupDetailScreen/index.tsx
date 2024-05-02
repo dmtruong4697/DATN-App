@@ -7,9 +7,11 @@ import { RootStackParamList } from '../../navigator/mainNavigator';
 import { RealmContext } from '../../realm/models';
 import { getWalletById } from '../../realm/services/wallets';
 import { deleteLoanById, getLoanById } from '../../realm/services/loan';
-import { getGroupDetail } from '../../services/group';
+import { getGroupDetail, getGroupTransactions } from '../../services/group';
 import { getUserInfo } from '../../services/user';
 import Clipboard from '@react-native-clipboard/clipboard';
+import TransactionCard from '../../components/transactionCard';
+import { Realm } from "realm";
 
 interface IProps {}
 
@@ -24,14 +26,17 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
 
   const [groupDetail, setGroupDetail] = useState<any>({});
   const [ownerDetail, setOwnerDetail] = useState<any>({});
+  const [transactions, setTransactions] = useState<any>([]);
   // const [ownerDetail, setOwnerDetail] = useState<any>();
 
   const fetchGroupInfo = async() => {
     const group = await getGroupDetail(_id);
     const owner = await getUserInfo(group.groupOwnerId);
+    const transaction = await getGroupTransactions(_id);
     // console.log(owner)
     setOwnerDetail(owner);
     setGroupDetail(group);
+    setTransactions(transaction);
   }
 
   useEffect(() => {
@@ -79,6 +84,9 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
           <Text style={styles.txtOwnerText}>Total: </Text>
           <TouchableOpacity
             style={styles.btnAddTransaction}
+            onPress={() => {
+              navigation.navigate('AddGroupTransaction', {_id: _id});
+            }}
           >
             <Text style={styles.txtButton}>Add Transaction</Text>
           </TouchableOpacity>
@@ -132,6 +140,26 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
             <Text style={styles.txtSeeAll}>See all</Text>
           </TouchableOpacity>
         </View>
+
+        <FlatList
+          data={transactions}
+          keyExtractor={item => item.toString()}
+          scrollEnabled={false}
+          renderItem={({item}) => (
+            <TransactionCard
+              _id={item._id}
+              createAt={item.createAt}
+              income={false}
+              name={item.name}
+              note={item.note}
+              total={item.total}
+              transactionTypeId={new Realm.BSON.ObjectId}
+              imageUrl=''
+              walletId={new Realm.BSON.ObjectId}
+            />
+          )}
+          // contentContainerStyle={{width: layout.width-18, gap: 5,}}
+        />
 
       </View>
     </ScrollView>

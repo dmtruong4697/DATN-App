@@ -53,7 +53,7 @@ export async function getGroupList(): Promise<any> {
 }
 
 export async function getGroupDetail(
-  groupId: String,
+  groupId: string,
 ): Promise<any> {
   try {
     const responce = await axios.post(API + '/get-group',
@@ -87,7 +87,7 @@ export async function getGroupMember(groupId: string): Promise<any> {
           }
       }
     );
-  const result = responce.data;
+  const result = responce.data.users;
   // console.log(result)
     return result;
   } catch (error) {
@@ -108,7 +108,7 @@ export async function getGroupTransactions(groupId: string): Promise<any> {
           }
       }
     );
-  const result = responce.data;
+  const result = responce.data.transactions;
   // console.log(result)
     return result;
   } catch (error) {
