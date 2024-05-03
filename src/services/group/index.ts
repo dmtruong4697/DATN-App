@@ -123,7 +123,7 @@ export async function joinGroup(
   inviteCode: string,
 ): Promise<any> {
   try {
-    const responce = await axios.post(API + '/group-transactions',
+    const responce = await axios.post(API + '/join-group-by-id',
       {
         inviteCode: inviteCode,
       },
@@ -134,7 +134,7 @@ export async function joinGroup(
       }
     );
 
-    if (responce.status == 201) {
+    if (responce.status == 200) {
       navigation.navigate('GroupDetail', {_id: responce.data.group._id})
       return responce.data.group;
     }
@@ -142,7 +142,14 @@ export async function joinGroup(
   // console.log(result)
     // return result;
   } catch (error) {
-    console.log(error);
-      throw error;
+    if (axios.isAxiosError(error)) {
+      console.error("Error message:", error.message);
+      if (error.response) {
+        console.error("Error details:", error.response.data);
+      }    
+      console.log(inviteCode)
+    } else {
+        console.error("Unhandled error:", error);
+      }
   }
 }
