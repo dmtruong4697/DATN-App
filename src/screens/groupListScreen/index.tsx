@@ -4,7 +4,7 @@ import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import GroupCard from '../../components/groupCard';
-import { getGroupList } from '../../services/group';
+import { getGroupList, joinGroup } from '../../services/group';
 import { RealmContext } from '../../realm/models';
 import { getAllWallet } from '../../realm/services/wallets';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
@@ -53,7 +53,10 @@ const GroupListScreen: React.FC<IProps>  = () => {
       []
     );
 
-    const [code, setCode] = useState<any>('');
+    const [inviteCode, setCode] = useState<any>('');
+    const handleJoinGroup = async() => {
+      await joinGroup(navigation, inviteCode);
+    }
   
   return (
     <View style={styles.viewContainer}>
@@ -130,9 +133,9 @@ const GroupListScreen: React.FC<IProps>  = () => {
 
               <TextInput 
                 style={styles.inputCode}
-                inputMode='numeric'
+                // inputMode='numeric'
                 placeholder='Enter Code'
-                value={code}
+                value={inviteCode}
                 onChangeText={(text) => {
                   setCode(text);
                 }}
@@ -147,7 +150,7 @@ const GroupListScreen: React.FC<IProps>  = () => {
                 }}
                 content='Join Group'
                 onPress={() => {
-
+                  handleJoinGroup();
                 }}
               />
             </BottomSheetView>

@@ -22,6 +22,7 @@ export async function login(
                 id: responce.data.id,
                 userName: responce.data.userName,
                 email: responce.data.email,
+                avatarImage: responce.data.avatarImage,
                 token: responce.data.token,
                 deviceToken: deviceToken,
             }

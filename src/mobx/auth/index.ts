@@ -6,6 +6,7 @@ export type User = {
     id: Object | null,
     userName: string | null,
     email: string | null,
+    avatarImage: string | null,
     token: string | null,
     deviceToken: string | null,
 }
@@ -14,6 +15,7 @@ class store {
         id: null,
         userName: null,
         email: null,
+        avatarImage: null,
         token: null,
         deviceToken: null,
     }
@@ -43,6 +45,7 @@ class store {
             id: null,
             userName: null,
             email: null,
+            avatarImage: null,
             token: null,
             deviceToken: null,
         };

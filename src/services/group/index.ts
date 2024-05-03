@@ -21,6 +21,7 @@ export async function createGroup(
           }
         }
       )
+      // console.log(responce.data)
       if (responce.status == 201) {
         navigation.navigate('GroupDetail', {_id: responce.data.group._id})
         return responce.data.group;
@@ -117,7 +118,10 @@ export async function getGroupTransactions(groupId: string): Promise<any> {
   }
 }
 
-export async function joinGroup(inviteCode: string): Promise<any> {
+export async function joinGroup(
+  navigation: NavigationProp<any, any>,
+  inviteCode: string,
+): Promise<any> {
   try {
     const responce = await axios.post(API + '/group-transactions',
       {
@@ -129,9 +133,14 @@ export async function joinGroup(inviteCode: string): Promise<any> {
           }
       }
     );
-  const result = responce.data.message;
+
+    if (responce.status == 201) {
+      navigation.navigate('GroupDetail', {_id: responce.data.group._id})
+      return responce.data.group;
+    }
+  // const result = responce.data.message;
   // console.log(result)
-    return result;
+    // return result;
   } catch (error) {
     console.log(error);
       throw error;
