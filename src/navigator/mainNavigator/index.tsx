@@ -33,6 +33,7 @@ import PersonalTaxScreen from "../../screens/personalTaxScreen";
 import ShoppingListScreen from "../../screens/shoppingListScreen";
 import ShoppingListDetailScreen from "../../screens/shoppingListDetailScreen";
 import AddGroupTransactionScreen from "../../screens/addGroupTransactionScreen";
+import SplitMoneyScreen from "../../screens/splitMoneyScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -116,6 +117,10 @@ export type RootStackParamList = {
     };
 
     AddGroupTransaction: {
+        _id: string,
+    };
+
+    SplitMoney: {
         _id: string,
     };
 };
@@ -377,6 +382,13 @@ const MainNavigator = () => {
         <Stack.Screen
             name="AddGroupTransaction"
             component={AddGroupTransactionScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+        <Stack.Screen
+            name="SplitMoney"
+            component={SplitMoneyScreen}
             options={{
                 headerShown: false,
             }}

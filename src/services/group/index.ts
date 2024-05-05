@@ -153,3 +153,45 @@ export async function joinGroup(
       }
   }
 }
+
+export async function getGroupTotal(groupId: string): Promise<any> {
+  try {
+    const responce = await axios.post(API + '/group-total',
+      {
+        groupId: groupId,
+      },
+      {
+          headers: {
+              Authorization: UserStore.user.token,
+          }
+      }
+    );
+  const result = responce.data.total;
+  // console.log(responce.status)
+    return result;
+  } catch (error) {
+    console.log(error);
+      throw error;
+  }
+}
+
+export async function splitMoney(groupId: string): Promise<any> {
+  try {
+    const responce = await axios.post(API + '/split-money',
+      {
+        groupId: groupId,
+      },
+      {
+          headers: {
+              Authorization: UserStore.user.token,
+          }
+      }
+    );
+  const result = responce.data.membersDetails;
+  // console.log(responce.status)
+    return result;
+  } catch (error) {
+    console.log(error);
+      throw error;
+  }
+}

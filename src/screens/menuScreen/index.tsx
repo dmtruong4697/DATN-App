@@ -59,13 +59,14 @@ const MenuScreen: React.FC<IProps>  = () => {
 
         {/* user info */}
         <View style={styles.viewInfo}>
-          <Image style={styles.imgAvatar} source={{uri: ''}}/>
+          <Image style={styles.imgAvatar} source={{uri: UserStore.user.avatarImage}}/>
           <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 27,}}>
             <Text style={styles.txtName}>{UserStore.user.userName}</Text>
             <TouchableOpacity
               style={styles.btnEdit}
               onPress={() => {
                 navigation.navigate('EditProfile');
+                // console.log(UserStore.user)
               }}
             >
               <Image style={styles.imgEdit} source={require('../../../assets/icon/menu/edit.png')}/>

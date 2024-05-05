@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
     },
 
     txtTotal: {
-        fontSize: 30,
+        fontSize: 24,
         fontWeight: '400',
     },
 

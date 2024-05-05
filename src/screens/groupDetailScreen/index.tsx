@@ -7,7 +7,7 @@ import { RootStackParamList } from '../../navigator/mainNavigator';
 import { RealmContext } from '../../realm/models';
 import { getWalletById } from '../../realm/services/wallets';
 import { deleteLoanById, getLoanById } from '../../realm/services/loan';
-import { getGroupDetail, getGroupTransactions } from '../../services/group';
+import { getGroupDetail, getGroupTotal, getGroupTransactions, splitMoney } from '../../services/group';
 import { getUserInfo } from '../../services/user';
 import Clipboard from '@react-native-clipboard/clipboard';
 import TransactionCard from '../../components/transactionCard';
@@ -25,19 +25,27 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'GroupDetail'>>();
   const {_id} = route.params;
 
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'VND',
+  });
+
   const [groupDetail, setGroupDetail] = useState<any>({});
   const [ownerDetail, setOwnerDetail] = useState<any>({});
   const [transactions, setTransactions] = useState<any>([]);
+  const [total, setTotal] = useState(0);
   // const [ownerDetail, setOwnerDetail] = useState<any>();
 
   const fetchGroupInfo = async() => {
     const group = await getGroupDetail(_id);
     const owner = await getUserInfo(group.groupOwnerId);
     const transaction = await getGroupTransactions(_id);
+    const tot = await getGroupTotal(_id);
     // console.log(owner)
     setOwnerDetail(owner);
     setGroupDetail(group);
     setTransactions(transaction);
+    setTotal(tot);
   }
 
   const isFocus = useIsFocused();
@@ -54,6 +62,11 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
       50,
     );
   };
+
+  const handleSplitMoney = async() => {
+    const data = await splitMoney(_id);
+    console.log(data);
+  }
   
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>
@@ -84,6 +97,8 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
 
         <View style={styles.viewMember}>
           <Text style={styles.txtOwnerText}>Total: </Text>
+          <Text style={styles.txtTotal}>{formatter.format(total)}</Text>
+          <Text style={styles.txtOwnerText}>{transactions.length} transactions</Text>
           <TouchableOpacity
             style={styles.btnAddTransaction}
             onPress={() => {
@@ -96,7 +111,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
 
         <View style={styles.viewMember}>
 
-          {/* <TouchableOpacity>
+          <TouchableOpacity>
             <FlatList
               data={groupDetail.memberIds}
               keyExtractor={item => item.toString()}
@@ -107,7 +122,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
               )}
               // contentContainerStyle={{width: layout.width-18, gap: 5,}}
             />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
 
           <Text style={styles.txtOwnerText}>Invite Code: </Text>
           <TouchableOpacity
@@ -122,6 +137,10 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
 
           <TouchableOpacity
             style={styles.btnAddTransaction}
+            onPress={() => {
+              // handleSplitMoney();
+              navigation.navigate('SplitMoney', {_id: _id})
+            }}
           >
             <Text style={styles.txtButton}>Split Money</Text>
           </TouchableOpacity>
