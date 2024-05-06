@@ -37,4 +37,50 @@ export const styles = StyleSheet.create({
         marginTop: 5,
     },
 
+    viewGroup1: {
+        width: '100%',
+        flexDirection: 'column',
+        gap: 1,
+        marginBottom: 10,
+    },
+
+    viewInputContainer: {
+        width: '100%',
+        flexDirection: 'column',
+        padding: 10,
+        backgroundColor: '#FFFFFF',
+    },
+
+    txtInputTitle: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#707070',
+    },
+
+    inputField: {
+        color: colors.PrimaryColor,
+        fontSize: 30,
+        fontWeight: '600',
+
+        textAlign: 'right',
+        width: '100%',
+    },
+
+    viewInput2Container: {
+        width: '100%',
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+    },
+
+    input2Field: {
+        flex: 1,
+        color: '#111111',
+        fontSize: 18,
+        fontWeight: '500',
+
+        textAlign: 'right',
+    },
+
 })
