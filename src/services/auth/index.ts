@@ -27,17 +27,22 @@ export async function login(
                 deviceToken: deviceToken,
             }
 
+            const message = 'Login success';
+
             UserStore.setCurrentUser(user);
             console.log(responce.data);
             UserStore.setIsLoading(false);
             navigation.navigate('Home');
+            return message;
         } else {
             console.log(responce.status);
         }
     } catch (error) {
       console.log(error);
+      const message = error.responce.data.message;
       UserStore.setIsLoading(false);
         throw error;
+        return message;
     }
 }
 

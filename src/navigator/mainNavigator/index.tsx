@@ -34,6 +34,7 @@ import ShoppingListScreen from "../../screens/shoppingListScreen";
 import ShoppingListDetailScreen from "../../screens/shoppingListDetailScreen";
 import AddGroupTransactionScreen from "../../screens/addGroupTransactionScreen";
 import SplitMoneyScreen from "../../screens/splitMoneyScreen";
+import TaxResultScreen from "../../screens/taxResultScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -123,6 +124,10 @@ export type RootStackParamList = {
     SplitMoney: {
         _id: string,
     };
+
+    TaxResult: {
+        result: Object,
+    }
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -389,6 +394,13 @@ const MainNavigator = () => {
         <Stack.Screen
             name="SplitMoney"
             component={SplitMoneyScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+        <Stack.Screen
+            name="TaxResult"
+            component={TaxResultScreen}
             options={{
                 headerShown: false,
             }}

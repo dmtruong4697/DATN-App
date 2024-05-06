@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, Modal, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
 import React, { FC, useState } from 'react'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { styles } from './styles'
@@ -22,10 +22,30 @@ type User = {
 const SignInScreen: FC = () => {
 
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState('');
+
+    const showToast = () => {
+        ToastAndroid.showWithGravityAndOffset(
+          message,
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50,
+        );
+    };
+
+    const handleLogin = async() => {
+        await login(navigation, email, password, UserStore.deviceToken)
+            .then((message) => {
+                setMessage(message);
+                showToast();
+            });
+    }
 
   return (
     <View style={styles.container}>
@@ -99,7 +119,8 @@ const SignInScreen: FC = () => {
             onPress={() => {
                 // fetchSignIn();
                 // navigation.navigate('Home');
-                login(navigation, email, password, UserStore.deviceToken);
+                // login(navigation, email, password, UserStore.deviceToken);
+                handleLogin();
             }}
         >
             <Text style={{fontSize: 16, fontWeight: '700', color: '#FFFFFF'}}

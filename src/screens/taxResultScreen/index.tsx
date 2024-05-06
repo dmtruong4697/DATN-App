@@ -1,16 +1,19 @@
 import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions } from 'react-native'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
-import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
+import { ParamListBase, RouteProp, useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { calculateTax } from '../../services/personalTax';
+import { RootStackParamList } from '../../navigator/mainNavigator';
 
 interface IProps {}
 
-const PersonalTaxScreen: React.FC<IProps>  = () => {
+const TaxResultScreen: React.FC<IProps>  = () => {
 
     const layout = useWindowDimensions();
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+    const route = useRoute<RouteProp<RootStackParamList, 'TaxResult'>>();
+    const {result} = route.params;
 
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -21,19 +24,7 @@ const PersonalTaxScreen: React.FC<IProps>  = () => {
     const [bh, setBh] = useState(0);
     const [zone, setZone] = useState('Zone 1');
     const [snpt, setSnpt] = useState(0);
-
-    const handleRefresh = () => {
-      setTn(0);
-      setBh(0);
-      setZone('Zone 1');
-      setSnpt(0);
-    }
-
-    const handleCalculate = () => {
-      const result = calculateTax(tn, bh, snpt, zone);
-      navigation.navigate('TaxResult', {result: result});
-    }
-
+    
   return (
     <View style={styles.viewContainer}>
       <View style={styles.viewHeader}>
@@ -44,15 +35,15 @@ const PersonalTaxScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Personal Tax</Text>
+        <Text style={styles.txtTitle}>Result</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
           onPress={() => {
-            handleRefresh();
+
           }}
         >
-          <Image style={styles.imgButtonBack} source={require('../../../assets/icon/personalTaxScreen/refresh.png')}/>
+          {/* <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/> */}
         </TouchableOpacity>
       </View>
 
@@ -60,4 +51,4 @@ const PersonalTaxScreen: React.FC<IProps>  = () => {
   )
 }
 
-export default PersonalTaxScreen    
+export default TaxResultScreen    
