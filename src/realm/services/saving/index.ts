@@ -7,6 +7,7 @@ type SavingType = {
     total: number,
     createAt: string,
     profit: number,
+    currencyUnit: string,
 }
 
 export function getAllSaving(realm: Realm) {

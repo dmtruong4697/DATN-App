@@ -94,6 +94,15 @@ export const MenuData2 = [
         },
         iconUrl: require('../../../assets/icon/menu/menu2/currency.png'),
     },
+    {
+        id: '8',
+        title: 'Saving',
+        backgroundColor: 'white',
+        onPress: (navigation: NavigationProp<any, any>) => {
+            navigation.navigate('SavingList');
+        },
+        iconUrl: require('../../../assets/icon/menu/menu2/currency.png'),
+    },
 ]
 
 export const MenuData3 = [

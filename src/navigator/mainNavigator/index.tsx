@@ -35,6 +35,8 @@ import ShoppingListDetailScreen from "../../screens/shoppingListDetailScreen";
 import AddGroupTransactionScreen from "../../screens/addGroupTransactionScreen";
 import SplitMoneyScreen from "../../screens/splitMoneyScreen";
 import TaxResultScreen from "../../screens/taxResultScreen";
+import SavingListScreen from "../../screens/savingListScreen";
+import AddSavingScreen from "../../screens/addSavingScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -127,7 +129,15 @@ export type RootStackParamList = {
 
     TaxResult: {
         result: Object,
-    }
+    };
+
+    SavingList: {};
+
+    SavingDetail: {
+        _id: Realm.BSON.ObjectId,
+    };
+
+    AddSaving: {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -391,6 +401,7 @@ const MainNavigator = () => {
                 headerShown: false,
             }}
         />
+
         <Stack.Screen
             name="SplitMoney"
             component={SplitMoneyScreen}
@@ -398,6 +409,7 @@ const MainNavigator = () => {
                 headerShown: false,
             }}
         />
+        
         <Stack.Screen
             name="TaxResult"
             component={TaxResultScreen}
@@ -405,6 +417,23 @@ const MainNavigator = () => {
                 headerShown: false,
             }}
         />
+
+        <Stack.Screen
+            name="SavingList"
+            component={SavingListScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="AddSaving"
+            component={AddSavingScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
       </Stack.Navigator>
     </RangeContext.Provider>
   )

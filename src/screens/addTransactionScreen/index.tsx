@@ -146,7 +146,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     const realm = useRealm();
     
     const [typeName, setTypeName] = useState('Choose Type');
-    const [typeId, setTypeId] = useState<Realm.BSON.ObjectId>(getAllTransactionType(realm)[0]._id);
+    const [typeId, setTypeId] = useState<Realm.BSON.ObjectId>(new Realm.BSON.ObjectId);
     // const [typeId, setTypeId] = useState<Realm.BSON.ObjectId>(new Realm.BSON.ObjectId());
     const [typeIcon, setTypeIcon] = useState();
     const [total, setTotal] = useState<any>();

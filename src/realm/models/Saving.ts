@@ -8,6 +8,7 @@ export class Saving extends Realm.Object {
     total!: number;
     createAt!: string;
     profit!: number;
+    currencyUnit!: string;
 
     static schema = {
         name: 'Saving',
@@ -18,6 +19,7 @@ export class Saving extends Realm.Object {
             total: 'int',
             createAt: 'string',
             profit: 'float',
+            currencyUnit: 'string',
         }
     }
 }
