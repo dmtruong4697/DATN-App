@@ -1,9 +1,9 @@
 import { View, Text, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { RealmContext } from '../../realm/models';
-import { ParamListBase, useNavigation } from '@react-navigation/native';
+import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Realm } from "realm";
+import { BSON, Realm } from "realm";
 import { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import { styles } from './styles';
 import Button from '../../components/button';
@@ -17,6 +17,7 @@ import { colors } from '../../constants/colors';
 import { BudgetType, addBudget } from '../../realm/services/budgets';
 import { getMonthEnd, getMonthStart, getWeekEnd, getWeekStart } from '../../realm/services/dateTime';
 import OptionButton from '../../components/optionButton';
+import WalletSelectItem from '../../components/walletSelectCard';
 
 interface IProps {}
 
@@ -44,6 +45,7 @@ const AddBudgetScreen: React.FC<IProps> = () => {
   const [repeatType, setRepeatType] = useState('day');
   const [startTime, setStartTime] = useState(new Date().toISOString().slice(0, 10));
   const [finishTime, setFinishTime] = useState(new Date().toISOString().slice(0, 10));
+  let walletIds: Realm.BSON.ObjectId[] = [];
 
   // pick currency unit bottom sheet
   const unitBottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -91,12 +93,40 @@ const AddBudgetScreen: React.FC<IProps> = () => {
         []
     );
 
+    // pick wallet bottom sheet
+    const walletBottomSheetModalRef = useRef<BottomSheetModal>(null);
+    const walletSnapPoints = useMemo(() => ['25%', '70%'], []);
+    const handlePresentWalletModalPress = useCallback(() => {
+        walletBottomSheetModalRef.current?.present();
+    }, []);
+    
+    const handleCloseWalletModal = useCallback(() => {
+        walletBottomSheetModalRef.current?.close();
+    }, []);
+    
+    const handleWalletSheetChanges = useCallback((index: number) => {
+        // console.log('handleSheetChanges', index);
+    }, []);
+    
+    const renderWalletBackdrop = useCallback(
+        (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} 
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        onPress={handleCloseWalletModal}
+        />,[]);
+
   const handleAddBudget = () => {
     const newBudget: BudgetType = {
       _id: new Realm.BSON.ObjectId(),
       name: name,
       unitCurrency: currencyUnitCode,
       total: total,
+      startTime: startTime,
+      finishTime: finishTime,
+      period: 0,
+      repeatType: repeatType,
+      status: 'ACTIVE',
+      walletIds: [],
     };
 
     addBudget(realm, newBudget);
@@ -120,8 +150,35 @@ const AddBudgetScreen: React.FC<IProps> = () => {
     handleCloseTypeModal();
   }
 
+  const handleSelectWallet = (_id: Realm.BSON.ObjectId) => {
+    let index = walletIds.indexOf(_id);
+    if (index == -1) { 
+        walletIds.push(_id);
+    } else {
+        walletIds.splice(index, 1);
+    }
+    console.log(walletIds," ", index);
+  }
+
+  
+  let wallets = getAllWallet(realm);
+  const isFocus = useIsFocused();
+  useEffect(() => {
+    wallets = getAllWallet(realm);
+  },[isFocus])
+
+  const handleSelectAll = () => {
+    wallets.map((item) => {
+        walletIds.push(item._id);
+    })
+  }
+
+  const handleUnSelectAll = () => {
+    walletIds = [];
+  }
+
   return (
-    <ScrollView contentContainerStyle={styles.viewContainer} scrollEnabled>
+    <ScrollView contentContainerStyle={styles.viewContainer} scrollEnabled showsVerticalScrollIndicator={false}>
       <View style={styles.viewTopContainer}>
         <View style={styles.viewHeaderBar}>
           <View
@@ -210,6 +267,20 @@ const AddBudgetScreen: React.FC<IProps> = () => {
           >
             <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/calendar.png')}/>
             <Text style={styles.txtTypeName}>{finishTime}</Text>
+            <Image style={[styles.imgIcon, {marginRight: 0,}]} source={require('../../../assets/icon/addTransaction/down-1.png')}/>
+          </TouchableOpacity>
+        </View>
+
+        {/* wallets */}
+        <View style={styles.viewFormItemContainer}>
+          <Text style={styles.txtFormItemTitle}>WALLETS</Text>
+          <TouchableOpacity 
+            style={styles.viewFormItem}
+            onPress={() => {
+                handlePresentWalletModalPress();
+            }}
+          >
+            <Text style={styles.txtTypeName}>{}</Text>
             <Image style={[styles.imgIcon, {marginRight: 0,}]} source={require('../../../assets/icon/addTransaction/down-1.png')}/>
           </TouchableOpacity>
         </View>
@@ -322,6 +393,38 @@ const AddBudgetScreen: React.FC<IProps> = () => {
                 </BottomSheetView>
             </BottomSheetModal>
             </View>
+        </BottomSheetModalProvider>
+
+        {/* modal pick wallet */}
+        <BottomSheetModalProvider>
+          <View style={{}}>
+            <BottomSheetModal
+              ref={walletBottomSheetModalRef}
+              index={1}
+              snapPoints={walletSnapPoints}
+              onChange={handleWalletSheetChanges}
+              backdropComponent={renderWalletBackdrop}
+            >
+              <BottomSheetView style={{flex: 1, padding: 10,}}>
+                <Text style={styles.txtPeriod}>Select wallets</Text>
+                    <FlatList
+                        data={wallets}
+                        keyExtractor={item => item._id.toString()}
+                        renderItem={({item}) => (
+                            <WalletSelectItem
+                                _id={item._id}
+                                isCheck={false}
+                                onPress={() => {
+                                    handleSelectWallet(item._id)
+                                }}
+                            />
+                        )}
+                        style={{width: '100%',}}
+                        showsVerticalScrollIndicator={false}
+                    />
+              </BottomSheetView>
+            </BottomSheetModal>
+          </View>
         </BottomSheetModalProvider>
     </ScrollView>
   )

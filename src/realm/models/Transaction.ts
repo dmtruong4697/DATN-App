@@ -7,6 +7,7 @@ export class Transaction extends Realm.Object {
     income!: boolean;
     total!: number;
     createAt!: string;
+    createTime!: string;
     transactionTypeId!: Realm.BSON.ObjectID;
     walletId!: Realm.BSON.ObjectID;
     note!: string;
@@ -21,6 +22,7 @@ export class Transaction extends Realm.Object {
             income: 'bool',
             total: 'int',
             createAt: 'string',
+            createTime: 'string',
             transactionTypeId: 'objectId',
             walletId: 'objectId',
             note: 'string',

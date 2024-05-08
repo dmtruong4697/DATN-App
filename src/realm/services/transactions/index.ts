@@ -15,6 +15,7 @@ type TransactionType = {
     income: boolean;
     total: number;
     createAt: string;
+    createTime: string;
     transactionTypeId: Realm.BSON.ObjectID;
     walletId: Realm.BSON.ObjectID;
     note: string;
@@ -87,6 +88,7 @@ export function updateTransactionById(
         transaction!.transactionTypeId = updatedTransaction.transactionTypeId;
         transaction!.total = updatedTransaction.total;
         transaction!.createAt = updatedTransaction.createAt;
+        transaction!.createTime = updatedTransaction.createTime;
         transaction!.note = updatedTransaction.note;
     })
 };
