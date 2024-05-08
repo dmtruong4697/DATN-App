@@ -153,4 +153,33 @@ export const styles = StyleSheet.create({
         alignSelf: 'center',
         padding: 10,
     },
+
+    viewAllContainer: {
+        width: '100%',
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    viewAllCheck: {
+        width: 20,
+        height: 20,
+        borderRadius: 3,
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 5,
+    },
+
+    imgAllCheck: {
+        width: 18,
+        height: 18,
+    },
+
+    txtAll: {
+        fontSize: 15,
+        fontWeight: '400',
+        color: '#111111',
+    },
+
 })

@@ -37,7 +37,10 @@ const WalletSelectItem: React.FC<IProps>  = ({_id, isCheck, onPress}) => {
   return (
     <TouchableOpacity
         style={styles.viewContainer}
-        onPress={onPress}
+        onPress={() => {
+            onPress();
+            setIsDone(!isDone);
+        }}
     >
         <TouchableOpacity
             style={[styles.viewCheck, {

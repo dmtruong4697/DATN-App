@@ -5,6 +5,7 @@ import { Wallet } from "../../models/Wallet";
 import { Transaction } from "../../models/Transaction";
 import { Realm } from "realm";
 import { getAllTransaction, getTransactionByWalletId } from "../transactions";
+import { ObjectId } from "bson";
 
 type WalletType = {
     _id: Realm.BSON.ObjectId;
@@ -102,3 +103,18 @@ export function getWalletExpensesByWalletAndDay(
 
     return expenses;
 };
+
+export function getWalletIdsByUnit(
+    realm: Realm,
+    unit: string,
+) {
+    const w = realm.objects<Wallet>('Wallet');
+
+    const wallets = w.filtered('currencyUnit = $0', unit);
+    let result: ObjectId[] = [];
+    wallets.map((item) => {
+        result.push(item._id);
+    })
+
+    return result;
+}

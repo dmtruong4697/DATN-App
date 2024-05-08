@@ -3,11 +3,11 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { RealmContext } from '../../realm/models';
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { BSON, Realm } from "realm";
+import { BSON, Realm, index } from "realm";
 import { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import { styles } from './styles';
 import Button from '../../components/button';
-import { addWallet, getAllWallet } from '../../realm/services/wallets';
+import { addWallet, getAllWallet, getWalletIdsByUnit } from '../../realm/services/wallets';
 import { CurrencyUnitData } from '../../constants/currencyUnit';
 import CurrencyUnitCard from '../../components/currencyUnitCard';
 import { FlatList } from 'react-native-gesture-handler';
@@ -45,6 +45,7 @@ const AddBudgetScreen: React.FC<IProps> = () => {
   const [repeatType, setRepeatType] = useState('day');
   const [startTime, setStartTime] = useState(new Date().toISOString().slice(0, 10));
   const [finishTime, setFinishTime] = useState(new Date().toISOString().slice(0, 10));
+  const [isAll, setIsAll] = useState(false)
   let walletIds: Realm.BSON.ObjectId[] = [];
 
   // pick currency unit bottom sheet
@@ -126,7 +127,7 @@ const AddBudgetScreen: React.FC<IProps> = () => {
       period: 0,
       repeatType: repeatType,
       status: 'ACTIVE',
-      walletIds: [],
+      walletIds: getWalletIdsByUnit(realm, currencyUnitCode),
     };
 
     addBudget(realm, newBudget);
@@ -151,13 +152,30 @@ const AddBudgetScreen: React.FC<IProps> = () => {
   }
 
   const handleSelectWallet = (_id: Realm.BSON.ObjectId) => {
-    let index = walletIds.indexOf(_id);
-    if (index == -1) { 
-        walletIds.push(_id);
+    let ind = -1;
+    walletIds.forEach((item, index) => {
+      if (item.toString() == _id.toString()) {
+        ind = index;
+      }
+    })
+
+    if(ind != -1) {
+      walletIds.splice(ind, 1);
     } else {
-        walletIds.splice(index, 1);
+      walletIds.push(_id);
     }
-    console.log(walletIds," ", index);
+    console.log(walletIds);
+  }
+
+  const getItemStatus = (_id: Realm.BSON.ObjectId) => {
+    let ind = false;
+    walletIds.forEach((item, index) => {
+      if (item.toString() == _id.toString()) {
+        ind = true;
+      }
+    })
+
+    return ind;
   }
 
   
@@ -168,12 +186,16 @@ const AddBudgetScreen: React.FC<IProps> = () => {
   },[isFocus])
 
   const handleSelectAll = () => {
+    setIsAll(true);
+    walletIds = [];
     wallets.map((item) => {
         walletIds.push(item._id);
     })
+    console.log(walletIds)
   }
 
   const handleUnSelectAll = () => {
+    setIsAll(false);
     walletIds = [];
   }
 
@@ -277,7 +299,7 @@ const AddBudgetScreen: React.FC<IProps> = () => {
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={() => {
-                handlePresentWalletModalPress();
+                // handlePresentWalletModalPress();
             }}
           >
             <Text style={styles.txtTypeName}>{}</Text>
@@ -299,7 +321,7 @@ const AddBudgetScreen: React.FC<IProps> = () => {
         <Button
           content='ADD BUDGET'
           onPress={() => {
-            // handleAddBudget();
+            handleAddBudget();
           }}
           containerStyle={{}}
           contentStyle={{}}
@@ -407,13 +429,35 @@ const AddBudgetScreen: React.FC<IProps> = () => {
             >
               <BottomSheetView style={{flex: 1, padding: 10,}}>
                 <Text style={styles.txtPeriod}>Select wallets</Text>
+                <TouchableOpacity
+                  style={styles.viewAllContainer}
+                  onPress={() => {
+                      (!isAll) && handleSelectAll();
+                      (isAll) && handleUnSelectAll();
+                  }}
+              >
+                  <TouchableOpacity
+                      style={[styles.viewAllCheck, {
+                          backgroundColor: (isAll)? colors.PrimaryColor: '#FFFFFF',
+                          borderColor: (isAll)? colors.PrimaryColor: '#CFCFCF',
+                      }]}
+                      onPress={() => {
+                        setIsAll(!isAll);
+                    }}
+                  >
+                      <Image style={styles.imgAllCheck} source={require('../../../assets/icon/shoppingListItemCard/check.png')}/>
+                  </TouchableOpacity>
+
+                  <Text style={styles.txtAll}>Select all</Text>
+              </TouchableOpacity>
                     <FlatList
                         data={wallets}
+                        extraData={walletIds}
                         keyExtractor={item => item._id.toString()}
                         renderItem={({item}) => (
                             <WalletSelectItem
                                 _id={item._id}
-                                isCheck={false}
+                                isCheck={walletIds.includes(item._id)}
                                 onPress={() => {
                                     handleSelectWallet(item._id)
                                 }}

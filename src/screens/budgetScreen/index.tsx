@@ -40,6 +40,10 @@ const BudgetScreen: React.FC<IProps>  = () => {
           </TouchableOpacity>
         </View>
       }
+
+      {(budget) && 
+        <TouchableOpacity onPress={() => console.log(budget)}><Text>ahahhahah</Text></TouchableOpacity>
+      }
     </ScrollView>
   )
 }
