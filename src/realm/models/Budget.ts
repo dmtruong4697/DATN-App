@@ -7,9 +7,12 @@ export class Budget extends Realm.Object {
     name!: string;
     total!: number;
     period!: number;
-    repeat!: boolean;
     repeatType!: string;
-    walletId!: string;
+    startTime!: string;
+    finishTime!: string;
+    walletIds!: Realm.BSON.ObjectId[];
+    unitCurrency!: string;
+    status!: string;
 
     static schema = {
         name: 'Budget',
@@ -19,9 +22,12 @@ export class Budget extends Realm.Object {
             name: 'string',
             total: 'int',
             period: 'int',
-            repeat: 'bool',
             repeatType: 'string',
-            walletId: 'string',
+            startTime: 'string',
+            finishTime: 'string',
+            walletIds: {type: 'list', objectType: 'objectId'},
+            unitCurrency: 'string',
+            status: 'string',
         }
     }
 }

@@ -82,3 +82,23 @@ export function generateCustomTime(startTime: string, finishTime: string,) {
     return result;
 }
 
+export function getWeekStart(date: Date) {
+    const dayOfWeek = date.getDay() || 7; 
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2 - dayOfWeek);
+}
+
+export function getWeekEnd(date: Date) {
+    const dayOfWeek = date.getDay() || 7; 
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 8 - dayOfWeek);
+}
+
+export function getMonthStart(date: Date) {
+    const startTime = new Date(date.getFullYear(), date.getMonth(), 2);
+    return startTime;
+}
+
+export function getMonthEnd(date: Date) {
+    const finishTime = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    return finishTime;
+}
+
