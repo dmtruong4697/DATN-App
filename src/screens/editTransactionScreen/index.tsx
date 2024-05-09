@@ -174,6 +174,7 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
         walletId: transaction!.walletId,
         note: note,
         imageUrl: '',
+        createTime: 'createTime',
       };
   
       updateTransactionById(realm, _id, updatedTransaction);

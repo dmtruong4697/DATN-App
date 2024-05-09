@@ -40,14 +40,14 @@ const DashboardScreen: React.FC<IProps>  = () => {
 
     let transactions = getTransactionHistory(realm, 5);
     let loans = getLoanHistory(realm, 5);
-    // let barData = getDayOfWeekAnalyst(realm);
-    let barData = getWeekAnalyst(realm, 7, false);
+    let barData = getDayOfWeekAnalyst(realm, false);
+    // let barData = getWeekAnalyst(realm, 7, false);
     const isFocus = useIsFocused();
     useEffect(() => {
       transactions = getTransactionHistory(realm, 5);
       loans = getLoanHistory(realm, 5);
-      // barData = getDayOfWeekAnalyst(realm);
-      barData = getWeekAnalyst(realm, 7, false);
+      barData = getDayOfWeekAnalyst(realm, false);
+      // barData = getWeekAnalyst(realm, 7, false);
     }, [isFocus]);
 
     const ref = React.createRef<any>();
@@ -212,6 +212,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
           yAxisThickness={0}
           xAxisThickness={0}
           barBorderRadius={4}
+          onPress={() => {console.log(barData)}}
         />
 
       </View>

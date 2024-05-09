@@ -71,59 +71,61 @@ export function deleteBudgetById(
     })
 };
 
-export function renewBudgetById(
+// export function renewBudgetById(
+//     realm: Realm,
+//     _id: Realm.BSON.ObjectId,
+// ) {
+//     const budget = realm.objectForPrimaryKey<Budget>('Budget', _id);
+//     let start = budget!.startTime;
+//     let finish = budget!.finishTime;
+
+//     if(budget!.repeatType == 'day') {
+//         const startDate = new Date(start);
+//         startDate.setDate(startDate.getDate() + 1);
+//         start = startDate.toISOString().slice(0, 10);
+//         finish = startDate.toISOString().slice(0, 10);
+//     } else if(budget!.repeatType == 'week') {
+//         const startDate = new Date(finish);
+//         const finishDate = new Date(finish);
+
+//         startDate.setDate(startDate.getDate() + 1);
+//         finishDate.setDate(finishDate.getDate() + 7);
+
+//         start = startDate.toISOString().slice(0, 10);
+//         finish = finishDate.toISOString().slice(0, 10);
+//     } else if(budget!.repeatType == 'month') {
+//         let startDate = new Date(finish);
+//         let finishDate = new Date(finish);
+
+//         startDate.setDate(startDate.getDate() + 1);
+//         finishDate = getMonthEnd(startDate);
+
+//         start = startDate.toISOString().slice(0, 10);
+//         finish = finishDate.toISOString().slice(0, 10);
+//     }
+
+//     realm.write(() => {
+//         budget!.startTime = start;
+//         budget!.finishTime = finish;
+//     })
+// };
+
+export function getBudgetDetail(
     realm: Realm,
     _id: Realm.BSON.ObjectId,
+    startTime: string,
+    finishTime: string,
 ) {
     const budget = realm.objectForPrimaryKey<Budget>('Budget', _id);
-    let start = budget!.startTime;
-    let finish = budget!.finishTime;
-
-    if(budget!.repeatType == 'day') {
-        const startDate = new Date(start);
-        startDate.setDate(startDate.getDate() + 1);
-        start = startDate.toISOString().slice(0, 10);
-        finish = startDate.toISOString().slice(0, 10);
-    } else if(budget!.repeatType == 'week') {
-        const startDate = new Date(finish);
-        const finishDate = new Date(finish);
-
-        startDate.setDate(startDate.getDate() + 1);
-        finishDate.setDate(finishDate.getDate() + 7);
-
-        start = startDate.toISOString().slice(0, 10);
-        finish = finishDate.toISOString().slice(0, 10);
-    } else if(budget!.repeatType == 'month') {
-        let startDate = new Date(finish);
-        let finishDate = new Date(finish);
-
-        startDate.setDate(startDate.getDate() + 1);
-        finishDate = getMonthEnd(startDate);
-
-        start = startDate.toISOString().slice(0, 10);
-        finish = finishDate.toISOString().slice(0, 10);
-    }
-
-    realm.write(() => {
-        budget!.startTime = start;
-        budget!.finishTime = finish;
-    })
-};
-
-export function getBudgetDetailById(
-    realm: Realm,
-    _id: Realm.BSON.ObjectId,
-) {
-    const budget = realm.objectForPrimaryKey<Budget>('Budget', _id);
-    let total: any;
+    let total = 0;
     let transactions;
 
     budget!.walletIds.map((walletId) => {
         const trans = getTransactionByWalletId(realm, walletId);
-        transactions = trans.filtered('createAt >= $0 AND createAt <= $1', budget!.startTime, budget!.finishTime);
-        transactions.forEach((tran) => {
+        transactions = trans.filtered('createAt >= $0 AND createAt <= $1 AND income = $2', startTime, finishTime, false);
+        transactions.map((tran) => {
             const wallet = getWalletById(realm, walletId);
-            total[wallet!.currencyUnit] = total[wallet!.currencyUnit] + tran.total;
+            total += tran.total;
         })
     })
 

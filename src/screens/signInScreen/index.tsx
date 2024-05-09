@@ -150,7 +150,7 @@ const SignInScreen: FC = () => {
       {(UserStore.isLoading) && 
         <View style={styles.viewLoading}>
             {/* <Text style={styles.txtLoading}>Loading...</Text> */}
-            <ActivityIndicator color={'#E53935'} size={100}/>
+            <ActivityIndicator color={colors.PrimaryColor} size={100}/>
         </View>
       }
 
