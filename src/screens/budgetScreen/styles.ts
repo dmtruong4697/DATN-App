@@ -3,7 +3,8 @@ import { colors } from "../../constants/colors";
 
 export const styles = StyleSheet.create({
     viewContainer: {
-        flex: 1,
+        height: '130%',
+        // flex: 1,
     },
 
     viewHeader: {
@@ -168,5 +169,102 @@ export const styles = StyleSheet.create({
     imgRight: {
         height: 24,
         width: 24,
+    },
+
+    viewChart: {
+        width: '110%',
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        marginBottom: 10,
+    },
+
+    txtChartTitle: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#111111',
+        marginBottom: 20,
+    },
+
+    txtOver: {
+        fontSize: 24,
+        fontWeight: '500',
+        color: colors.ErrorColor,
+    },
+
+    viewSuggest: {
+        width: '100%',
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        borderTopWidth: 1,
+        borderTopColor: '#e3e3e3',
+        justifyContent: 'center',
+        flexDirection: 'row',
+    },
+
+    viewSuggestItem: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 10,
+    },
+
+    txtSuggestTitle: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#666666',
+    },
+
+    txtSuggest: {
+        fontSize: 15,
+        fontWeight: '500',
+        color: '#111111',
+    },
+
+    viewModal: {
+        flex: 1,
+        paddingHorizontal: 15,
+        flexDirection: 'column',
+        gap: 10,
+    },
+
+    inputName: {
+        width: '100%',
+        height: 40,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: '#e0e0de',
+        alignSelf: 'center',
+
+        fontSize: 16,
+        fontWeight: '400',
+        color: '#666666',
+    },
+
+    btnOption: {
+        width: '100%',
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    imgOptionIcon: {
+        width: 24,
+        height: 24,
+        marginRight: 10,
+    },
+
+    txtOptionButton: {
+        flex: 1,
+        fontSize: 15,
+        fontWeight: '500',
+        color: '#111111',
+    },
+
+    txtModalTitle: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: '#000000',
+        marginTop: 5,
+        width: '100%',
     },
 })
