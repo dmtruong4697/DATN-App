@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, ScrollView, Dimensions, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, ScrollView, Dimensions, Alert, ToastAndroid } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
@@ -92,6 +92,14 @@ const BudgetScreen: React.FC<IProps>  = () => {
         }},
     ]);
 
+    const showToast = (message: string) => {
+      ToastAndroid.showWithGravity(
+        message,
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    };
+
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>
       {(!budget) && 
@@ -152,7 +160,7 @@ const BudgetScreen: React.FC<IProps>  = () => {
               arcSweepAngle={180}
               rotation={270}
               lineCap='round'
-              renderCap={({ center }) => <Circle cx={center.x} cy={center.y} r="10" fill="#2a4a35"/>}
+              renderCap={({ center }) => <Circle cx={center.x} cy={center.y} r="5" fill="#2a4a35"/>}
             >
               {
                 (fill) => (
@@ -214,7 +222,10 @@ const BudgetScreen: React.FC<IProps>  = () => {
             backgroundColor={"#FFFFFF"}
             scrollToIndex={Number((new Date()).getDate()) - 3}
             curved
-            curvature={0}
+            curvature={0.1}
+            overflowBottom={15}
+            onPress={(item) => {showToast(formatter.format(item.value))}}
+            noOfSections={4}
           />
         </View>
 
