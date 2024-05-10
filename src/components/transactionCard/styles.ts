@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../constants/colors";
 
 export const styles = StyleSheet.create({
     viewContainer: {
@@ -16,7 +17,7 @@ export const styles = StyleSheet.create({
         width: 50,
         borderRadius: 8,
         // backgroundColor: '#F0F6F5',
-        backgroundColor: 'white',
+        backgroundColor: '#F0F6F5',
         marginRight: 10,
         padding: 5,
     },

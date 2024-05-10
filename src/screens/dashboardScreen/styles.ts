@@ -4,10 +4,11 @@ import { colors } from "../../constants/colors";
 export const styles = StyleSheet.create({
     viewContainer: {
         paddingBottom: 50,
+        backgroundColor: '#FFFFFF',
     },
 
     viewTopContainer: {
-        // backgroundColor: 'pink',
+        // backgroundColor: '#FFFFFF',
         height: 250,
         alignItems: 'center',
         marginBottom: 10,
@@ -171,6 +172,7 @@ export const styles = StyleSheet.create({
         padding: 10,
         flexDirection: 'column',
         marginBottom: 5,
+        backgroundColor: '#FFFFFF',
     },
 
     viewTitle: {

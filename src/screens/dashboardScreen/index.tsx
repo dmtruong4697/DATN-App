@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, TextInput, ScrollView, SafeAreaView, Dimensions } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, TextInput, ScrollView, SafeAreaView, Dimensions, ToastAndroid } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
@@ -11,7 +11,7 @@ import { getAllTransaction, getTransactionHistory } from '../../realm/services/t
 import { getAllWallet, getWalletById, getWalletExpensesByWalletAndDay, getWalletIncomeByWalletAndDay } from '../../realm/services/wallets';
 import Carousel from 'react-native-snap-carousel';
 import { BarChart } from 'react-native-gifted-charts';
-import { getDayOfWeekAnalyst, getWeekAnalyst } from '../../realm/services/analyst';
+import { formatNumber, getDayOfWeekAnalyst} from '../../realm/services/analyst';
 import LoanCard from '../../components/loanCard';
 import { getLoanHistory } from '../../realm/services/loan';
 import { UserStore } from '../../mobx/auth';
@@ -40,14 +40,12 @@ const DashboardScreen: React.FC<IProps>  = () => {
 
     let transactions = getTransactionHistory(realm, 5);
     let loans = getLoanHistory(realm, 5);
-    let barData = getDayOfWeekAnalyst(realm, false);
-    // let barData = getWeekAnalyst(realm, 7, false);
+    let barData = getDayOfWeekAnalyst(realm, false, 'VND');
     const isFocus = useIsFocused();
     useEffect(() => {
       transactions = getTransactionHistory(realm, 5);
       loans = getLoanHistory(realm, 5);
-      barData = getDayOfWeekAnalyst(realm, false);
-      // barData = getWeekAnalyst(realm, 7, false);
+      barData = getDayOfWeekAnalyst(realm, false, 'VND');
     }, [isFocus]);
 
     const ref = React.createRef<any>();
@@ -107,6 +105,19 @@ const DashboardScreen: React.FC<IProps>  = () => {
         navigation.navigate('SignIn');
       }
     },[])
+
+    const showToast = (message: string) => {
+      ToastAndroid.showWithGravity(
+        message,
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    };
+
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'VND',
+    });
 
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>
@@ -207,12 +218,15 @@ const DashboardScreen: React.FC<IProps>  = () => {
           noOfSections={3}
           frontColor={'#177AD5'}
           barWidth={22}
-          data={barData}
+          data={barData.result}
           width={windowWidth - 50}
+          formatYLabel={(item) => (formatNumber(Number(item)))}
+          yAxisLabelWidth={40}
           yAxisThickness={0}
           xAxisThickness={0}
           barBorderRadius={4}
-          onPress={() => {console.log(barData)}}
+          onPress={(item) => {showToast(formatter.format(item.value))}}
+          renderTooltip={() => {}}
         />
 
       </View>

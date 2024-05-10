@@ -213,6 +213,8 @@ const BudgetScreen: React.FC<IProps>  = () => {
             initialSpacing={10}
             backgroundColor={"#FFFFFF"}
             scrollToIndex={Number((new Date()).getDate()) - 3}
+            curved
+            curvature={0}
           />
         </View>
 
