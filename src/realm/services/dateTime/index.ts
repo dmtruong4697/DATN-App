@@ -103,11 +103,11 @@ export function getMonthEnd(date: Date) {
 }
 
 export function getYearStart(date: Date) {
-    const yearStart = new Date(date.getFullYear(), 0, 1);
+    const yearStart = new Date(date.getFullYear(), 0, 2);
     return yearStart;
 }
 
 export function getYearEnd(date: Date) {
-    const yearEnd = new Date(date.getFullYear(), 11, 31);
+    const yearEnd = new Date(date.getFullYear(), 11, 32);
     return yearEnd;
 }

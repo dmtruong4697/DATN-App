@@ -10,6 +10,9 @@ import { getAllWallet } from '../../realm/services/wallets';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import Button from '../../components/button';
 import { observer } from 'mobx-react'
+import { ExportDataStore } from '../../mobx/exportData';
+import WalletSelectItem from '../../components/walletSelectCard';
+import { colors } from '../../constants/colors';
 
 interface IProps {}
 
@@ -35,12 +38,54 @@ const ExportDataPickWalletScreen: React.FC<IProps>  = () => {
         <TouchableOpacity
           style={styles.btnBack}
           onPress={() => {
-            // navigation.navigate('AddGroup');
+            navigation.goBack();
           }}
         >
           {/* <Text style={styles.txtEdit}>ADD</Text> */}
-          {/* <Image style={styles.imgButtonAdd} source={require('../../../assets/icon/groupList/add.png')}/> */}
+          <Image style={styles.imgButtonDone} source={require('../../../assets/icon/exportDataScreen/done.png')}/>
         </TouchableOpacity>
+      </View>
+
+        {/* select all button */}
+        <TouchableOpacity
+            style={styles.viewAllContainer}
+            onPress={() => {
+                ExportDataStore.selectAll();
+            }}
+        >
+            <TouchableOpacity
+                style={[styles.viewAllCheck, {
+                    backgroundColor: (ExportDataStore.isAll)? colors.PrimaryColor: '#FFFFFF',
+                    borderColor: (ExportDataStore.isAll)? colors.PrimaryColor: '#CFCFCF',
+                }]}
+                onPress={() => {
+                    ExportDataStore.selectAll();
+                }}
+            >
+                <Image style={styles.imgAllCheck} source={require('../../../assets/icon/shoppingListItemCard/check.png')}/>
+            </TouchableOpacity>
+
+            <Text style={styles.txtAll}>Select all</Text>
+            <Text style={styles.txtSelected}>Selected {ExportDataStore.getSelectedWallet().length}</Text>
+        </TouchableOpacity>
+
+      <View style={styles.viewWalletList}>
+        <FlatList
+            data={ExportDataStore.walletData}
+            // extraData={walletIds}
+            keyExtractor={item => item.wallet._id.toString()}
+            renderItem={({item}) => (
+                <WalletSelectItem
+                    _id={item.wallet._id}
+                    isCheck={item.isSelected}
+                    onPress={() => {
+                        ExportDataStore.itemPress(item.wallet);
+                    }}
+                />
+            )}
+            style={{width: '100%',}}
+            showsVerticalScrollIndicator={false}
+        />
       </View>
 
     </View>

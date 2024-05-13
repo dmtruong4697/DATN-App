@@ -4,7 +4,7 @@ import { colors } from "../../constants/colors";
 export const styles = StyleSheet.create({
     viewContainer: {
         width: '100%',
-        padding: 10,
+        padding: 15,
         flexDirection: 'row',
         alignItems: 'center',
     },

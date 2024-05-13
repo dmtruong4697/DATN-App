@@ -8,6 +8,7 @@ import { Realm } from "realm";
 import { getShoppingListById, getShoppingListItemById, getShoppingListProgress, setIsDoneShoppingListItem, updateShoppingListById } from '../../realm/services/shoppingList';
 import { colors } from '../../constants/colors';
 import { getWalletById } from '../../realm/services/wallets';
+import { observer } from 'mobx-react'
 
 interface IProps {
     _id: Realm.BSON.ObjectId,
@@ -20,8 +21,6 @@ const WalletSelectItem: React.FC<IProps>  = ({_id, isCheck, onPress}) => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
-
-    const [isDone, setIsDone] = useState(isCheck);
 
     let wallet = getWalletById(realm, _id);
 
@@ -39,13 +38,12 @@ const WalletSelectItem: React.FC<IProps>  = ({_id, isCheck, onPress}) => {
         style={styles.viewContainer}
         onPress={() => {
             onPress();
-            setIsDone(!isDone);
         }}
     >
         <TouchableOpacity
             style={[styles.viewCheck, {
-                backgroundColor: (isDone)? colors.PrimaryColor: '#FFFFFF',
-                borderColor: (isDone)? colors.PrimaryColor: '#CFCFCF',
+                backgroundColor: (isCheck)? colors.PrimaryColor: '#FFFFFF',
+                borderColor: (isCheck)? colors.PrimaryColor: '#CFCFCF',
             }]}
             onPress={onPress}
         >
@@ -61,4 +59,4 @@ const WalletSelectItem: React.FC<IProps>  = ({_id, isCheck, onPress}) => {
   )
 }
 
-export default WalletSelectItem    
+export default observer(WalletSelectItem)

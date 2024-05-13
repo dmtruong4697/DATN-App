@@ -43,4 +43,82 @@ export const styles = StyleSheet.create({
         marginTop: 5,
     },
 
+    imgButtonDone: {
+        height: 30,
+        resizeMode: 'contain',
+    },
+
+    viewRangeItem: {
+        width: '100%',
+        padding: 15,
+        flexDirection: 'row',
+
+        borderBottomWidth:1,
+        borderBottomColor: '#dedede',
+
+        alignItems: 'center',
+    },
+
+    viewCustomItem: {
+        width: '100%',
+        padding: 15,
+        flexDirection: 'row',
+
+        // borderBottomWidth:1,
+        // borderBottomColor: '#dedede',
+
+        alignItems: 'center',
+    },
+
+    viewRange: {
+        width: '100%',
+        padding: 15,
+        paddingHorizontal: 35,
+        flexDirection: 'row',
+    },
+
+    txtRange: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#666666',
+        width: 60,
+        textAlign: 'left',
+    },
+
+    txtRangeDate: {
+        fontSize: 15,
+        fontWeight: '400',
+        color: '#111111',
+    },
+
+    txtItem: {
+        fontSize: 15,
+        fontWeight: '400',
+        color: '#111111',
+
+        flex: 1,
+    },
+
+    viewCheck: {
+        width: 20,
+        height: 20,
+        borderRadius: 1000,
+        // borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 5,
+
+        backgroundColor: colors.PrimaryColor,
+    },
+
+    imgCheck: {
+        width: 18,
+        height: 18,
+    },
+
+    viewList: {
+        width: '100%',
+        backgroundColor: '#FFFFFF',
+    },
+
 })

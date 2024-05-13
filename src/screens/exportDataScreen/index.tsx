@@ -10,6 +10,8 @@ import { getAllWallet } from '../../realm/services/wallets';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import Button from '../../components/button';
 import { observer } from 'mobx-react'
+import { ExportDataStore, WalletSelectList } from '../../mobx/exportData';
+import { getTransactionByWalletListAndTime } from '../../realm/services/transactions';
 
 interface IProps {}
 
@@ -19,6 +21,24 @@ const ExportDataScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+
+    const initWalletList = () => {
+        const wallets = getAllWallet(realm);
+        const array: WalletSelectList[] = [];
+
+        wallets.map((item) => {
+            array.push({
+                wallet: item,
+                isSelected: false,
+            })
+        })
+
+        ExportDataStore.initList(array);
+    }
+
+    useEffect(() => {
+        initWalletList();
+    },[])
   
   return (
     <View style={styles.viewContainer}>
@@ -36,10 +56,11 @@ const ExportDataScreen: React.FC<IProps>  = () => {
           style={styles.btnBack}
           onPress={() => {
             // navigation.navigate('AddGroup');
+            console.log(ExportDataStore.startTime,'   ',ExportDataStore.finishTime);
           }}
         >
           {/* <Text style={styles.txtEdit}>ADD</Text> */}
-          {/* <Image style={styles.imgButtonAdd} source={require('../../../assets/icon/groupList/add.png')}/> */}
+          <Image style={styles.imgButtonAdd} source={require('../../../assets/icon/groupList/add.png')}/>
         </TouchableOpacity>
       </View>
 
@@ -50,7 +71,7 @@ const ExportDataScreen: React.FC<IProps>  = () => {
         }}
     >
         <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/wallet.png')}/>
-        <Text style={styles.txtItem}>All Wallet</Text>
+        <Text style={styles.txtItem}>{ExportDataStore.getSelectedWallet().length} wallets</Text>
         <Image style={styles.imgIcon} source={require('../../../assets/icon/menu/right.png')}/>
     </TouchableOpacity>
 
@@ -61,7 +82,7 @@ const ExportDataScreen: React.FC<IProps>  = () => {
         }}
     >
         <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/calendar.png')}/>
-        <Text style={styles.txtItem}>This month</Text>
+        <Text style={styles.txtItem}>{ExportDataStore.rangeName}</Text>
         <Image style={styles.imgIcon} source={require('../../../assets/icon/menu/right.png')}/>
     </TouchableOpacity>
 
@@ -69,7 +90,7 @@ const ExportDataScreen: React.FC<IProps>  = () => {
         <Button
             content='Export Excel File'
             onPress={() => {
-
+                console.log(getTransactionByWalletListAndTime(realm, ExportDataStore.walletData, ExportDataStore.startTime, ExportDataStore.finishTime))
             }}
         />
     </View>

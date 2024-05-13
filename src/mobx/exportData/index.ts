@@ -15,6 +15,8 @@ class store {
     walletData: WalletSelectList[] = [];
     isAll: boolean = false;
 
+    rangeType: string = 'alltime';
+    rangeName: string = 'All time';
     startTime: string = getMonthStart(new Date()).toISOString().slice(0, 10);
     finishTime: string = getMonthEnd(new Date()).toISOString().slice(0, 10);
 
@@ -45,7 +47,7 @@ class store {
     selectAll() {
         let newValue = this.walletData.filter((item) => item.isSelected).length === this.walletData.length;
         let temp = this.walletData.map((item) => {
-          return { ...item, checked: !newValue };
+          return { ...item, isSelected: !newValue };
         });
 
         this.walletData = temp;
@@ -60,30 +62,58 @@ class store {
     setAllTime() {
         this.startTime = '2000/01/01';
         this.finishTime = '2100/01/01';
+
+        this.setRangeType('alltime');
+        this.rangeName = 'All time';
     }
 
     setThisMonth() {
         this.startTime = getMonthStart(new Date()).toISOString().slice(0, 10);
         this.finishTime = getMonthEnd(new Date()).toISOString().slice(0, 10);
+
+        this.setRangeType('thismonth');
+        this.rangeName = 'This month';
     }
 
     setThisWeek() {
         this.startTime = getWeekStart(new Date()).toISOString().slice(0, 10);
         this.finishTime = getWeekEnd(new Date()).toISOString().slice(0, 10);
+
+        this.setRangeType('thisweek');
+        this.rangeName = 'This week';
     }
 
-    setCustomTime(start: string, end: string) {
-        this.startTime = start;
-        this.finishTime = end;
+    setCustomTime() {
+        this.setRangeType('custom');
+        this.rangeName = 'Custom';
     }
 
     setThisYear() {
         this.startTime = getYearStart(new Date()).toISOString().slice(0, 10);
         this.finishTime = getYearEnd(new Date()).toISOString().slice(0, 10);
+
+        this.setRangeType('thisyear');
+        this.rangeName = 'This year';
+    }
+
+    setStartTime(time:string) {
+        this.startTime = time;
+    }
+
+    setFinishTime(time:string) {
+        this.finishTime = time;
     }
 
     setIsLoading(bool: boolean) {
         this.isLoading = bool;
+    }
+
+    getSelectedWallet() {
+        return this.walletData.filter((item) => item.isSelected);
+    }
+
+    setRangeType(type: string) {
+        this.rangeType = type;
     }
 
 }
