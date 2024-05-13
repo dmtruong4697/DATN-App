@@ -1,7 +1,7 @@
 import { Realm } from "realm";
 import { Transaction } from "../../models/Transaction";
 import { getExpensesTotalByTime, getIncomeTotalByTime } from "../transactions";
-import { generateWeek } from "../dateTime";
+import { generateWeek, getMonthEnd, getMonthStart } from "../dateTime";
 import { Budget } from "../../models/Budget";
 import { Text } from "react-native";
 
@@ -56,20 +56,13 @@ export function getDayOfWeekAnalyst(
         result.push({
             value: (income)? getIncomeTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10)):getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10), currencyUnit),
             label: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()],
-            dataPointText: (getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10), currencyUnit) > 0)? formatter.format(getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10), currencyUnit)):'',
-            // topLabelComponent: () => (
-            //     <Text style={{color: 'blue', fontSize: 12, marginBottom: 6}}>{formatNumber(getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10), currencyUnit))}</Text>
-            //   ),
+            // dataPointText: (getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10), currencyUnit) > 0)? formatter.format(getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10), currencyUnit)):'',
         });
     }
     // console.log(result);
 
-    const yTextData = ['0', (max*0.0025).toString(), (max*0.005).toString(), (max*0.0075).toString(), (max).toString()];
 
-    return {
-        result: result,
-        yTextData: yTextData,
-    }
+    return result;
 }
 
 export function getBudgetAnalyst(
@@ -114,4 +107,50 @@ export function formatNumber(num: number): string {
         return (num / 1000).toFixed(1) + 'k';
     }
     return num.toString();
+}
+
+export function getMonthAnalyst(
+    realm: Realm,
+    income: boolean,
+    currencyUnit: string,
+) {
+    function formatNumber(num: number): string {
+        if (num >= 1000000000) {
+            return (num / 1000000000).toFixed(2) + 'b';
+        }
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(2) + 'm';
+        }
+        if (num >= 1000) {
+            return (num / 1000).toFixed(2) + 'k';
+        }
+        return num.toString();
+    }
+
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currencyUnit,
+    });
+
+    const startTime = getMonthStart(new Date());
+    const finishTime = getMonthEnd(new Date());
+    const days = (new Date(finishTime.toISOString().slice(0, 10))).getDate() - (new Date(startTime.toISOString().slice(0, 10))).getDate();
+    const result = [];
+    let max = 0;
+
+    for (let i = 0; i < days; i++) {
+        const date = new Date();
+        date.setDate(startTime.getDate() + i -1);
+        // const id = (i + 1).toString(); 
+
+        result.push({
+            value: (income)? getIncomeTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10)):getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10), currencyUnit),
+            label: `${date.toISOString().slice(8, 10)}`,
+            // dataPointText: (getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10), currencyUnit) > 0)? formatter.format(getExpensesTotalByTime(realm, date.toISOString().slice(0, 10), date.toISOString().slice(0, 10), currencyUnit)):'',
+        });
+    }
+    // console.log(startTime,'   ',finishTime,'   ',startTime.toISOString().slice(0, 10),'   ',(new Date(finishTime.toISOString().slice(0, 10))).getDate());
+
+
+    return result;
 }

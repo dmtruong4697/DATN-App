@@ -10,11 +10,12 @@ import { RealmContext } from '../../realm/models';
 import { getAllTransaction, getTransactionHistory } from '../../realm/services/transactions';
 import { getAllWallet, getWalletById, getWalletExpensesByWalletAndDay, getWalletIncomeByWalletAndDay } from '../../realm/services/wallets';
 import Carousel from 'react-native-snap-carousel';
-import { BarChart } from 'react-native-gifted-charts';
-import { formatNumber, getDayOfWeekAnalyst} from '../../realm/services/analyst';
+import { BarChart, LineChart } from 'react-native-gifted-charts';
+import { formatNumber, getDayOfWeekAnalyst, getMonthAnalyst} from '../../realm/services/analyst';
 import LoanCard from '../../components/loanCard';
 import { getLoanHistory } from '../../realm/services/loan';
 import { UserStore } from '../../mobx/auth';
+import { colors } from '../../constants/colors';
 
 interface IProps {}
 
@@ -40,12 +41,13 @@ const DashboardScreen: React.FC<IProps>  = () => {
 
     let transactions = getTransactionHistory(realm, 5);
     let loans = getLoanHistory(realm, 5);
-    let barData = getDayOfWeekAnalyst(realm, false, 'VND');
+    const [barData, setBarData] = useState(getMonthAnalyst(realm, false, 'VND'));
+    const [analystType, setAnalystType] = useState('Week');
     const isFocus = useIsFocused();
     useEffect(() => {
       transactions = getTransactionHistory(realm, 5);
       loans = getLoanHistory(realm, 5);
-      barData = getDayOfWeekAnalyst(realm, false, 'VND');
+      setBarData(getMonthAnalyst(realm, false, 'VND'));
     }, [isFocus]);
 
     const ref = React.createRef<any>();
@@ -118,6 +120,16 @@ const DashboardScreen: React.FC<IProps>  = () => {
       style: 'currency',
       currency: 'VND',
     });
+
+    const setWeekAnalyst = () => {
+      // setAnalystType('Week');
+      setBarData(getDayOfWeekAnalyst(realm, false, 'VND'));
+    };
+
+    const setMonthAnalyst = () => {
+      setBarData(getMonthAnalyst(realm, false, 'VND'));
+      setAnalystType('Month');
+    }
 
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>
@@ -207,18 +219,19 @@ const DashboardScreen: React.FC<IProps>  = () => {
           <Text style={styles.txtTitle}>Statistics</Text>
           <TouchableOpacity
             onPress={() => {
-              // navigation.navigate('Transaction');
+              setBarData(getDayOfWeekAnalyst(realm, false, 'VND'));
             }}
           >
             <Text style={styles.txtSeeAll}>Detail</Text>
           </TouchableOpacity>
         </View>
 
+        {/* analyst */}
         <BarChart
           noOfSections={3}
           frontColor={'#177AD5'}
           barWidth={22}
-          data={barData.result}
+          data={barData}
           width={windowWidth - 50}
           formatYLabel={(item) => (formatNumber(Number(item)))}
           yAxisLabelWidth={40}
@@ -228,6 +241,27 @@ const DashboardScreen: React.FC<IProps>  = () => {
           onPress={(item) => {showToast(formatter.format(item.value))}}
           renderTooltip={() => {}}
         />
+
+        {/* month analyst
+        {(analystType == 'month') &&
+        <LineChart
+          data={barData}
+          color={colors.PrimaryColor}
+          thickness={3}
+          dataPointsColor={'#2a4a35'}
+          yAxisThickness={0}
+          hideYAxisText
+          xAxisThickness={0}
+          initialSpacing={10}
+          backgroundColor={"#FFFFFF"}
+          scrollToIndex={Number((new Date()).getDate()) - 3}
+          curved
+          curvature={0.1}
+          overflowBottom={15}
+          onPress={(item) => {showToast(formatter.format(item.value))}}
+          noOfSections={4}
+        />
+        } */}
 
       </View>
 

@@ -38,6 +38,9 @@ import TaxResultScreen from "../../screens/taxResultScreen";
 import SavingListScreen from "../../screens/savingListScreen";
 import AddSavingScreen from "../../screens/addSavingScreen";
 import AddBudgetScreen from "../../screens/addBudgetScreen";
+import ExportDataScreen from "../../screens/exportDataScreen";
+import ExportDataPickWalletScreen from "../../screens/exportDataPickWalletScreen";
+import ExportDataPickTimeScreen from "../../screens/exportDataPickTimeScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -141,6 +144,12 @@ export type RootStackParamList = {
     AddSaving: {};
 
     AddBudget: {};
+
+    ExportData: {};
+
+    ExportDataPickWallet: {};
+
+    ExportDataPickTime: {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -440,6 +449,30 @@ const MainNavigator = () => {
         <Stack.Screen
             name="AddBudget"
             component={AddBudgetScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="ExportData"
+            component={ExportDataScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="ExportDataPickWallet"
+            component={ExportDataPickWalletScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="ExportDataPickTime"
+            component={ExportDataPickTimeScreen}
             options={{
                 headerShown: false,
             }}

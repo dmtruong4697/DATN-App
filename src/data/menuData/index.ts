@@ -90,7 +90,7 @@ export const MenuData2 = [
         title: 'Export Data',
         backgroundColor: 'white',
         onPress: (navigation: NavigationProp<any, any>) => {
-            // navigation.navigate('GroupList');
+            navigation.navigate('ExportData');
         },
         iconUrl: require('../../../assets/icon/menu/menu2/currency.png'),
     },

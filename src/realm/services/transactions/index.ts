@@ -205,3 +205,18 @@ export function getExpensesTotalByTime(
 
     return total;
 }
+
+export function getTransactionByWalletListAndTime(
+    realm: Realm,
+    walletIds: Realm.BSON.ObjectId[],
+    startTime: string,
+    finishTime: string,
+) {
+    let array: TransactionType[] = [];
+    walletIds.map((item) => {
+        const transactions = getTransactionByWalletId(realm, item).filtered('createAt >= $0 AND createAt<=$1', startTime, finishTime);
+        array = array.concat(transactions);
+    })
+
+    return array;
+}

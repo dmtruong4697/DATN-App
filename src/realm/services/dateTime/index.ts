@@ -102,3 +102,12 @@ export function getMonthEnd(date: Date) {
     return finishTime;
 }
 
+export function getYearStart(date: Date) {
+    const yearStart = new Date(date.getFullYear(), 0, 1);
+    return yearStart;
+}
+
+export function getYearEnd(date: Date) {
+    const yearEnd = new Date(date.getFullYear(), 11, 31);
+    return yearEnd;
+}
