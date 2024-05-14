@@ -34,7 +34,7 @@ export const MenuData2 = [
     {
         id: '1',
         title: 'Currency Convert',
-        backgroundColor: 'white',
+        backgroundColor: '#4546df',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('Convert');
         },
@@ -43,7 +43,7 @@ export const MenuData2 = [
     {
         id: '2',
         title: 'Loan/Debt',
-        backgroundColor: 'white',
+        backgroundColor: '#f6c871',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('LoanList');
         },
@@ -52,7 +52,7 @@ export const MenuData2 = [
     {
         id: '3',
         title: 'Shopping List',
-        backgroundColor: 'white',
+        backgroundColor: '#66d3e7',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('ShoppingList');
         },
@@ -61,7 +61,7 @@ export const MenuData2 = [
     {
         id: '4',
         title: 'Group',
-        backgroundColor: 'white',
+        backgroundColor: '#e87838',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('GroupList');
         },
@@ -70,7 +70,7 @@ export const MenuData2 = [
     {
         id: '5',
         title: 'Personal Tax',
-        backgroundColor: 'white',
+        backgroundColor: '#aa75f7',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('PersonalTax');
         },
@@ -79,7 +79,7 @@ export const MenuData2 = [
     {
         id: '6',
         title: 'Nearby ATM',
-        backgroundColor: 'white',
+        backgroundColor: '#58bf56',
         onPress: (navigation: NavigationProp<any, any>) => {
             // navigation.navigate('GroupList');
         },
@@ -88,20 +88,20 @@ export const MenuData2 = [
     {
         id: '7',
         title: 'Export Data',
-        backgroundColor: 'white',
+        backgroundColor: '#3c84f3',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('ExportData');
         },
-        iconUrl: require('../../../assets/icon/menu/menu2/currency.png'),
+        iconUrl: require('../../../assets/icon/menu/menu2/export.png'),
     },
     {
         id: '8',
         title: 'Saving',
-        backgroundColor: 'white',
+        backgroundColor: '#eb5240',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('SavingList');
         },
-        iconUrl: require('../../../assets/icon/menu/menu2/currency.png'),
+        iconUrl: require('../../../assets/icon/menu/menu2/saving.png'),
     },
 ]
 

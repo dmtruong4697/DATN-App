@@ -91,6 +91,7 @@ const MenuScreen: React.FC<IProps>  = () => {
         // contentContainerStyle={{width: layout.width-18, gap: 5,}}
       />
 
+      <View style={styles.viewList}>
       <FlatList
         data={MenuData2}
         keyExtractor={item => item.id}
@@ -105,8 +106,9 @@ const MenuScreen: React.FC<IProps>  = () => {
             iconUrl={item.iconUrl}
           />
         )}
-        contentContainerStyle={{width: windowWidth, gap: 5, marginTop: 10, marginBottom: 10,}}
+        contentContainerStyle={{width: '100%', gap: 10,}}
       />
+      </View>
 
       <FlatList
         data={MenuData3}

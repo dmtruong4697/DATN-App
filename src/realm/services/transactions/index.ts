@@ -8,6 +8,7 @@ import { TransactionStore } from "../../../mobx/transaction";
 import { createRealmContext } from "@realm/react";
 import { Budget } from "../../models/Budget";
 import { RealmContext } from "../../models";
+import { WalletSelectList } from "../../../mobx/exportData";
 
 type TransactionType = {
     _id: Realm.BSON.ObjectId;
@@ -208,15 +209,17 @@ export function getExpensesTotalByTime(
 
 export function getTransactionByWalletListAndTime(
     realm: Realm,
-    walletIds: Realm.BSON.ObjectId[],
+    wallets: WalletSelectList[],
     startTime: string,
     finishTime: string,
 ) {
     let array: TransactionType[] = [];
-    walletIds.map((item) => {
-        const transactions = getTransactionByWalletId(realm, item).filtered('createAt >= $0 AND createAt<=$1', startTime, finishTime);
-        array = array.concat(transactions);
+    wallets.map((item) => {
+        if(item.isSelected) {
+        const transactions = getTransactionByWalletId(realm, item.wallet._id).filtered('createAt >= $0 AND createAt<=$1', startTime, finishTime);
+        if(transactions.length > 0) array = array.concat(transactions);
+        }
     })
 
-    return array;
+    return array[0];
 }

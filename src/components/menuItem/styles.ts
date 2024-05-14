@@ -2,14 +2,14 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     viewContainer: {
-        width: 90,
+        width: 83,
         alignItems: 'center',
         // justifyContent: 'center',
     },
 
     btnContainer: {
-        width: 60,
-        height: 60,
+        width: 58,
+        height: 58,
         borderRadius: 15,
         backgroundColor: 'pink',
         justifyContent: 'center',

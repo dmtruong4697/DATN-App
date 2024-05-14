@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     viewContainer: {
         // flex: 1,
         paddingBottom: 50,
+        // backgroundColor: '#FFFFFF',
     },
 
     viewTopContainer: {
@@ -106,6 +107,15 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
         color: colors.PrimaryColor,
+    },
+
+    viewList: {
+        // width: '100%',
+        backgroundColor: '#FFFFFF',
+        margin: 10,
+        borderRadius: 10,
+        padding: 5,
+        paddingVertical: 17,
     },
 
 })
