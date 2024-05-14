@@ -36,12 +36,24 @@ export async function login(
             return message;
         } else {
             console.log(responce.status);
+            UserStore.setIsLoading(false);
+            const message = responce.data.message;
+            return message;
         }
     } catch (error) {
-      console.log(error);
-      const message = error.responce.data.message;
-      UserStore.setIsLoading(false);
-        throw error;
+        let message = '';
+        if (axios.isAxiosError(error)) {
+            console.error("Error message:", error.message);
+            if (error.response) {
+              console.error("Error details:", error.response.data);
+              message = error.response.data.message;
+            }    
+          } else {
+              console.error("Unhandled error:", error);
+              message = 'Unhandled error';
+            }
+
+        UserStore.setIsLoading(false);
         return message;
     }
 }

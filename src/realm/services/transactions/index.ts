@@ -223,3 +223,13 @@ export function getTransactionByWalletListAndTime(
 
     return array[0];
 }
+
+export function getTransactionByTypeId(
+    realm: Realm,
+    typeId: Realm.BSON.ObjectId,
+) {
+    const allTransaction = realm.objects<Transaction>('Transaction');
+
+    const transactions = allTransaction.filtered('transactionTypeId = $0', typeId);
+    return transactions;
+}

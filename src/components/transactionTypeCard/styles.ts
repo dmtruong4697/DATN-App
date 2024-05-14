@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
         // justifyContent: 'center',
+        backgroundColor: '#FFFFFF',
     },
 
     txtName: {

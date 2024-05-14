@@ -112,7 +112,36 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 15,
         marginTop: 30,
+        marginBottom: 30,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+
+    viewTransactionHistory: {
+        flex: 1,
+        width: '100%',
+        padding: 10,
+        flexDirection: 'column',
+        backgroundColor: '#FFFFFF',
+    },
+
+    viewTitle: {
+        width: '100%',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginBottom: 10,
+    },
+
+    txtListTitle: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: '#000000',
+    },
+
+    txtSeeAll: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#666666',
     },
 })

@@ -35,4 +35,22 @@ export const styles = StyleSheet.create({
         color: '#000000',
         marginTop: 5,
     },
+
+    txtGroupTitle: {
+        fontSize: 18,
+        fontWeight: '400',
+        color: '#666666',
+        padding: 5,
+    },
+
+    viewGroup: {
+        width: '100%',
+        backgroundColor: '#FFFFFF',
+        flexDirection: 'column',
+
+        borderTopWidth: 1,
+        borderTopColor: '#e3e3e3',
+        borderBottomWidth: 1,
+        borderBlockColor: '#e3e3e3',
+    },
 })

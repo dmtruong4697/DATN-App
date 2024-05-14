@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, TextInput, ScrollView, SafeAreaView, Dimensions, ToastAndroid } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, TextInput, ScrollView, SafeAreaView, Dimensions, ToastAndroid, Pressable } from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
@@ -63,7 +63,10 @@ const DashboardScreen: React.FC<IProps>  = () => {
       });
 
       return (
-        <View style={styles.viewSlideItem}>
+        <Pressable 
+          style={styles.viewSlideItem}
+          onPress={() => {navigation.navigate('WalletDetail', {_id: item._id})}}
+        >
           <View style={styles.viewTotal}>
             <View style={styles.viewTotalContent}>
               <Text style={styles.txtTotalBalance}>{item.name}</Text>
@@ -98,7 +101,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
               <Text style={styles.txtIncomeTotal}>{formatter.format(getWalletExpensesByWalletAndDay(realm, item._id, today))}</Text>
             </View>
           </View>
-        </View>
+        </Pressable>
       );
     };
 
@@ -169,9 +172,9 @@ const DashboardScreen: React.FC<IProps>  = () => {
               renderItem={renderItem}
               enableSnap={true}
               // loop={true}
-              autoplay={true}
-              autoplayDelay={10000}
-              autoplayInterval={10000}
+              // autoplay={true}
+              // autoplayDelay={10000}
+              // autoplayInterval={10000}
               
               // onSnapToItem={(index: number) => setState({ activeIndex: index })}
             />

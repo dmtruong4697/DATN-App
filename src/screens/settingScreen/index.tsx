@@ -33,6 +33,12 @@ const SettingScreen: React.FC<IProps>  = () => {
         </TouchableOpacity>
       </View>
 
+      {/* display */}
+      <Text style={styles.txtGroupTitle}>DISPLAY</Text>
+      <View style={styles.viewGroup}>
+        
+      </View>
+
     </View>
   )
 }

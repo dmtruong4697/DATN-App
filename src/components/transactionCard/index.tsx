@@ -61,6 +61,7 @@ const TransactionCard: React.FC<IProps>  = ({
         onPress={() => {navigation.navigate('TransactionDetail', {_id: _id})}}
     >
         <View style={styles.viewIcon}>
+            {/* <Image style={styles.imgIcon} source={require('../../../assets/icon/transactionCard/transaction.png')}/> */}
         </View>
 
         <View style={styles.viewContent}>

@@ -20,8 +20,15 @@ export const styles = StyleSheet.create({
         backgroundColor: '#F0F6F5',
         marginRight: 10,
         padding: 5,
+
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
+    imgIcon: {
+        height: 30,
+        width: 30,
+    },
 
     viewContent: {
         flex: 1,
