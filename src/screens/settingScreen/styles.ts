@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
 
         borderTopWidth: 1,
         borderTopColor: '#e3e3e3',
-        borderBottomWidth: 1,
-        borderBlockColor: '#e3e3e3',
+        // borderBottomWidth: 1,
+        // borderBlockColor: '#e3e3e3',
     },
 })

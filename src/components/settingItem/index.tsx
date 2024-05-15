@@ -10,19 +10,28 @@ import { observer } from 'mobx-react'
 interface IProps {
     id: string,
     title: string,
+    state?: string,
     onPress: () => void,
     renderToggle: boolean,
-    toggleState: boolean,
+    toggleState?: boolean,
+    onPressToggle?: () => void,
 }
 
-const SettingItem: React.FC<IProps>  = ({id, onPress, renderToggle, title, toggleState}) => {
+const SettingItem: React.FC<IProps>  = ({id, onPress, renderToggle, title, toggleState, state}) => {
 
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
 
   return (
-   
+    <TouchableOpacity
+      style={styles.viewContainer}
+      onPress={onPress}
+    >
+      <Text style={styles.txtTitle}>{title}</Text>
+      {(!renderToggle) && <Text style={styles.txtState}>{state}</Text>}
+      {(!renderToggle) && <Image style={styles.imgRight} source={require('../../../assets/icon/menu/right.png')}/>}
+    </TouchableOpacity>
   )
 }
 
