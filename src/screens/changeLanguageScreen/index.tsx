@@ -6,16 +6,18 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SettingMenuData1 } from '../../data/settingMenuData';
 import SettingItem from '../../components/settingItem';
 import { observer } from 'mobx-react'
+import { LanguageData } from '../../data/languageData';
+import LanguageItem from '../../components/languageItem';
 
 interface IProps {}
 
-const SettingScreen: React.FC<IProps>  = () => {
+const ChangeLanguageScreen: React.FC<IProps>  = () => {
 
     const layout = useWindowDimensions();
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   
   return (
-    <ScrollView contentContainerStyle={styles.viewContainer}>
+    <View style={styles.viewContainer}>
       <View style={styles.viewHeader}>
         <TouchableOpacity
           style={styles.btnBack}
@@ -24,7 +26,7 @@ const SettingScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Setting</Text>
+        <Text style={styles.txtTitle}>Select language</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -32,34 +34,31 @@ const SettingScreen: React.FC<IProps>  = () => {
 
           }}
         >
-          <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/>
+          {/* <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/> */}
         </TouchableOpacity>
       </View>
 
-      {/* display */}
-      <Text style={styles.txtGroupTitle}>DISPLAY</Text>
+      {/* list */}
       <View style={styles.viewGroup}>
         <FlatList
-          data={SettingMenuData1}
+          data={LanguageData}
           keyExtractor={item => item.id}
           scrollEnabled={false}
           renderItem={({item}) => (
-            <SettingItem
-              id={item.id}
-              title={item.title}
-              state={item.state}
-              onPress={() => item.onPress(navigation)}
-              renderToggle={item.renderToggle}
-              onPressToggle={item.onPressToggle}
-              toggleState={item.toggleState}
+            <LanguageItem
+                id={item.id}
+                code={item.code}
+                eName={item.eName}
+                iconUrl={item.iconUrl}
+                name={item.name}
             />
           )}
           // contentContainerStyle={{width: layout.width-18, gap: 5,}}
         />
       </View>
 
-    </ScrollView>
+    </View>
   )
 }
 
-export default observer(SettingScreen)    
+export default observer(ChangeLanguageScreen)    

@@ -1,0 +1,14 @@
+{
+    "translation": {
+      "hello":"Hello",
+      "dbs-good morning": "Good morning",
+      "dbs-today": "Today",
+      "dbs-income": "Income",
+      "dbs-expenses": "Expenses",
+      "dbs-transactions history": "Transactions History",
+      "dbs-see all": "See all",
+      "dbs-statistics": "Statistics",
+      "dbs-detail": "Detail",
+      "dbs-loan history": "Loan/Debts History"
+    }
+}

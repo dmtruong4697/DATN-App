@@ -1,0 +1,14 @@
+{
+    "translation": {
+      "hello":"你好",
+      "dbs-good morning": "早上好",
+      "dbs-today": "今天",
+      "dbs-income": "收入",
+      "dbs-expenses": "花费",
+      "dbs-transactions history": "交易记录",
+      "dbs-see all": "查看全部",
+      "dbs-statistics": "统计数据",
+      "dbs-detail": "细节",
+      "dbs-loan history": "贷款/债务历史记录"
+    }
+}

@@ -10,6 +10,7 @@ import { MenuData1, MenuData2, MenuData3 } from '../../data/menuData';
 import { UserStore } from '../../mobx/auth';
 import { uploadData } from '../../services/sync';
 import { RealmContext } from '../../realm/models';
+import { observer } from 'mobx-react'
 
 interface IProps {}
 
@@ -143,4 +144,4 @@ const MenuScreen: React.FC<IProps>  = () => {
   )
 }
 
-export default MenuScreen    
+export default observer(MenuScreen)

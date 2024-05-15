@@ -16,6 +16,7 @@ import LoanCard from '../../components/loanCard';
 import { getLoanHistory } from '../../realm/services/loan';
 import { UserStore } from '../../mobx/auth';
 import { colors } from '../../constants/colors';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -38,6 +39,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     let transactions = getTransactionHistory(realm, 5);
     let loans = getLoanHistory(realm, 5);
@@ -83,12 +85,12 @@ const DashboardScreen: React.FC<IProps>  = () => {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.txtTotalBalance}>Today:</Text>
+          <Text style={styles.txtTotalBalance}>{t('dbs-today')}:</Text>
           <View style={styles.viewStatic}>
             <View style={styles.viewIncome}>
               <View style={styles.viewIncomeText}>
               <Image style={styles.imgIncomeImage} source={require('../../../assets/icon/dashboard/up.png')}/>
-                <Text style={styles.txtIncome}>Income</Text>
+                <Text style={styles.txtIncome}>{t('dbs-income')}</Text>
               </View>
               <Text style={styles.txtIncomeTotal}>{formatter.format(getWalletIncomeByWalletAndDay(realm, item._id, today))}</Text>
             </View>
@@ -96,7 +98,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
             <View style={styles.viewExpent}>
               <View style={styles.viewExpentText}>
                 <Image style={styles.imgIncomeImage} source={require('../../../assets/icon/dashboard/down.png')}/>
-                <Text style={styles.txtIncome}>Expenses</Text>
+                <Text style={styles.txtIncome}>{t('dbs-expenses')}</Text>
               </View>
               <Text style={styles.txtIncomeTotal}>{formatter.format(getWalletExpensesByWalletAndDay(realm, item._id, today))}</Text>
             </View>
@@ -149,7 +151,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
             }}
           >
             <View style={styles.viewHeaderText}>
-              <Text style={styles.txtGreeting}>Good morning,</Text>
+              <Text style={styles.txtGreeting}>{t('dbs-good morning')},</Text>
               <Text style={styles.txtName}>{UserStore.user.userName}</Text>
             </View>
 
@@ -185,13 +187,13 @@ const DashboardScreen: React.FC<IProps>  = () => {
       {/* transaction history */}
       <View style={styles.viewTransactionHistory}>
         <View style={styles.viewTitle}>
-          <Text style={styles.txtTitle}>Transactions History</Text>
+          <Text style={styles.txtTitle}>{t('dbs-transactions history')}</Text>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('Transaction');
             }}
           >
-            <Text style={styles.txtSeeAll}>See all</Text>
+            <Text style={styles.txtSeeAll}>{t('dbs-see all')}</Text>
           </TouchableOpacity>
         </View>
 
@@ -219,13 +221,13 @@ const DashboardScreen: React.FC<IProps>  = () => {
       {/* chart */}
       <View style={styles.viewTransactionHistory}>
         <View style={styles.viewTitle}>
-          <Text style={styles.txtTitle}>Statistics</Text>
+          <Text style={styles.txtTitle}>{t('dbs-statistics')}</Text>
           <TouchableOpacity
             onPress={() => {
               setBarData(getDayOfWeekAnalyst(realm, false, 'VND'));
             }}
           >
-            <Text style={styles.txtSeeAll}>Detail</Text>
+            <Text style={styles.txtSeeAll}>{t('dbs-detail')}</Text>
           </TouchableOpacity>
         </View>
 
@@ -271,13 +273,13 @@ const DashboardScreen: React.FC<IProps>  = () => {
       {/* loan/debt history */}
       <View style={styles.viewTransactionHistory}>
         <View style={styles.viewTitle}>
-          <Text style={styles.txtTitle}>Loans/Debts History</Text>
+          <Text style={styles.txtTitle}>{t('dbs-loan history')}</Text>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('LoanList');
             }}
           >
-            <Text style={styles.txtSeeAll}>See all</Text>
+            <Text style={styles.txtSeeAll}>{t('dbs-see all')}</Text>
           </TouchableOpacity>
         </View>
 

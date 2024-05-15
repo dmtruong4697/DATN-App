@@ -1,0 +1,14 @@
+{
+    "translation": {
+      "hello":"Hello",
+      "dbs-good morning": "Chào buổi sáng",
+      "dbs-today": "Hôm nay",
+      "dbs-income": "Thu nhập",
+      "dbs-expenses": "Chi tiêu",
+      "dbs-transactions history": "Lịch sử giao dịch",
+      "dbs-see all": "Tất cả",
+      "dbs-statistics": "Thống kê",
+      "dbs-detail": "Chi tiết",
+      "dbs-loan history": "Lịch sử cho vay/nợ"
+    }
+}
