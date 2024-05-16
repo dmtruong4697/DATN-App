@@ -13,6 +13,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { getAllWallet, getWalletById } from '../../realm/services/wallets';
 import WalletCard from '../../components/walletCard';
 import { addLoan, getAllLoan } from '../../realm/services/loan';
+import { useTranslation } from 'react-i18next';
 
 const FormContext = createContext<any>(null);
 
@@ -37,6 +38,7 @@ const AddLoanScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     const [total, setTotal] = useState<any>();
     const [selectedDay, setSelectedDay] = React.useState(new Date().toISOString().slice(0, 10));
@@ -165,7 +167,7 @@ const AddLoanScreen: React.FC<IProps>  = () => {
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/back.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Add Loan/Debt</Text>
+            <Text style={styles.txtTitle}>{t('als-add loan title')}</Text>
             
             <TouchableOpacity
               style={styles.btnBack}
@@ -185,7 +187,7 @@ const AddLoanScreen: React.FC<IProps>  = () => {
 
         {/* total */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>TOTAL</Text>
+          <Text style={styles.txtFormItemTitle}>{t('als-total')}</Text>
           <View style={[styles.viewFormItem, {padding: 0,}]}>
             <Text style={styles.txtCode}>{getWalletById(realm, walletId)?.currencyUnit}</Text>
             <TextInput 
@@ -206,7 +208,7 @@ const AddLoanScreen: React.FC<IProps>  = () => {
             >
               {isLoan && <View style={styles.btnSelectedItem}/>}
             </TouchableOpacity>
-            <Text style={styles.txtRadioItem}>Loan</Text>
+            <Text style={styles.txtRadioItem}>{t('als-loan')}</Text>
           </View>
 
           {/* debt */}
@@ -217,13 +219,13 @@ const AddLoanScreen: React.FC<IProps>  = () => {
             >
               {!isLoan && <View style={styles.btnSelectedItem}/>}
             </TouchableOpacity>
-            <Text style={styles.txtRadioItem}>Debt</Text>
+            <Text style={styles.txtRadioItem}>{t('als-debt')}</Text>
           </View>
         </View>
 
         {/* date */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>DATE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('als-date')}</Text>
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={handlePresentDateModalPress}
@@ -236,7 +238,7 @@ const AddLoanScreen: React.FC<IProps>  = () => {
 
         {/* wallet */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>WALLET</Text>
+          <Text style={styles.txtFormItemTitle}>{t('als-wallet')}</Text>
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={() => {
@@ -251,7 +253,7 @@ const AddLoanScreen: React.FC<IProps>  = () => {
 
         {/* note */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>PEOPLE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('als-people')}</Text>
           <TouchableOpacity
             style={styles.viewFormItem}
             onPress={() => {
@@ -263,7 +265,7 @@ const AddLoanScreen: React.FC<IProps>  = () => {
         </View>
 
         <Button
-          content='ADD LOAN/DEBT'
+          content={t('als-add loan button')}
           onPress={() => {
             handleAddLoan();
           }}

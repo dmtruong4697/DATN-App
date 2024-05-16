@@ -13,6 +13,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import TransactionCard from '../../components/transactionCard';
 import { Realm } from "realm";
 import GroupTransactionCard from '../../components/groupTransactionCard';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -21,6 +22,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const {useRealm} = RealmContext;
   const realm = useRealm();
+  const {t} = useTranslation();
 
   const route = useRoute<RouteProp<RootStackParamList, 'GroupDetail'>>();
   const {_id} = route.params;
@@ -96,16 +98,16 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
       <View style={styles.viewTopGroup}>
 
         <View style={styles.viewMember}>
-          <Text style={styles.txtOwnerText}>Total: </Text>
+          <Text style={styles.txtOwnerText}>{t('gds-total')}: </Text>
           <Text style={styles.txtTotal}>{formatter.format(total)}</Text>
-          <Text style={styles.txtOwnerText}>{transactions.length} transactions</Text>
+          <Text style={styles.txtOwnerText}>{transactions.length} {t('gds-transactions')}</Text>
           <TouchableOpacity
             style={styles.btnAddTransaction}
             onPress={() => {
               navigation.navigate('AddGroupTransaction', {_id: _id});
             }}
           >
-            <Text style={styles.txtButton}>Add Transaction</Text>
+            <Text style={styles.txtButton}>{t('gds-add transaction')}</Text>
           </TouchableOpacity>
         </View>
 
@@ -124,7 +126,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
             />
           </TouchableOpacity>
 
-          <Text style={styles.txtOwnerText}>Invite Code: </Text>
+          <Text style={styles.txtOwnerText}>{t('gds-invite code')}: </Text>
           <TouchableOpacity
             style={styles.viewInviteCode}
             onPress={() => {
@@ -142,7 +144,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
               navigation.navigate('SplitMoney', {_id: _id})
             }}
           >
-            <Text style={styles.txtButton}>Split Money</Text>
+            <Text style={styles.txtButton}>{t('gds-split money')}</Text>
           </TouchableOpacity>
 
         </View>
@@ -152,13 +154,13 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
       {/* transaction history */}
       <View style={styles.viewTransactionHistory}>
         <View style={styles.viewTitle}>
-          <Text style={styles.txtTitle}>Transactions History</Text>
+          <Text style={styles.txtTitle}>{t('gds-transactions history')}</Text>
           <TouchableOpacity
             onPress={() => {
               // navigation.navigate('Transaction');
             }}
           >
-            <Text style={styles.txtSeeAll}>See all</Text>
+            <Text style={styles.txtSeeAll}>{t('gds-see all')}</Text>
           </TouchableOpacity>
         </View>
 

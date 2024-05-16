@@ -12,6 +12,7 @@ import { CurrencyUnitData } from '../../constants/currencyUnit';
 import CurrencyUnitCard from '../../components/currencyUnitCard';
 import { FlatList } from 'react-native-gesture-handler';
 import { RootStackParamList } from '../../navigator/mainNavigator';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -27,6 +28,7 @@ const EditWalletScreen: React.FC<IProps> = () => {
   const {useRealm} = RealmContext;
   const realm = useRealm();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const {t} = useTranslation();
 
   const route = useRoute<RouteProp<RootStackParamList, 'EditWallet'>>();
   const {_id} = route.params;
@@ -69,7 +71,7 @@ const EditWalletScreen: React.FC<IProps> = () => {
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/back.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Update Wallet</Text>
+            <Text style={styles.txtTitle}>{t('ews-update wallet title')}</Text>
             
             <TouchableOpacity
               style={styles.btnBack}
@@ -86,7 +88,7 @@ const EditWalletScreen: React.FC<IProps> = () => {
       <View style={styles.viewFormContainer}>
         {/* name */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>NAME</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ews-name')}</Text>
           <TextInput 
             style={styles.viewFormItem}
             onChangeText={(text) => {setName(text)}}
@@ -96,7 +98,7 @@ const EditWalletScreen: React.FC<IProps> = () => {
 
         {/* balance */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>BALANCE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ews-balance')}</Text>
           <TextInput 
             style={styles.viewFormItem}
             onChangeText={(number) => {setBalance(Number(number))}}
@@ -107,7 +109,7 @@ const EditWalletScreen: React.FC<IProps> = () => {
 
         {/* currency unit */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>UNIT</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ews-unit')}</Text>
           <TouchableOpacity
             style={styles.viewFormItem}
           >
@@ -116,7 +118,7 @@ const EditWalletScreen: React.FC<IProps> = () => {
         </View>
 
         <Button
-          content='UPDATE WALLET'
+          content={t('ews-update wallet button')}
           onPress={() => {
             handleUpdateWallet();
           }}
@@ -125,7 +127,7 @@ const EditWalletScreen: React.FC<IProps> = () => {
         />
 
         <Button
-          content='CANCEL'
+          content={t('ews-cancel')}
           onPress={() => {
             navigation.goBack();
           }}

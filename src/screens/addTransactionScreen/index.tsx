@@ -19,6 +19,7 @@ import { Realm } from "realm";
 import { FlatList } from 'react-native-gesture-handler';
 import { getAllWallet, getWalletById } from '../../realm/services/wallets';
 import WalletCard from '../../components/walletCard';
+import { useTranslation } from 'react-i18next';
 
 const FormContext = createContext<any>(null);
 
@@ -41,6 +42,7 @@ const ExpensesRoute = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const {useRealm} = RealmContext;
   const realm = useRealm();
+  const {t} = useTranslation();
   const {typeName, typeId, setTypeId, setTypeName, typeIcon, setTypeIcon, handleCloseTypeModal} = useContext(FormContext);
 
   let transactionTypes = getListTransactionType(realm, false);
@@ -59,7 +61,7 @@ const ExpensesRoute = () => {
       }}
     >
       <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
-      <Text style={styles.txtAddTypeButton}>Add Transaction Type</Text>
+      <Text style={styles.txtAddTypeButton}>{t('ats-add transaction type')}</Text>
     </TouchableOpacity>
 
     <FlatList
@@ -90,6 +92,7 @@ const IncomeRoute = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const {useRealm} = RealmContext;
   const realm = useRealm();
+  const {t} = useTranslation();
   const {typeName, typeId, setTypeId, setTypeName, typeIcon, setTypeIcon, handleCloseTypeModal} = useContext(FormContext);
 
   let transactionTypes = getListTransactionType(realm, true);
@@ -108,7 +111,7 @@ const IncomeRoute = () => {
       }}
     >
       <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
-      <Text style={styles.txtAddTypeButton}>Add Transaction Type</Text>
+      <Text style={styles.txtAddTypeButton}>{t('ats-add transaction type')}</Text>
     </TouchableOpacity>
 
     <FlatList
@@ -144,8 +147,9 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
-    
-    const [typeName, setTypeName] = useState('Choose Type');
+    const {t} = useTranslation();
+
+    const [typeName, setTypeName] = useState(t('ats-choose type'));
     const [typeId, setTypeId] = useState<Realm.BSON.ObjectId>(new Realm.BSON.ObjectId);
     // const [typeId, setTypeId] = useState<Realm.BSON.ObjectId>(new Realm.BSON.ObjectId());
     const [typeIcon, setTypeIcon] = useState();
@@ -185,8 +189,8 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
   // type bottom sheet tab
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: 'Expenses' },
-    { key: 'second', title: 'Income' },
+    { key: 'first', title: t('ats-expenses') },
+    { key: 'second', title: t('ats-income') },
   ]);
 
   // type bottom sheet
@@ -308,7 +312,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/back.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Add Transaction</Text>
+            <Text style={styles.txtTitle}>{t('ats-add transaction title')}</Text>
             
             <TouchableOpacity
               style={styles.btnBack}
@@ -327,7 +331,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
       <View style={styles.viewFormContainer}>
         {/* transaction type */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>TRANSACTION TYPE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ats-transaction type')}</Text>
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={handlePresentTypeModalPress}
@@ -340,7 +344,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
 
         {/* total */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>TOTAL</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ats-total')}</Text>
           <View style={[styles.viewFormItem, {padding: 0,}]}>
             <Text style={styles.txtCode}>{getWalletById(realm, walletId)?.currencyUnit}</Text>
             <TextInput 
@@ -353,7 +357,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
 
         {/* date */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>DATE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ats-date')}</Text>
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={handlePresentDateModalPress}
@@ -366,7 +370,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
 
         {/* wallet */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>WALLET</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ats-wallet')}</Text>
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={() => {
@@ -381,7 +385,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
 
         {/* note */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>NOTE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ats-note')}</Text>
           <TouchableOpacity
             style={styles.viewFormItem}
             onPress={() => {
@@ -393,7 +397,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
         </View>
 
         <Button
-          content='ADD TRANSACTION'
+          content={t('ats-add transaction button')}
           onPress={() => {
             handleAddTransaction();
           }}
@@ -497,7 +501,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
                   }}
                 >
                   <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
-                  <Text style={styles.txtAddTypeButton}>Add Wallet</Text>
+                  <Text style={styles.txtAddTypeButton}>{t('ats-add wallet')}</Text>
                 </TouchableOpacity>
 
                 <FlatList
@@ -539,7 +543,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
                   style={{color: '#666666', fontWeight: '400', fontSize: 16,}}
                   onChangeText={(text) => {setNote(text)}}
                   multiline
-                  placeholder='note here ...'
+                  placeholder={t('ats-note here')}
                 />
               </BottomSheetView>
             </BottomSheetModal>

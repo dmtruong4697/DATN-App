@@ -1,10 +1,13 @@
+import { useTranslation } from "react-i18next";
 import { ExportDataStore } from "../../mobx/exportData"
+
+const {t} = useTranslation();
 
 export const TimeRangeData = [
     {
         id: '1',
         type: 'alltime',
-        name: 'All time',
+        name: t('trd-all time'),
         onPress: () => {
             ExportDataStore.setAllTime();
         }
@@ -13,7 +16,7 @@ export const TimeRangeData = [
     {
         id: '2',
         type: 'thisweek',
-        name: 'This week',
+        name: t('trd-this week'),
         onPress: () => {
             ExportDataStore.setThisWeek();
         }
@@ -21,7 +24,7 @@ export const TimeRangeData = [
     {
         id: '3',
         type: 'thismonth',
-        name: 'This month',
+        name: t('trd-this month'),
         onPress: () => {
             ExportDataStore.setThisMonth();
         }
@@ -29,7 +32,7 @@ export const TimeRangeData = [
     {
         id: '4',
         type: 'thisyear',
-        name: 'This year',
+        name: t('trd-this year'),
         onPress: () => {
             ExportDataStore.setThisYear();
         }

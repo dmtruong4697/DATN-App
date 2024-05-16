@@ -11,6 +11,7 @@ import { addWallet, getAllWallet } from '../../realm/services/wallets';
 import { CurrencyUnitData } from '../../constants/currencyUnit';
 import CurrencyUnitCard from '../../components/currencyUnitCard';
 import { FlatList } from 'react-native-gesture-handler';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -26,6 +27,7 @@ const AddWalletScreen: React.FC<IProps> = () => {
   const {useRealm} = RealmContext;
   const realm = useRealm();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const {t} = useTranslation();
 
   const [name, setName] = useState('');
   const [balance, setBalance] = useState<number|any>(0);
@@ -86,7 +88,7 @@ const AddWalletScreen: React.FC<IProps> = () => {
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/back.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Add Wallet</Text>
+            <Text style={styles.txtTitle}>{t('aws-add wallet title')}</Text>
             
             <TouchableOpacity
               style={styles.btnBack}
@@ -103,7 +105,7 @@ const AddWalletScreen: React.FC<IProps> = () => {
       <View style={styles.viewFormContainer}>
         {/* name */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>NAME</Text>
+          <Text style={styles.txtFormItemTitle}>{t('aws-name')}</Text>
           <TextInput 
             style={styles.viewFormItem}
             onChangeText={(text) => {setName(text)}}
@@ -112,7 +114,7 @@ const AddWalletScreen: React.FC<IProps> = () => {
 
         {/* balance */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>BALANCE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('aws-balance')}</Text>
           <TextInput 
             style={styles.viewFormItem}
             onChangeText={(number) => {setBalance(Number(number))}}
@@ -122,7 +124,7 @@ const AddWalletScreen: React.FC<IProps> = () => {
 
         {/* currency unit */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>UNIT</Text>
+          <Text style={styles.txtFormItemTitle}>{t('aws-unit')}</Text>
           <TouchableOpacity
             style={styles.viewFormItem}
             onPress={handlePresentUnitModalPress}
@@ -132,7 +134,7 @@ const AddWalletScreen: React.FC<IProps> = () => {
         </View>
 
         <Button
-          content='ADD WALLET'
+          content={t('aws-add wallet')}
           onPress={() => {
             handleAddWallet();
           }}
@@ -141,7 +143,7 @@ const AddWalletScreen: React.FC<IProps> = () => {
         />
 
         <Button
-          content='CANCEL'
+          content={t('aws-cancel')}
           onPress={() => {
             navigation.goBack();
           }}

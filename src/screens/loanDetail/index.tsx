@@ -7,6 +7,7 @@ import { RootStackParamList } from '../../navigator/mainNavigator';
 import { RealmContext } from '../../realm/models';
 import { getWalletById } from '../../realm/services/wallets';
 import { deleteLoanById, getLoanById } from '../../realm/services/loan';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -15,6 +16,7 @@ const LoanDetailScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     const route = useRoute<RouteProp<RootStackParamList, 'LoanDetail'>>();
     const {_id} = route.params;
@@ -43,7 +45,7 @@ const LoanDetailScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Loan/Debt Detail</Text>
+        <Text style={styles.txtTitle}>{t('lds-loan debt detail')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -52,7 +54,7 @@ const LoanDetailScreen: React.FC<IProps>  = () => {
           }}
         >
           {/* <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/> */}
-          <Text style={styles.txtEdit}>Edit</Text>
+          <Text style={styles.txtEdit}>{t('lds-edit')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -79,7 +81,7 @@ const LoanDetailScreen: React.FC<IProps>  = () => {
             navigation.goBack();
         }}
       >
-        <Text style={styles.txtDelete}>Delete</Text>
+        <Text style={styles.txtDelete}>{t('lds-delete')}</Text>
       </TouchableOpacity>
 
     </View>

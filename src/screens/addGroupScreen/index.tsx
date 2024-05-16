@@ -9,6 +9,7 @@ import { CurrencyUnitData } from '../../constants/currencyUnit';
 import { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import Button from '../../components/button';
 import { createGroup } from '../../services/group';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -18,6 +19,7 @@ const AddGroupScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     const [name, setName] = useState('');
     const [currencyUnit, setCurrencyUnit] = useState(CurrencyUnitData[1].code);
@@ -73,7 +75,7 @@ const AddGroupScreen: React.FC<IProps>  = () => {
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/back.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Create new Group</Text>
+            <Text style={styles.txtTitle}>{t('ags-create new group')}</Text>
             
             <TouchableOpacity
               style={styles.btnBack}
@@ -89,7 +91,7 @@ const AddGroupScreen: React.FC<IProps>  = () => {
       <View style={styles.viewFormContainer}>
         {/* name */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>NAME</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ags-name')}</Text>
           <TextInput 
             style={styles.viewFormItem}
             onChangeText={(text) => {setName(text)}}
@@ -98,7 +100,7 @@ const AddGroupScreen: React.FC<IProps>  = () => {
 
         {/* currency unit */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>UNIT</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ags-unit')}</Text>
           <TouchableOpacity
             style={styles.viewFormItem}
             onPress={handlePresentUnitModalPress}
@@ -108,7 +110,7 @@ const AddGroupScreen: React.FC<IProps>  = () => {
         </View>
 
         <Button
-          content='SAVE'
+          content={t('ags-save')}
           onPress={() => {
             handleCreateGroup();
           }}
@@ -117,7 +119,7 @@ const AddGroupScreen: React.FC<IProps>  = () => {
         />
 
         <Button
-          content='CANCEL'
+          content={t('ags-cancel')}
           onPress={() => {
             navigation.goBack();
           }}

@@ -10,6 +10,7 @@ import { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, Bottom
 import { CurrencyUnitData } from '../../constants/currencyUnit';
 import CurrencyUnitCard from '../../components/currencyUnitCard';
 import { convert } from '../../services/currencyConvert';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -17,6 +18,7 @@ const ConvertScreen: React.FC<IProps>  = () => {
 
     const layout = useWindowDimensions();
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+    const {t} = useTranslation();
 
     const [baseCurrency, setBaseCurrency] = useState({
         code: CurrencyUnitData[0].code,
@@ -75,7 +77,7 @@ const ConvertScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Converter</Text>
+        <Text style={styles.txtTitle}>{t('ccs-converter')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -89,7 +91,7 @@ const ConvertScreen: React.FC<IProps>  = () => {
 
       <View style={styles.viewConvertCard}>
         <View style={styles.viewCardItem}>
-            <Text style={styles.txtItemTitle}>Amount</Text>
+            <Text style={styles.txtItemTitle}>{t('ccs-amount')}</Text>
             <View style={styles.viewInfo}>
                 <TouchableOpacity
                     style={styles.btnCurrency}
@@ -123,7 +125,7 @@ const ConvertScreen: React.FC<IProps>  = () => {
         </View>
 
         <View style={styles.viewCardItem}>
-            <Text style={styles.txtItemTitle}>Converted Amount</Text>
+            <Text style={styles.txtItemTitle}>{t('ccs-converted amount')}</Text>
             <View style={styles.viewInfo}>
                 <TouchableOpacity
                     style={styles.btnCurrency}
@@ -147,7 +149,7 @@ const ConvertScreen: React.FC<IProps>  = () => {
       </View>
 
       <Button
-        content='Convert'
+        content={t('ccs-convert')}
         onPress={() => {
             convert(baseTotal, baseCurrency.code, convertCurrency.code)
                 .then((result) => {setConvertTotal(Math.round(Number(result) * 100) / 100)});

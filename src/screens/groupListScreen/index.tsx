@@ -9,6 +9,7 @@ import { RealmContext } from '../../realm/models';
 import { getAllWallet } from '../../realm/services/wallets';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import Button from '../../components/button';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -18,6 +19,7 @@ const GroupListScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     const [groupIds, setGroupIds] = useState<any[]>([]);
     const fetchGroupList = async() => {
@@ -68,7 +70,7 @@ const GroupListScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Groups</Text>
+        <Text style={styles.txtTitle}>{t('gls-groups')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -121,20 +123,20 @@ const GroupListScreen: React.FC<IProps>  = () => {
                 }}
               >
                 <Image style={styles.imgButtomIcon} source={require('../../../assets/icon/groupList/create.png')}/>
-                <Text style={styles.txtButton}>Create a new Group</Text>
+                <Text style={styles.txtButton}>{t('gls-create a new group')}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.btnBottomSheet}
               >
                 <Image style={styles.imgButtomIcon} source={require('../../../assets/icon/groupList/hastag.png')}/>
-                <Text style={styles.txtButton}>Join a Group via invite code</Text>
+                <Text style={styles.txtButton}>{t('gls-join')}</Text>
               </TouchableOpacity>
 
               <TextInput 
                 style={styles.inputCode}
                 // inputMode='numeric'
-                placeholder='Enter Code'
+                placeholder={t('gls-enter code')}
                 value={inviteCode}
                 onChangeText={(text) => {
                   setCode(text);
@@ -148,7 +150,7 @@ const GroupListScreen: React.FC<IProps>  = () => {
                   height: 45,
                   borderRadius: 5,
                 }}
-                content='Join Group'
+                content={t('gls-join group')}
                 onPress={() => {
                   handleJoinGroup();
                 }}

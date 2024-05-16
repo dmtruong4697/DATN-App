@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RealmContext } from '../../realm/models';
 import { getAllWallet } from '../../realm/services/wallets';
 import WalletCard from '../../components/walletCard';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -15,6 +16,7 @@ const MyWalletScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     let wallets = getAllWallet(realm);
     const isFocus = useIsFocused();
@@ -33,7 +35,7 @@ const MyWalletScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>My Wallets</Text>
+        <Text style={styles.txtTitle}>{t('mws-my wallets')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -53,7 +55,7 @@ const MyWalletScreen: React.FC<IProps>  = () => {
         }}
       >
         <Image style={styles.imgAddWalletButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
-        <Text style={styles.txtAddWalletButton}>Add Wallet</Text>
+        <Text style={styles.txtAddWalletButton}>{t('mws-add wallet')}</Text>
       </TouchableOpacity>
 
       <FlatList

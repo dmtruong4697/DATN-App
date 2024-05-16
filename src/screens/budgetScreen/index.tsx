@@ -14,6 +14,7 @@ import { getBudgetAnalyst } from '../../realm/services/analyst';
 import { LineChart } from 'react-native-gifted-charts';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import { transaction } from 'mobx';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -24,6 +25,7 @@ const BudgetScreen: React.FC<IProps>  = () => {
     const realm = useRealm();
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
+    const {t} = useTranslation();
 
     const [budget, setBudget] = useState<any>(getAllBudget(realm)[0]);
     const [result, setResult] = useState<any>((getAllBudget(realm)[0])? getBudgetDetail(realm, getAllBudget(realm)[0]._id, getAllBudget(realm)[0].startTime, getAllBudget(realm)[0].finishTime):{
@@ -79,13 +81,13 @@ const BudgetScreen: React.FC<IProps>  = () => {
 
     // delete alert
     const showDeleteAlert = () =>
-      Alert.alert('Delete Budget', 'Are you sure to delete this budget?', [
+      Alert.alert(t('bs-delete budget'), t('bs-are you sure'), [
         {
-          text: 'Cancel',
+          text: t('bs-cancel'),
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'SURE', onPress: () => {
+        {text: t('bs-sure'), onPress: () => {
           deleteBudgetById(realm, budget._id);
           handleCloseOptionModal();
           setBudget(getAllBudget(realm)[0]);
@@ -105,15 +107,15 @@ const BudgetScreen: React.FC<IProps>  = () => {
       {(!budget) && 
         <View style={styles.viewEmpty}>
           <Image style={styles.imgEmpty} source={require('../../../assets/illustration/transactionScreen/empty-box.png')}/>
-          <Text style={styles.txtEmptyTitle}>You have no budget</Text>
-          <Text style={styles.txtEmptyDescription}>Start saving money by creating a budget and we will help you stick to it</Text>
+          <Text style={styles.txtEmptyTitle}>{t('bs-no budget')}</Text>
+          <Text style={styles.txtEmptyDescription}>{t('bs-start saving')}</Text>
           <TouchableOpacity
             style={styles.btnAdd}
             onPress={() => {
               navigation.navigate('AddBudget');
             }}
           >
-            <Text style={styles.txtAdd}>+ Add budget</Text>
+            <Text style={styles.txtAdd}>+ {t('bs-add budget')}</Text>
           </TouchableOpacity>
         </View>
       }
@@ -172,9 +174,9 @@ const BudgetScreen: React.FC<IProps>  = () => {
                     flexDirection: 'column',
                     alignItems: 'center',
                   }}>
-                    <Text style={styles.txtItemTitle}>Amount you can spend</Text>
+                    <Text style={styles.txtItemTitle}>{t('bs-amount you can spend')}</Text>
                     <Text style={styles.txtAmount}>{formatter.format(budget.total - result.total)}</Text>
-                    {(budget.total < result.total) && <Text style={styles.txtOver}>Over</Text>}
+                    {(budget.total < result.total) && <Text style={styles.txtOver}>{t('bs-over')}</Text>}
                   </View>
                 )
               }
@@ -183,17 +185,17 @@ const BudgetScreen: React.FC<IProps>  = () => {
           <View style={styles.viewInfo}>
             <View style={styles.viewInfoItem}>
               <Text style={styles.txtItemInfo}>{formatter.format(budget!.total)}</Text>
-              <Text style={styles.txtItemTitle}>Total budget</Text>
+              <Text style={styles.txtItemTitle}>{t('bs-total budget')}</Text>
             </View>
             <View style={styles.viewDevine}/>
             <View style={styles.viewInfoItem}>
               <Text style={styles.txtItemInfo}>{formatter.format(result!.total)}</Text>
-              <Text style={styles.txtItemTitle}>Total spent</Text>
+              <Text style={styles.txtItemTitle}>{t('bs-total spent')}</Text>
             </View>
             <View style={styles.viewDevine}/>
             <View style={styles.viewInfoItem}>
-              <Text style={styles.txtItemInfo}>{outstandingDay} days</Text>
-              <Text style={styles.txtItemTitle}>End of {budget!.repeatType}</Text>
+              <Text style={styles.txtItemInfo}>{outstandingDay} {t('bs-days')}</Text>
+              <Text style={styles.txtItemTitle}>{t('bs-end of month')} {budget!.repeatType}</Text>
             </View>
           </View>
         </View>
@@ -204,12 +206,12 @@ const BudgetScreen: React.FC<IProps>  = () => {
             console.log(result)
           }}
         >
-          <Text style={styles.txtTransactions}>Transactions</Text>
+          <Text style={styles.txtTransactions}>{t('bs-transactions')}</Text>
           <Image style={styles.imgRight} source={require('../../../assets/icon/menu/right.png')}/>
         </TouchableOpacity>
 
         <View style={styles.viewChart}>
-          <Text style={styles.txtChartTitle}>Expense chart</Text>
+          <Text style={styles.txtChartTitle}>{t('bs-expense chart')}</Text>
           <LineChart
             data={getBudgetAnalyst(realm, budget._id, budget.startTime, budget.finishTime)}
             color={colors.PrimaryColor}
@@ -231,13 +233,13 @@ const BudgetScreen: React.FC<IProps>  = () => {
 
         <View style={styles.viewSuggest}>
           <View style={styles.viewSuggestItem}>
-            <Text style={styles.txtSuggestTitle}>Actual expense</Text>
-            <Text style={styles.txtSuggest}>{formatter.format(result.total/passedDay)} / day</Text>
+            <Text style={styles.txtSuggestTitle}>{t('bs-actual expense')}</Text>
+            <Text style={styles.txtSuggest}>{formatter.format(result.total/passedDay)} / {t('bs-day')}</Text>
           </View>
           {((outstandingDay > 0) && (budget.total - result.total >= 0)) &&
             <View style={styles.viewSuggestItem}>
-              <Text style={styles.txtSuggestTitle}>Recommend spend</Text>
-              <Text style={styles.txtSuggest}>{formatter.format((budget.total - result.total)/outstandingDay)} / day</Text>
+              <Text style={styles.txtSuggestTitle}>{t('bs-recommend spend')}</Text>
+              <Text style={styles.txtSuggest}>{formatter.format((budget.total - result.total)/outstandingDay)} / {t('bs-day')}</Text>
             </View>
           }
         </View>
@@ -261,7 +263,7 @@ const BudgetScreen: React.FC<IProps>  = () => {
             }}
           >
             <BottomSheetView style={styles.viewModal}>
-              <Text style={styles.txtModalTitle}>Manage Budget</Text>
+              <Text style={styles.txtModalTitle}>{t('bs-manage budget')}</Text>
               {/* edit */}
               <TouchableOpacity
                 style={styles.btnOption}
@@ -270,7 +272,7 @@ const BudgetScreen: React.FC<IProps>  = () => {
                 }}
               >
                 <Image style={styles.imgOptionIcon} source={require('../../../assets/icon/shoppingListScreen/edit.png')}/>
-                <Text style={styles.txtOptionButton}>Edit</Text>
+                <Text style={styles.txtOptionButton}>{t('bs-edit')}</Text>
               </TouchableOpacity>
 
               {/* delete */}
@@ -281,7 +283,7 @@ const BudgetScreen: React.FC<IProps>  = () => {
                 }}
               >
                 <Image style={[styles.imgOptionIcon]} source={require('../../../assets/icon/shoppingListScreen/delete.png')}/>
-                <Text style={[styles.txtOptionButton, {color: '#CD3131'}]}>Delete</Text>
+                <Text style={[styles.txtOptionButton, {color: '#CD3131'}]}>{t('bs-delete')}</Text>
               </TouchableOpacity>
 
             </BottomSheetView>

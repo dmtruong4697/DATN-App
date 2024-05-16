@@ -13,6 +13,7 @@ import { observer } from 'mobx-react'
 import { ExportDataStore } from '../../mobx/exportData';
 import WalletSelectItem from '../../components/walletSelectCard';
 import { colors } from '../../constants/colors';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -22,6 +23,7 @@ const ExportDataPickWalletScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
   
   return (
     <View style={styles.viewContainer}>
@@ -33,7 +35,7 @@ const ExportDataPickWalletScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Pick Wallets</Text>
+        <Text style={styles.txtTitle}>{t('edpws-pick wallets')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -65,8 +67,8 @@ const ExportDataPickWalletScreen: React.FC<IProps>  = () => {
                 <Image style={styles.imgAllCheck} source={require('../../../assets/icon/shoppingListItemCard/check.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtAll}>Select all</Text>
-            <Text style={styles.txtSelected}>Selected {ExportDataStore.getSelectedWallet().length}</Text>
+            <Text style={styles.txtAll}>{t('edpws-select all')}</Text>
+            <Text style={styles.txtSelected}>{t('edpws-selected')} {ExportDataStore.getSelectedWallet().length}</Text>
         </TouchableOpacity>
 
       <View style={styles.viewWalletList}>

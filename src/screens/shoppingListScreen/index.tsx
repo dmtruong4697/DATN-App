@@ -14,6 +14,7 @@ import { CurrencyUnitData } from '../../constants/currencyUnit';
 import { addShoppingList, deleteShoppingListById, getAllShoppingList, getShoppingListById, updateShoppingListNameById } from '../../realm/services/shoppingList';
 import ShoppingListCard from '../../components/shoppingListCard';
 import { colors } from '../../constants/colors';
+import { useTranslation } from 'react-i18next';
 
 
 interface IProps {}
@@ -24,6 +25,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     //add list bottom sheet
     const bottomSheetAddModalRef = useRef<BottomSheetModal>(null);
@@ -148,7 +150,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Shopping Lists</Text>
+        <Text style={styles.txtTitle}>{t('sls-shopping lists')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -196,7 +198,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
             handlePresentAddModalPress();
         }}
       >
-        <Text style={styles.txtButtonAdd}>+ NEW LIST</Text>
+        <Text style={styles.txtButtonAdd}>+ {t('sls-new list button')}</Text>
       </TouchableOpacity>
 
     {/* add list bottom modal */}
@@ -213,10 +215,10 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
           }}
         >
           <BottomSheetView style={styles.viewModal}>
-              <Text style={styles.txtModalTitle}>Create a new list</Text>
+              <Text style={styles.txtModalTitle}>{t('sls-create a new list')}</Text>
               <TextInput
                 style={styles.inputName}
-                placeholder='New List'
+                placeholder={t('sls-new list')}
                 value={name}
                 onChangeText={(text) => {setName(text)}}
               />
@@ -226,7 +228,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
                 height: 45,
                 borderRadius: 1000,
               }}
-              content='SAVE'
+              content={t('sls-save')}
               onPress={() => {
                 handleAddShoppingList();
               }}
@@ -250,7 +252,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
           }}
         >
           <BottomSheetView style={styles.viewModal}>
-              <Text style={styles.txtModalTitle}>Rename list</Text>
+              <Text style={styles.txtModalTitle}>{t('sls-rename list')}</Text>
               <TextInput
                 style={styles.inputName}
                 // placeholder='New List'
@@ -263,7 +265,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
                 height: 45,
                 borderRadius: 1000,
               }}
-              content='SAVE'
+              content={t('sls-save')}
               onPress={() => {
                 handleUpdate();
               }}
@@ -278,7 +280,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
               contentStyle={{
                 color: '#555555',
               }}
-              content='CANCEL'
+              content={t('sls-cancel')}
               onPress={() => {
                 handleCloseRenameModal();
               }}
@@ -302,7 +304,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
             }}
           >
             <BottomSheetView style={styles.viewModal}>
-              <Text style={styles.txtModalTitle}>Manage List</Text>
+              <Text style={styles.txtModalTitle}>{t('sls-manage list')}</Text>
               {/* rename */}
               <TouchableOpacity
                 style={styles.btnOption}
@@ -312,7 +314,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
                 }}
               >
                 <Image style={styles.imgOptionIcon} source={require('../../../assets/icon/shoppingListScreen/edit.png')}/>
-                <Text style={styles.txtOptionButton}>Rename</Text>
+                <Text style={styles.txtOptionButton}>{t('sls-rename')}</Text>
               </TouchableOpacity>
 
               {/* delete */}
@@ -323,7 +325,7 @@ const ShoppingListScreen: React.FC<IProps>  = () => {
                 }}
               >
                 <Image style={[styles.imgOptionIcon]} source={require('../../../assets/icon/shoppingListScreen/delete.png')}/>
-                <Text style={[styles.txtOptionButton, {color: '#CD3131'}]}>Delete</Text>
+                <Text style={[styles.txtOptionButton, {color: '#CD3131'}]}>{t('sls-delete')}</Text>
               </TouchableOpacity>
 
             </BottomSheetView>

@@ -8,6 +8,7 @@ import { deleteTransactionById, getTransactionById } from '../../realm/services/
 import { RealmContext } from '../../realm/models';
 import { getTransactionTypeById } from '../../realm/services/transactionType';
 import { getWalletById } from '../../realm/services/wallets';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
 
@@ -18,6 +19,7 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     const route = useRoute<RouteProp<RootStackParamList, 'TransactionDetail'>>();
     const {_id} = route.params;
@@ -48,7 +50,7 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Transaction Detail</Text>
+        <Text style={styles.txtTitle}>{t('tds-transaction detail')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -72,7 +74,7 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
         <Image style={styles.imgDateIcon} source={require('../../../assets/icon/transactionDetail/calendar.png')}/>
         <View style={{gap: 10,}}>
             <Text style={styles.txtDate}>{transaction?.createAt}</Text>
-            <Text style={styles.txtDate}>Note: {transaction?.note}</Text>
+            <Text style={styles.txtDate}>{t('tds-note')}: {transaction?.note}</Text>
             <Text style={styles.txtDate}>{wallet?.name}</Text>
         </View>
       </View>
@@ -81,7 +83,7 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
         style={styles.btnEdit}
         onPress={() => {navigation.navigate('EditTransaction', {_id: _id})}}
       >
-        <Text style={styles.txtEdit}>Edit Transaction</Text>
+        <Text style={styles.txtEdit}>{t('tds-edit transaction')}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -91,7 +93,7 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
             navigation.goBack();
         }}
       >
-        <Text style={styles.txtDelete}>Delete</Text>
+        <Text style={styles.txtDelete}>{t('tds-delete')}</Text>
       </TouchableOpacity>
 
     </View>

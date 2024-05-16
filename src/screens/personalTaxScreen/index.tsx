@@ -5,6 +5,7 @@ import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/na
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { calculateTax } from '../../services/personalTax';
 import Button from '../../components/button';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -12,6 +13,7 @@ const PersonalTaxScreen: React.FC<IProps>  = () => {
 
     const layout = useWindowDimensions();
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+    const {t} = useTranslation();
 
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -67,7 +69,7 @@ const PersonalTaxScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Personal Tax</Text>
+        <Text style={styles.txtTitle}>{t('pts-personal tax')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -81,7 +83,7 @@ const PersonalTaxScreen: React.FC<IProps>  = () => {
 
       <View style={styles.viewGroup1}>
         <View style={styles.viewInputContainer}>
-          <Text style={styles.txtInputTitle}>Income</Text>
+          <Text style={styles.txtInputTitle}>{t('pts-income')}</Text>
           <TextInput
             style={styles.inputField}
             onChangeText={(text) => {
@@ -93,7 +95,7 @@ const PersonalTaxScreen: React.FC<IProps>  = () => {
         </View>
 
         <View style={styles.viewInputContainer}>
-          <Text style={styles.txtInputTitle}>Insurance Amount</Text>
+          <Text style={styles.txtInputTitle}>{t('pts-insurance amount')}</Text>
           <TextInput
             style={styles.inputField}
             onChangeText={(text) => {
@@ -107,7 +109,7 @@ const PersonalTaxScreen: React.FC<IProps>  = () => {
 
       <View style={styles.viewGroup1}>
         <View style={styles.viewInput2Container}>
-          <Text style={styles.txtInputTitle}>Number of dependents</Text>
+          <Text style={styles.txtInputTitle}>{t('pts-number of dependents')}</Text>
           <TextInput
             style={styles.input2Field}
             onChangeText={(text) => {setSnpt(Number(text))}}
@@ -118,7 +120,7 @@ const PersonalTaxScreen: React.FC<IProps>  = () => {
       </View>
 
       <Button
-        content='Calculate'
+        content={t('pts-calculate')}
         onPress={() => {
           handleCalculate();
         }}

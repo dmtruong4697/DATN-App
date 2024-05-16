@@ -13,6 +13,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { TransactionTypeIconData } from '../../constants/transactionTypeIcon';
 import TransactionTypeIcon from '../../components/transactionTypeIcon';
 import { RootStackParamList } from '../../navigator/mainNavigator';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -27,6 +28,7 @@ const EditTypeScreen: React.FC<IProps> = () => {
 
   const {useRealm} = RealmContext;
   const realm = useRealm();
+  const {t} = useTranslation();
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
@@ -94,7 +96,7 @@ const EditTypeScreen: React.FC<IProps> = () => {
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/back.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Edit Transaction Type</Text>
+            <Text style={styles.txtTitle}>{t('etts-update transaction type title')}</Text>
             
             <TouchableOpacity
               style={styles.btnBack}
@@ -111,7 +113,7 @@ const EditTypeScreen: React.FC<IProps> = () => {
       <View style={styles.viewFormContainer}>
         {/* name */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>NAME</Text>
+          <Text style={styles.txtFormItemTitle}>{t('etts-name')}</Text>
           <TextInput 
             style={styles.viewFormItem}
             onChangeText={(text) => {setName(text)}}
@@ -121,7 +123,7 @@ const EditTypeScreen: React.FC<IProps> = () => {
 
         {/* icon */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>ICON</Text>
+          <Text style={styles.txtFormItemTitle}>{t('etts-icon')}</Text>
           <TouchableOpacity
             style={styles.viewFormItem}
             onPress={handlePresentIconModalPress}
@@ -139,7 +141,7 @@ const EditTypeScreen: React.FC<IProps> = () => {
             >
               {!isIncome && <View style={styles.btnSelectedItem}/>}
             </TouchableOpacity>
-            <Text style={styles.txtRadioItem}>Expenses</Text>
+            <Text style={styles.txtRadioItem}>{t('etts-expenses')}</Text>
           </View>
 
           {/* income */}
@@ -150,12 +152,12 @@ const EditTypeScreen: React.FC<IProps> = () => {
             >
               {isIncome && <View style={styles.btnSelectedItem}/>}
             </TouchableOpacity>
-            <Text style={styles.txtRadioItem}>Income</Text>
+            <Text style={styles.txtRadioItem}>{t('etts-income')}</Text>
           </View>
         </View>
 
         <Button
-          content='UPDATE TRANSACTION TYPE'
+          content={t('etts-update transaction type button')}
           onPress={() => {
             handleUpdateType();
           }}
@@ -164,7 +166,7 @@ const EditTypeScreen: React.FC<IProps> = () => {
         />
 
         <Button
-          content='CANCEL'
+          content={t('etts-cancel')}
           onPress={() => {
             navigation.goBack();
           }}

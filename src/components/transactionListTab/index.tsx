@@ -7,6 +7,7 @@ import { getTransactionByTime } from '../../realm/services/transactions';
 import { RealmContext } from '../../realm/models';
 import { FlatList } from 'react-native-gesture-handler';
 import TransactionCard from '../transactionCard';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
     navigation: NavigationProp<any, any>,
@@ -20,6 +21,7 @@ const TransactionListTab: React.FC<IProps> = ({id, finishTime, name, navigation,
 
   const {useRealm} = RealmContext;
   const realm = useRealm();
+  const {t} = useTranslation();
   const transactions = getTransactionByTime(realm, startTime, finishTime);
 
   return (
@@ -49,7 +51,7 @@ const TransactionListTab: React.FC<IProps> = ({id, finishTime, name, navigation,
         {(transactions.length == 0) && 
           <View>
             <Image style={styles.imgEmpty} source={require('../../../assets/illustration/transactionScreen/empty-box.png')}/>
-            <Text style={styles.txtEmpty}>No Transactions</Text>
+            <Text style={styles.txtEmpty}>{t('ts-no transactions')}</Text>
           </View>
         }
     </View>

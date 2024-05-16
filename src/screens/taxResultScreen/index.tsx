@@ -5,6 +5,7 @@ import { ParamListBase, RouteProp, useIsFocused, useNavigation, useRoute } from 
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigator/mainNavigator';
 import { colors } from '../../constants/colors';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -12,6 +13,7 @@ const TaxResultScreen: React.FC<IProps>  = () => {
 
     const layout = useWindowDimensions();
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+    const {t} = useTranslation();
 
     const route = useRoute<RouteProp<RootStackParamList, 'TaxResult'>>();
     const {result} = route.params;
@@ -39,7 +41,7 @@ const TaxResultScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Result</Text>
+        <Text style={styles.txtTitle}>{t('trs-result')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -53,7 +55,7 @@ const TaxResultScreen: React.FC<IProps>  = () => {
 
       <View style={styles.viewGroup}>
         <View style={styles.viewItem}>
-          <Text style={styles.txtBold}>Income </Text>
+          <Text style={styles.txtBold}>{t('trs-income')} </Text>
           <Text style={styles.txtBold}>{formatter.format(result.tn)}</Text>
         </View>
       </View>
@@ -61,7 +63,7 @@ const TaxResultScreen: React.FC<IProps>  = () => {
       <View style={styles.viewGroup}>
         {/* luong dong bao hiem */}
         <View style={styles.viewItem}>
-          <Text style={styles.txtDefault}>Insurrance Amount</Text>
+          <Text style={styles.txtDefault}>{t('trs-insurance amount')}</Text>
           <Text style={styles.txtDefault}>{formatter.format(result.bh)}</Text>
         </View>
 
@@ -72,23 +74,23 @@ const TaxResultScreen: React.FC<IProps>  = () => {
         >
           {(!insurance) && <Image style={styles.imgDown} source={require('../../../assets/icon/taxResultScreen/down.png')}/>}
           {(insurance) && <Image style={styles.imgDown} source={require('../../../assets/icon/taxResultScreen/up.png')}/>}
-          <Text style={styles.txtDefaultTitle}>Insurrance Deduction</Text>
+          <Text style={styles.txtDefaultTitle}>{t('trs-insurance deduction')}</Text>
           <Text style={styles.txtDefault}>{formatter.format(result.tnbh)}</Text>
         </TouchableOpacity>
         {(insurance) &&
         <View>
           <View style={styles.viewSub}>
-            <Text style={styles.txtSub}>Social Insurance</Text>
+            <Text style={styles.txtSub}>{t('trs-social insurance')}</Text>
             <Text style={styles.txtSub}>{formatter.format(result.bhxh)}</Text>
           </View>
 
           <View style={styles.viewSub}>
-            <Text style={styles.txtSub}>Health Insurance</Text>
+            <Text style={styles.txtSub}>{t('trs-health insurance')}</Text>
             <Text style={styles.txtSub}>{formatter.format(result.bhyt)}</Text>
           </View>
 
           <View style={styles.viewSub}>
-            <Text style={styles.txtSub}>Unemployment Insurance</Text>
+            <Text style={styles.txtSub}>{t('trs-unemployment insurance')}</Text>
             <Text style={styles.txtSub}>{formatter.format(result.bhtn)}</Text>
           </View>
         </View>
@@ -101,7 +103,7 @@ const TaxResultScreen: React.FC<IProps>  = () => {
         >
           {(!deduction) && <Image style={styles.imgDown} source={require('../../../assets/icon/taxResultScreen/down.png')}/>}
           {(deduction) && <Image style={styles.imgDown} source={require('../../../assets/icon/taxResultScreen/up.png')}/>}
-          <Text style={styles.txtDefaultTitle}>Deductions</Text>
+          <Text style={styles.txtDefaultTitle}>{t('trs-deductions')}</Text>
           <Text style={styles.txtDefault}>{formatter.format(result.gt)}</Text>
         </TouchableOpacity>
 
@@ -109,12 +111,12 @@ const TaxResultScreen: React.FC<IProps>  = () => {
         <View>
           {/* giam tru ban than */}
           <View style={styles.viewSub}>
-            <Text style={styles.txtSub}>Personal Deduction</Text>
+            <Text style={styles.txtSub}>{t('trs-personal deduction')}</Text>
             <Text style={styles.txtSub}>{formatter.format(result.gtbt)}</Text>
           </View>
           {/* giam tru nguoi phu thuoc */}
           <View style={styles.viewSub}>
-            <Text style={styles.txtSub}>Dependent Deduction</Text>
+            <Text style={styles.txtSub}>{t('trs-dependent deduction')}</Text>
             <Text style={styles.txtSub}>{formatter.format(result.gtnpt)}</Text>
           </View>
         </View>
@@ -123,18 +125,18 @@ const TaxResultScreen: React.FC<IProps>  = () => {
 
       <View style={styles.viewGroup}>
         <View style={styles.viewItem}>
-          <Text style={styles.txtBoldTitle}>Taxable Income</Text>
+          <Text style={styles.txtBoldTitle}>{t('trs-taxable income')}</Text>
           <Text style={styles.txtBold}>{formatter.format(result.tntt)}</Text>
         </View>
       </View>
 
       <View style={styles.viewGroup}>
         <View style={styles.viewTax}>
-          <Text style={styles.txtDefault}>Personal income tax</Text>
+          <Text style={styles.txtDefault}>{t('trs-personal income tax')}</Text>
           <Text style={styles.txtTax}>{formatter.format(result.t)}</Text>
         </View>
         <View style={styles.viewItem}>
-          <Text style={styles.txtBoldTitle}>Income after tax</Text>
+          <Text style={styles.txtBoldTitle}>{t('trs-income after tax')}</Text>
           <Text style={styles.txtBold}>{formatter.format(result.tnst)}</Text>
         </View>
       </View>
@@ -145,7 +147,7 @@ const TaxResultScreen: React.FC<IProps>  = () => {
           navigation.goBack();
         }}
       >
-        <Text style={[styles.txtBold, {color: colors.PrimaryColor,}]}>Done</Text>
+        <Text style={[styles.txtBold, {color: colors.PrimaryColor,}]}>{t('trs-done')}</Text>
       </TouchableOpacity>
 
     </View>

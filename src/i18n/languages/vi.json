@@ -33,7 +33,11 @@
       "ats-add wallet": "Tạo ví",
       "ats-note here": "note",
 
+      "bs-no budget": "Bạn không có ngân sách nào",
+      "bs-start saving": "Bắt đầu tiết kiệm tiền bằng cách lập ngân sách và chúng tôi sẽ giúp bạn bám sát kế hoạch đó",
+      "bs-add budget": "Tạo ngân sách",
       "bs-amount you can spend": "Số tiền có thể tiêu",
+      "bs-over": "Bội chi",
       "bs-total budget": "Tổng ngân sách",
       "bs-total spent": "Đã tiêu",
       "bs-end of month": "Đến cuối",
@@ -174,6 +178,8 @@
       "slds-add a new item": "Tạo sản phẩm mới",
       "slds-new item": "Sản phẩm mới",
       "slds-save": "LƯU",
+      "slds-let plan": "Hãy lên kế hoạch mua sắm của bạn!",
+      "slds-tap": "Nhấn vào nút dấu cộng để bắt đầu thêm sản phẩm",
 
       "gls-groups": "Nhóm",
       "gls-create a new group": "Tạo nhóm mới",

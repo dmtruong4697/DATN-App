@@ -12,6 +12,7 @@ import { colors } from '../../constants/colors';
 import TransactionTypeCard from '../../components/transactionTypeCard';
 import { getAllLoan, getListLoanByType } from '../../realm/services/loan';
 import LoanCard from '../../components/loanCard';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -20,7 +21,8 @@ const LoanRoute = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
-  
+    const {t} = useTranslation();
+
     let loans = getListLoanByType(realm, true);
     const isFocus = useIsFocused();
   
@@ -37,7 +39,7 @@ const LoanRoute = () => {
         }}
       >
         <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
-        <Text style={styles.txtAddTypeButton}>Add Loan</Text>
+        <Text style={styles.txtAddTypeButton}>{t('lds-add loan')}</Text>
       </TouchableOpacity>
   
       <FlatList
@@ -69,6 +71,7 @@ const DebtRoute = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     let debts = getListLoanByType(realm, false);
     const isFocus = useIsFocused();
@@ -86,7 +89,7 @@ const DebtRoute = () => {
         }}
       >
         <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
-        <Text style={styles.txtAddTypeButton}>Add Debt</Text>
+        <Text style={styles.txtAddTypeButton}>{t('lds-add debt')}</Text>
       </TouchableOpacity>
   
       <FlatList
@@ -124,12 +127,13 @@ const LoanListScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     // type bottom sheet tab
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'first', title: 'Loan' },
-        { key: 'second', title: 'Debt' },
+        { key: 'first', title: t('lds-loan') },
+        { key: 'second', title: t('lds-Debt')  },
     ]);
 
     let types = getAllTransactionType(realm);
@@ -149,7 +153,7 @@ const LoanListScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Loan/Debt</Text>
+        <Text style={styles.txtTitle}>{t('lds-loan debt')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}

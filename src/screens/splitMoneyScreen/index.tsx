@@ -14,6 +14,7 @@ import TransactionCard from '../../components/transactionCard';
 import { Realm } from "realm";
 import GroupTransactionCard from '../../components/groupTransactionCard';
 import SplitDataItem from '../../components/splitDataItem';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -22,6 +23,7 @@ const SplitMoneyScreen: React.FC<IProps>  = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const {useRealm} = RealmContext;
   const realm = useRealm();
+  const {t} = useTranslation();
 
   const route = useRoute<RouteProp<RootStackParamList, 'GroupDetail'>>();
   const {_id} = route.params;
@@ -76,11 +78,11 @@ const SplitMoneyScreen: React.FC<IProps>  = () => {
 
       <View style={styles.viewTopInfo}>
         <View style={styles.viewInfo}>
-            <Text style={styles.txtInfoTitle}>Total</Text>
+            <Text style={styles.txtInfoTitle}>{t('sms-total')}</Text>
             <Text style={styles.txtInfo}>{formatter.format(total)}</Text>
         </View>
         <View style={styles.viewInfo}>
-            <Text style={styles.txtInfoTitle}>Members</Text>
+            <Text style={styles.txtInfoTitle}>{t('sms-members')}</Text>
             <Text style={styles.txtInfo}>{members.length}</Text>
         </View>
       </View>

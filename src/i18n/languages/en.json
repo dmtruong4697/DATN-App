@@ -33,7 +33,11 @@
       "ats-add wallet": "Add Wallet",
       "ats-note here": "note here",
 
+      "bs-no budget": "You have no budget",
+      "bs-start saving": "Start saving money by creating a budget and we will help you stick to it",
+      "bs-add budget": "Add budget",
       "bs-amount you can spend": "Amount you can spend",
+      "bs-over": "Over",
       "bs-total budget": "Total budget",
       "bs-total spent": "Total spent",
       "bs-end of month": "End of",
@@ -174,6 +178,8 @@
       "slds-add a new item": "Add a new item",
       "slds-new item": "New Item",
       "slds-save": "SAVE",
+      "slds-let plan": "Let's plan your shopping!",
+      "slds-tap": "Tap the plus button to start adding products",
 
       "gls-groups": "Groups",
       "gls-create a new group": "Create a new Group",

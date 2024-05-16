@@ -14,6 +14,7 @@ import { TimeRangeData } from '../../data/timeRangeData';
 import { ExportDataStore } from '../../mobx/exportData';
 import { Calendar } from 'react-native-calendars';
 import { colors } from '../../constants/colors';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -23,6 +24,7 @@ const ExportDataPickTimeScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     // const [start, setStart] = useState((new Date()).toISOString().slice(0, 10));
     // const [finish, setFinish] = useState((new Date()).toISOString().slice(0, 10));
@@ -86,7 +88,7 @@ const ExportDataPickTimeScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Pick Time Range</Text>
+        <Text style={styles.txtTitle}>{t('edpts-pick time range')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -132,7 +134,7 @@ const ExportDataPickTimeScreen: React.FC<IProps>  = () => {
                 ExportDataStore.setCustomTime();
             }}
         >
-            <Text style={styles.txtItem}>Custom time</Text>
+            <Text style={styles.txtItem}>{t('edpts-custom')}</Text>
             {('custom' == ExportDataStore.rangeType) && 
                 <TouchableOpacity
                     style={styles.viewCheck}
@@ -152,7 +154,7 @@ const ExportDataPickTimeScreen: React.FC<IProps>  = () => {
                 handlePresentStartModalPress();
             }}
         >
-            <Text style={styles.txtRange}>From:</Text>
+            <Text style={styles.txtRange}>{t('edpts-from')}:</Text>
             <Text style={styles.txtRangeDate}>{ExportDataStore.startTime}</Text>
         </TouchableOpacity>
 
@@ -163,7 +165,7 @@ const ExportDataPickTimeScreen: React.FC<IProps>  = () => {
                 handlePresentFinishModalPress();
             }}
         >
-            <Text style={styles.txtRange}>To:</Text>
+            <Text style={styles.txtRange}>{t('edpts-to')}:</Text>
             <Text style={styles.txtRangeDate}>{ExportDataStore.finishTime}</Text>
         </TouchableOpacity>
 

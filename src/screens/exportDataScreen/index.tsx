@@ -16,6 +16,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import XLSX from 'xlsx'
 import { writeFile, CachesDirectoryPath, DownloadDirectoryPath } from 'react-native-fs';
 import Share from 'react-native-share';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -25,6 +26,7 @@ const ExportDataScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     const initWalletList = () => {
         const wallets = getAllWallet(realm);
@@ -111,7 +113,7 @@ const ExportDataScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Export Data</Text>
+        <Text style={styles.txtTitle}>{t('eds-export data')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -132,7 +134,7 @@ const ExportDataScreen: React.FC<IProps>  = () => {
         }}
     >
         <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/wallet.png')}/>
-        <Text style={styles.txtItem}>{ExportDataStore.getSelectedWallet().length} wallets</Text>
+        <Text style={styles.txtItem}>{ExportDataStore.getSelectedWallet().length} {t('eds-wallets')}</Text>
         <Image style={styles.imgIcon} source={require('../../../assets/icon/menu/right.png')}/>
     </TouchableOpacity>
 
@@ -149,7 +151,7 @@ const ExportDataScreen: React.FC<IProps>  = () => {
 
     <View style={styles.viewButtonGroup}>
         <Button
-            content='Export Excel File'
+            content={t('eds-export excel file')}
             onPress={() => {
                 // console.log(getTransactionByWalletListAndTime(realm, ExportDataStore.walletData, ExportDataStore.startTime, ExportDataStore.finishTime))
                 // share();
@@ -161,7 +163,7 @@ const ExportDataScreen: React.FC<IProps>  = () => {
         />
 
         <Button
-            content='Share file'
+            content={t('eds-share file')}
             onPress={() => {
                 share();
             }}

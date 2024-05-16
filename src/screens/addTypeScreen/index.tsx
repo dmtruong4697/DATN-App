@@ -12,6 +12,7 @@ import { RealmContext } from '../../realm/models';
 import { FlatList } from 'react-native-gesture-handler';
 import { TransactionTypeIconData } from '../../constants/transactionTypeIcon';
 import TransactionTypeIcon from '../../components/transactionTypeIcon';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -26,6 +27,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
 
   const {useRealm} = RealmContext;
   const realm = useRealm();
+  const {t} = useTranslation();
 
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const [name, setName] = useState('');
@@ -90,7 +92,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/back.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Add Transaction Type</Text>
+            <Text style={styles.txtTitle}>{t('atts-add transaction type title')}</Text>
             
             <TouchableOpacity
               style={styles.btnBack}
@@ -107,7 +109,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
       <View style={styles.viewFormContainer}>
         {/* name */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>NAME</Text>
+          <Text style={styles.txtFormItemTitle}>{t('atts-name')}</Text>
           <TextInput 
             style={styles.viewFormItem}
             onChangeText={(text) => {setName(text)}}
@@ -116,7 +118,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
 
         {/* icon */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>ICON</Text>
+          <Text style={styles.txtFormItemTitle}>{t('atts-icon')}</Text>
           <TouchableOpacity
             style={styles.viewFormItem}
             onPress={handlePresentIconModalPress}
@@ -134,7 +136,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
             >
               {!isIncome && <View style={styles.btnSelectedItem}/>}
             </TouchableOpacity>
-            <Text style={styles.txtRadioItem}>Expenses</Text>
+            <Text style={styles.txtRadioItem}>{t('atts-expenses')}</Text>
           </View>
 
           {/* income */}
@@ -145,12 +147,12 @@ const AddTypeScreen: React.FC<IProps> = () => {
             >
               {isIncome && <View style={styles.btnSelectedItem}/>}
             </TouchableOpacity>
-            <Text style={styles.txtRadioItem}>Income</Text>
+            <Text style={styles.txtRadioItem}>{t('atts-income')}</Text>
           </View>
         </View>
 
         <Button
-          content='ADD TRANSACTION TYPE'
+          content={t('atts-add transaction type button')}
           onPress={() => {
             handleAddType();
           }}
@@ -159,7 +161,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
         />
 
         <Button
-          content='CANCEL'
+          content={t('atts-cancel')}
           onPress={() => {
             navigation.goBack();
           }}

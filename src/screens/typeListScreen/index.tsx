@@ -10,6 +10,7 @@ import { getAllTransactionType, getListTransactionType } from '../../realm/servi
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
 import { colors } from '../../constants/colors';
 import TransactionTypeCard from '../../components/transactionTypeCard';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -18,7 +19,8 @@ const ExpensesRoute = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
-  
+    const {t} = useTranslation();
+
     let transactionTypes = getListTransactionType(realm, false);
     const isFocus = useIsFocused();
   
@@ -35,7 +37,7 @@ const ExpensesRoute = () => {
         }}
       >
         <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
-        <Text style={styles.txtAddTypeButton}>Add Transaction Type</Text>
+        <Text style={styles.txtAddTypeButton}>{t('ttls-add transaction type')}</Text>
       </TouchableOpacity>
   
       <FlatList
@@ -63,6 +65,7 @@ const IncomeRoute = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     let transactionTypes = getListTransactionType(realm, true);
     const isFocus = useIsFocused();
@@ -80,7 +83,7 @@ const IncomeRoute = () => {
         }}
       >
         <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
-        <Text style={styles.txtAddTypeButton}>Add Transaction Type</Text>
+        <Text style={styles.txtAddTypeButton}>{t('ttls-add transaction type')}</Text>
       </TouchableOpacity>
   
       <FlatList
@@ -114,12 +117,13 @@ const TypeListScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     // type bottom sheet tab
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'first', title: 'Expenses' },
-        { key: 'second', title: 'Income' },
+        { key: 'first', title: t('ttls-expenses') },
+        { key: 'second', title: t('ttls-income') },
     ]);
 
     let types = getAllTransactionType(realm);
@@ -139,7 +143,7 @@ const TypeListScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Transaction Types</Text>
+        <Text style={styles.txtTitle}>{t('ttls-transaction types')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}

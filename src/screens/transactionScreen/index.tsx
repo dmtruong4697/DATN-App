@@ -12,6 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetFlatList, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import OptionButton from '../../components/optionButton';
 import { RangeContext } from '../../navigator/mainNavigator';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -20,6 +21,7 @@ const TransactionScreen: React.FC<IProps>  = () => {
     const layout = useWindowDimensions();
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {startTime, setStartTime, finishTime, setFinishTime, inputType, setInputType, tabData, setTabData} = useContext(RangeContext);
+    const {t} = useTranslation();
 
     // const tabData = generateWeek(5).reverse();
     // const [tabData, setTabData] = useState(generateWeek(5).reverse());
@@ -94,7 +96,7 @@ const TransactionScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Transactions</Text>
+        <Text style={styles.txtTitle}>{t('ts-transactions')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -127,30 +129,30 @@ const TransactionScreen: React.FC<IProps>  = () => {
             backdropComponent={renderOptionBackdrop}
           >
             <BottomSheetView style={{flex: 1}}>
-              <Text style={styles.txtPeriod}>Select time range</Text>
+              <Text style={styles.txtPeriod}>{t('ts-select time range')}</Text>
               <OptionButton
-                content='Day'
+                content={t('ts-day')}
                 onPress={() => {
                   setTabData(generateDay(10).reverse());
                   handleCloseOptionModal();
                 }}
               />
               <OptionButton
-                content='Week'
+                content={t('ts-week')}
                 onPress={() => {
                   setTabData(generateWeek(5).reverse());
                   handleCloseOptionModal();
                 }}
               />
               <OptionButton
-                content='Month'
+                content={t('ts-month')}
                 onPress={() => {
                   setTabData(generateMonth(5).reverse());
                   handleCloseOptionModal();
                 }}
               />
               <OptionButton
-                content='Custom'
+                content={t('ts-custom')}
                 onPress={() => {navigation.navigate('RangePicker')}}
               />
             </BottomSheetView>

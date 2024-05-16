@@ -10,6 +10,7 @@ import { addShoppingListItem, getShoppingListById, getShoppingListItems } from '
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import Button from '../../components/button';
 import ShoppingListItemCard from '../../components/shoppingListItemCard';
+import { useTranslation } from 'react-i18next';
 
 
 interface IProps {}
@@ -20,6 +21,7 @@ const ShoppingListDetailScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     const route = useRoute<RouteProp<RootStackParamList, 'ShoppingListDetail'>>();
     const {_id} = route.params;
@@ -105,7 +107,7 @@ const ShoppingListDetailScreen: React.FC<IProps>  = () => {
             handlePresentAddModalPress();
         }}
       >
-        <Text style={styles.txtButtonAdd}>+ ADD</Text>
+        <Text style={styles.txtButtonAdd}>+ {t('slds-add')}</Text>
       </TouchableOpacity>
 
       {
@@ -129,8 +131,8 @@ const ShoppingListDetailScreen: React.FC<IProps>  = () => {
         (items.length == 0) &&
         <View style={styles.viewGroup}>
           <Image style={styles.imgShopping} source={require('../../../assets/illustration/shoppingListScreen/add-to-cart.png')}/>
-          <Text style={styles.txtEmptyTitle}>Let's plan your shopping!</Text>
-          <Text style={styles.txtDescription}>Tap the plus button to start adding products</Text>
+          <Text style={styles.txtEmptyTitle}>{t('slds-let plan')}</Text>
+          <Text style={styles.txtDescription}>{t('slds-tap')}</Text>
         </View>
       }
 
@@ -148,10 +150,10 @@ const ShoppingListDetailScreen: React.FC<IProps>  = () => {
             }}
           >
             <BottomSheetView style={styles.viewModal}>
-                <Text style={styles.txtModalTitle}>Add a new item</Text>
+                <Text style={styles.txtModalTitle}>{t('slds-add a new item')}</Text>
                 <TextInput
                   style={styles.inputName}
-                  placeholder='New Item'
+                  placeholder={t('slds-new item')}
                   value={name}
                   onChangeText={(text) => {setName(text)}}
                 />
@@ -161,7 +163,7 @@ const ShoppingListDetailScreen: React.FC<IProps>  = () => {
                   height: 45,
                   borderRadius: 1000,
                 }}
-                content='SAVE'
+                content={t('slds-save')}
                 onPress={() => {
                   handleAddShoppingListItem();
                   handleCloseAddModal();

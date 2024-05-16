@@ -15,6 +15,7 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheet
 import Button from '../../components/button';
 import { colors } from '../../constants/colors';
 import { Calendar } from 'react-native-calendars';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -39,6 +40,7 @@ const ExpensesRoute = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const {useRealm} = RealmContext;
   const realm = useRealm();
+  const {t} = useTranslation();
   const {typeName, typeId, setTypeId, setTypeName, typeIcon, setTypeIcon, handleCloseTypeModal} = useContext(FormContext);
 
   let transactionTypes = getListTransactionType(realm, false);
@@ -57,7 +59,7 @@ const ExpensesRoute = () => {
       }}
     >
       <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
-      <Text style={styles.txtAddTypeButton}>Add Transaction Type</Text>
+      <Text style={styles.txtAddTypeButton}>{t('ets-add transaction type')}</Text>
     </TouchableOpacity>
 
     <FlatList
@@ -88,6 +90,7 @@ const IncomeRoute = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const {useRealm} = RealmContext;
   const realm = useRealm();
+  const {t} = useTranslation();
   const {typeName, typeId, setTypeId, setTypeName, typeIcon, setTypeIcon, handleCloseTypeModal} = useContext(FormContext);
 
   let transactionTypes = getListTransactionType(realm, true);
@@ -106,7 +109,7 @@ const IncomeRoute = () => {
       }}
     >
       <Image style={styles.imgAddTypeButton} source={require('../../../assets/icon/addTransaction/addType.png')}/>
-      <Text style={styles.txtAddTypeButton}>Add Transaction Type</Text>
+      <Text style={styles.txtAddTypeButton}>{t('ets-add transaction type')}</Text>
     </TouchableOpacity>
 
     <FlatList
@@ -140,6 +143,7 @@ const renderScene = SceneMap({
 const EditTransactionScreen: React.FC<IProps>  = () => {
 
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+    const {t} = useTranslation();
 
     const route = useRoute<RouteProp<RootStackParamList, 'EditTransaction'>>();
     const {_id} = route.params;
@@ -148,7 +152,7 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
     const realm = useRealm();
     const transaction = getTransactionById(realm, _id);
     
-    const [typeName, setTypeName] = useState('Choose Type');
+    const [typeName, setTypeName] = useState(t('ets-choose type'));
     const [typeId, setTypeId] = useState<Realm.BSON.ObjectId>(transaction!.transactionTypeId);
     const [typeIcon, setTypeIcon] = useState();
     const [total, setTotal] = useState(transaction!.total);
@@ -185,8 +189,8 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
     // type bottom sheet tab
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-      { key: 'first', title: 'Expenses' },
-      { key: 'second', title: 'Income' },
+      { key: 'first', title: t('ets-expenses') },
+      { key: 'second', title: t('ets-income') },
     ]);
 
     // type bottom sheet
@@ -282,7 +286,7 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/back.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Update Transaction</Text>
+            <Text style={styles.txtTitle}>{t('ets-update transaction title')}</Text>
             
             <TouchableOpacity
               style={styles.btnBack}
@@ -300,7 +304,7 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
       <View style={styles.viewFormContainer}>
         {/* transaction type */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>TRANSACTION TYPE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ets-transaction type')}</Text>
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={handlePresentTypeModalPress}
@@ -313,7 +317,7 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
 
         {/* total */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>TOTAL</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ets-total')}</Text>
           <View style={[styles.viewFormItem, {padding: 0,}]}>
             <Text style={styles.txtCode}>{getWalletById(realm, walletId)?.currencyUnit}</Text>
             <TextInput 
@@ -327,7 +331,7 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
 
         {/* date */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>DATE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ets-date')}</Text>
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={handlePresentDateModalPress}
@@ -340,7 +344,7 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
 
         {/* wallet */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>WALLET</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ets-wallet')}</Text>
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={() => {
@@ -355,7 +359,7 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
 
         {/* note */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>NOTE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ets-note')}</Text>
           <TouchableOpacity
             style={styles.viewFormItem}
             onPress={() => {
@@ -367,7 +371,7 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
         </View>
 
         <Button
-          content='UPDATE TRANSACTION'
+          content={t('ets-update transaction button')}
           onPress={() => {
             handleUpdateTransaction();
           }}
@@ -469,7 +473,7 @@ const EditTransactionScreen: React.FC<IProps>  = () => {
                   style={{color: '#666666', fontWeight: '400', fontSize: 16,}}
                   onChangeText={(text) => {setNote(text)}}
                   multiline
-                  placeholder='note here ...'
+                  placeholder={t('ets-note here')}
                 />
               </BottomSheetView>
             </BottomSheetModal>

@@ -9,6 +9,7 @@ import { RealmContext } from '../../realm/models';
 import { getTransactionTypeById } from '../../realm/services/transactionType';
 import { deleteWalletById, getWalletById } from '../../realm/services/wallets';
 import TransactionCard from '../../components/transactionCard';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
 
@@ -19,6 +20,7 @@ const WalletDetailScreen: React.FC<IProps>  = () => {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
+    const {t} = useTranslation();
 
     const route = useRoute<RouteProp<RootStackParamList, 'WalletDetail'>>();
     const {_id} = route.params;
@@ -47,13 +49,13 @@ const WalletDetailScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Wallet Detail</Text>
+        <Text style={styles.txtTitle}>{t('wds-wallet detail')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
           onPress={() => {navigation.navigate('EditWallet', {_id: _id})}}
         >
-          <Text style={styles.txtEdit}>Edit</Text>
+          <Text style={styles.txtEdit}>{t('wds-edit')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -79,12 +81,12 @@ const WalletDetailScreen: React.FC<IProps>  = () => {
             navigation.goBack();
         }}
       >
-        <Text style={styles.txtDelete}>Delete</Text>
+        <Text style={styles.txtDelete}>{t('wds-delete')}</Text>
       </TouchableOpacity>
 
       <View style={styles.viewTransactionHistory}>
         <View style={styles.viewTitle}>
-          <Text style={styles.txtListTitle}>Transaction History</Text>
+          <Text style={styles.txtListTitle}>{t('wds-transaction history')}</Text>
         </View>
 
         <FlatList

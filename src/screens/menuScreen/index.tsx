@@ -11,6 +11,7 @@ import { UserStore } from '../../mobx/auth';
 import { uploadData } from '../../services/sync';
 import { RealmContext } from '../../realm/models';
 import { observer } from 'mobx-react'
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -20,6 +21,7 @@ const MenuScreen: React.FC<IProps>  = () => {
   const windowWidth = Dimensions.get('window').width;
   const {useRealm} = RealmContext;
   const realm = useRealm();
+  const {t} = useTranslation();
 
   const uploadUserData = async() => {
     await uploadData(realm);
@@ -45,7 +47,7 @@ const MenuScreen: React.FC<IProps>  = () => {
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/back.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Menu</Text>
+            <Text style={styles.txtTitle}>{t('ms-menu')}</Text>
 
             <TouchableOpacity
               style={styles.btnNotification}
