@@ -53,7 +53,7 @@ const TaxResultScreen: React.FC<IProps>  = () => {
 
       <View style={styles.viewGroup}>
         <View style={styles.viewItem}>
-          <Text style={styles.txtBold}>Income</Text>
+          <Text style={styles.txtBold}>Income </Text>
           <Text style={styles.txtBold}>{formatter.format(result.tn)}</Text>
         </View>
       </View>

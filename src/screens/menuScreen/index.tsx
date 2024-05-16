@@ -26,7 +26,7 @@ const MenuScreen: React.FC<IProps>  = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.viewContainer}>
+    <ScrollView contentContainerStyle={styles.viewContainer} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
       <View style={styles.viewTopContainer}>
         <View style={styles.viewHeaderBar}>
           <View
