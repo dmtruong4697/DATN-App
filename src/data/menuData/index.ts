@@ -2,15 +2,12 @@ import { NavigationProp } from "@react-navigation/native";
 import { logout } from "../../services/auth";
 import { UserStore } from "../../mobx/auth";
 import { User } from "realm";
-import { useTranslation } from "react-i18next";
-
-const {t} = useTranslation();
 
 export const MenuData1 = [
     {
         id: '1',
         iconUrl: require('../../../assets/icon/menu/setting.png'),
-        title: t('md1-setting'),
+        title: 'Setting',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('Setting');
         },
@@ -18,7 +15,7 @@ export const MenuData1 = [
     {
         id: '2',
         iconUrl: require('../../../assets/icon/menu/wallet.png'),
-        title: t('md1-my wallet'),
+        title: 'My Wallet',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('MyWallet');
         },
@@ -26,7 +23,7 @@ export const MenuData1 = [
     {
         id: '3',
         iconUrl: require('../../../assets/icon/menu/transaction.png'),
-        title: t('md1-transaction type'),
+        title: 'Transaction Type',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('TypeList');
         },
@@ -36,7 +33,7 @@ export const MenuData1 = [
 export const MenuData2 = [
     {
         id: '1',
-        title: t('md2-currency convert'),
+        title: 'Currency Convert',
         backgroundColor: '#4546df',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('Convert');
@@ -45,7 +42,7 @@ export const MenuData2 = [
     },
     {
         id: '2',
-        title: t('md2-loan debt'),
+        title: 'Loan/Debt',
         backgroundColor: '#f6c871',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('LoanList');
@@ -54,7 +51,7 @@ export const MenuData2 = [
     },
     {
         id: '3',
-        title: t('md2-shopping list'),
+        title: 'Shopping List',
         backgroundColor: '#66d3e7',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('ShoppingList');
@@ -63,7 +60,7 @@ export const MenuData2 = [
     },
     {
         id: '4',
-        title: t('md2-group'),
+        title: 'Group',
         backgroundColor: '#e87838',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('GroupList');
@@ -72,7 +69,7 @@ export const MenuData2 = [
     },
     {
         id: '5',
-        title: t('md2-personal tax'),
+        title: 'Personal Tax',
         backgroundColor: '#aa75f7',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('PersonalTax');
@@ -81,7 +78,7 @@ export const MenuData2 = [
     },
     {
         id: '6',
-        title: t('md2-nearby atm'),
+        title: 'Nearby ATM',
         backgroundColor: '#58bf56',
         onPress: (navigation: NavigationProp<any, any>) => {
             // navigation.navigate('GroupList');
@@ -90,7 +87,7 @@ export const MenuData2 = [
     },
     {
         id: '7',
-        title: t('md2-export data'),
+        title: 'Export Data',
         backgroundColor: '#3c84f3',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('ExportData');
@@ -99,7 +96,7 @@ export const MenuData2 = [
     },
     {
         id: '8',
-        title: t('md2-saving'),
+        title: 'Saving',
         backgroundColor: '#eb5240',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('SavingList');
@@ -112,7 +109,7 @@ export const MenuData3 = [
     {
         id: '1',
         iconUrl: require('../../../assets/icon/menu/logout.png'),
-        title: t('md3-sign out'),
+        title: 'Sign Out',
         onPress: (navigation: NavigationProp<any, any>) => {
             logout(navigation, UserStore.user.id, UserStore.deviceToken)
         },

@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 12,
         marginBottom: 10,
-        // backgroundColor: 'pink',
+        // backgroundColor: '#FFFFFF',
     },
 
     viewIcon: {

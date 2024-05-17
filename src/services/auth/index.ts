@@ -25,6 +25,7 @@ export async function login(
                 avatarImage: responce.data.avatarImage,
                 token: responce.data.token,
                 deviceToken: deviceToken,
+                phoneNumber: responce.data.phoneNumber,
             }
 
             const message = 'Login success';

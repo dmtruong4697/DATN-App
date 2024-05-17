@@ -24,7 +24,7 @@ const MenuScreen: React.FC<IProps>  = () => {
   const {t} = useTranslation();
 
   const uploadUserData = async() => {
-    await uploadData(realm);
+    // await uploadData(realm);
   }
 
   return (

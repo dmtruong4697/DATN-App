@@ -9,6 +9,7 @@ export type User = {
     avatarImage: string | null,
     token: string | null,
     deviceToken: string | null,
+    phoneNumber: string | null,
 }
 class store {
     user: User = {
@@ -18,6 +19,7 @@ class store {
         avatarImage: null,
         token: null,
         deviceToken: null,
+        phoneNumber: null,
     }
 
     deviceToken = ''
@@ -48,7 +50,20 @@ class store {
             avatarImage: null,
             token: null,
             deviceToken: null,
+            phoneNumber: null,
         };
+    }
+
+    setName(name: string) {
+        this.user.userName = name;
+    }
+
+    setPhoneNumber(number: string) {
+        this.user.phoneNumber = number;
+    }
+
+    setAvatar(image: string) {
+        this.user.avatarImage = image;
     }
     
 }

@@ -29,7 +29,7 @@ const SignInScreen: FC = () => {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState('');
 
-    const showToast = () => {
+    const showToast = (message: string) => {
         ToastAndroid.showWithGravityAndOffset(
           message,
           ToastAndroid.LONG,
@@ -41,9 +41,9 @@ const SignInScreen: FC = () => {
 
     const handleLogin = async() => {
         await login(navigation, email, password, UserStore.deviceToken)
-            .then((message) => {
-                setMessage(message);
-                showToast();
+            .then((message: string) => {
+                // setMessage(message);
+                showToast(message);
             });
     }
 
