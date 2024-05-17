@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { UserStore } from '../../mobx/auth';
 import Button from '../../components/button';
 import * as ImagePicker from 'react-native-image-picker';
+import { updateAvatar, updateProfile } from '../../services/user';
 // import { updateProfile } from '../../services/user';
 
 interface IProps {}
@@ -68,7 +69,25 @@ const EditProfileScreen: React.FC<IProps>  = () => {
   };
 
   const handleUpdate = async() => {
+    await updateProfile(name, number)
+        .then((message: string) => {
+            // setMessage(message);
+            showToast(message);
+        });
+  }
 
+  const handleUpdateAvatar = async() => {
+    const form = new FormData();
+    form.append('file', {
+      uri: response?.assets[0].uri,
+      type: "image/jpeg",
+      name: `${(new Date()).toISOString()}.jpg`,
+    });
+    await updateAvatar(form)
+        .then((message: string) => {
+            // setMessage(message);
+            showToast(message);
+        });
   }
 
   return (
@@ -81,11 +100,11 @@ const EditProfileScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Edit Profile</Text>
+        <Text style={styles.txtTitle}>{t('eps-edit profile')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
-          // onPress={() => {navigation.navigate('EditWallet', {_id: _id})}}
+          onPress={() => {navigation.goBack()}}
         >
           <Image style={styles.imgButtonDone} source={require('../../../assets/icon/exportDataScreen/done.png')}/>
         </TouchableOpacity>
@@ -106,7 +125,7 @@ const EditProfileScreen: React.FC<IProps>  = () => {
       </TouchableOpacity>
 
       <View style={styles.viewInputContainer}>
-        <Text style={styles.txtInputTitle}>Display name</Text>
+        <Text style={styles.txtInputTitle}>{t('eps-display name')}</Text>
         <TextInput
           style={styles.txtInput}
           keyboardType='default'
@@ -116,7 +135,7 @@ const EditProfileScreen: React.FC<IProps>  = () => {
       </View>
 
       <View style={styles.viewInputContainer}>
-        <Text style={styles.txtInputTitle}>Phone number</Text>
+        <Text style={styles.txtInputTitle}>{t('eps-phone number')}</Text>
         <TextInput
           style={styles.txtInput}
           keyboardType='phone-pad'
@@ -127,10 +146,13 @@ const EditProfileScreen: React.FC<IProps>  = () => {
       
       <View style={styles.viewButtonGroup}>
         <Button
-          content='SAVE'
+          content={t('eps-save')}
           onPress={() => {
             // console.log(response);
             handleUpdate();
+            if(response) {
+            handleUpdateAvatar();
+            }
           }}
           containerStyle={{
             borderRadius: 5,

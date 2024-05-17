@@ -35,6 +35,13 @@ export function getAllShoppingList(
     return lists;
 };
 
+export function getAllShoppingListItem(
+    realm: Realm,
+) {
+    const items = realm.objects<ShoppingListItem>('ShoppingListItem');
+    return items;
+};
+
 export function getShoppingListById(
     realm: Realm,
     _id: Realm.BSON.ObjectId,

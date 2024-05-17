@@ -243,6 +243,11 @@
       "trd-all time": "Tất cả thời gian",
       "trd-this week": "Tuần này",
       "trd-this month": "Tháng này",
-      "trd-this year": "Năm này"
+      "trd-this year": "Năm này",
+
+      "eps-edit profile": "Chỉnh sửa trang cá nhân",
+      "eps-display name": "Tên hiển thị",
+      "eps-phone number": "Số điện thoại",
+      "eps-save": "CẬP NHẬT"
     }
 }

@@ -172,7 +172,7 @@ const EditLoanScreen: React.FC<IProps>  = () => {
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/back.png')}/>
             </TouchableOpacity>
 
-            <Text style={styles.txtTitle}>Add Loan/Debt</Text>
+            <Text style={styles.txtTitle}>Update Loan/Debt</Text>
             
             <TouchableOpacity
               style={styles.btnBack}

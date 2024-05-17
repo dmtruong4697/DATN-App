@@ -243,6 +243,11 @@
       "trd-all time": "All time",
       "trd-this week": "This week",
       "trd-this month": "This month",
-      "trd-this year": "This year"
+      "trd-this year": "This year",
+
+      "eps-edit profile": "Edit Profile",
+      "eps-display name": "Display Name",
+      "eps-phone number": "Phone Number",
+      "eps-save": "SAVE"
     }
 }

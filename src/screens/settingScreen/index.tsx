@@ -3,7 +3,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { SettingMenuData1 } from '../../data/settingMenuData';
+import { SettingMenuData1, SettingMenuData2 } from '../../data/settingMenuData';
 import SettingItem from '../../components/settingItem';
 import { observer } from 'mobx-react'
 
@@ -41,6 +41,28 @@ const SettingScreen: React.FC<IProps>  = () => {
       <View style={styles.viewGroup}>
         <FlatList
           data={SettingMenuData1}
+          keyExtractor={item => item.id}
+          scrollEnabled={false}
+          renderItem={({item}) => (
+            <SettingItem
+              id={item.id}
+              title={item.title}
+              state={item.state}
+              onPress={() => item.onPress(navigation)}
+              renderToggle={item.renderToggle}
+              onPressToggle={item.onPressToggle}
+              toggleState={item.toggleState}
+            />
+          )}
+          // contentContainerStyle={{width: layout.width-18, gap: 5,}}
+        />
+      </View>
+
+      {/* security */}
+      <Text style={styles.txtGroupTitle}>SECURITY</Text>
+      <View style={styles.viewGroup}>
+        <FlatList
+          data={SettingMenuData2}
           keyExtractor={item => item.id}
           scrollEnabled={false}
           renderItem={({item}) => (

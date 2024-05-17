@@ -7,6 +7,9 @@ import { getAllWallet } from '../../realm/services/wallets';
 import axios from 'axios';
 import { API } from '../../constants/api';
 import { UserStore } from '../../mobx/auth';
+import { getAllBudget } from '../../realm/services/budgets';
+import { getAllSaving } from '../../realm/services/saving';
+import { getAllShoppingList, getAllShoppingListItem } from '../../realm/services/shoppingList';
 
 export const makeDataFile = async (realm: Realm) => {
     try {
@@ -38,7 +41,10 @@ export const uploadData = async (realm: Realm) => {
       const transactions = getAllTransaction(realm);
       const transactionTypes = getAllTransactionType(realm);
       const wallets = getAllWallet(realm);
-
+      const budgets = getAllBudget(realm);
+      const savings = getAllSaving(realm);
+      const shoppingLists = getAllShoppingList(realm);
+      const shoppingListItems = getAllShoppingListItem(realm);
       // console.log(wallets);
 
       const responce = await axios.post(API + '/upload-user-data', {
@@ -46,6 +52,10 @@ export const uploadData = async (realm: Realm) => {
         transactions: transactions,
         transactionTypes: transactionTypes,
         wallets: wallets,
+        budgets: budgets,
+        savings: savings,
+        shoppingLists: shoppingLists,
+        shoppingListItems: shoppingListItems,
       },
     {
       headers: {

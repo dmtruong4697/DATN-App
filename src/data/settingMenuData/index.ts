@@ -1,4 +1,5 @@
 import { NavigationProp } from "@react-navigation/native";
+import { SettingStore } from "../../mobx/setting";
 
 export const SettingMenuData1 = [
     {
@@ -41,6 +42,20 @@ export const SettingMenuData1 = [
         renderToggle: false,
         onPress: (navigation: NavigationProp<any, any>) => {
             // navigation.navigate('Setting');
+        },
+        onPressToggle: () => {},
+        toggleState: false,
+    },
+]
+
+export const SettingMenuData2 = [
+    {
+        id: '1',
+        title: 'Change Password',
+        state: '',
+        renderToggle: false,
+        onPress: (navigation: NavigationProp<any, any>) => {
+            // navigation.navigate('ChangeLanguage');
         },
         onPressToggle: () => {},
         toggleState: false,
