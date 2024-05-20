@@ -248,6 +248,22 @@
       "eps-edit profile": "Edit Profile",
       "eps-display name": "Display Name",
       "eps-phone number": "Phone Number",
-      "eps-save": "SAVE"
+      "eps-save": "SAVE",
+
+      "sis-just": "Just",
+      "sis-sign in": "Sign in",
+      "sis-we will": ", and manage your spending together",
+      "sis-if you dont": "If you don't have an account please",
+      "sis-sign up here": "Sign up here",
+      "sis-email address": "Email address",
+      "sis-email": "email",
+      "sis-email error": "Email is required",
+      "sis-password title": "Password",
+      "sis-password": "password",
+      "sis-password error": "Password is required",
+      "sis-forgot password": "Forgot password?",
+      "sis-sign in button": "SIGN IN",
+      "sis-or": "Or",
+      "sis-connect with": "Connect with"
     }
 }

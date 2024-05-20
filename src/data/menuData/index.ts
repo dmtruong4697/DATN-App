@@ -2,6 +2,17 @@ import { NavigationProp } from "@react-navigation/native";
 import { logout } from "../../services/auth";
 import { UserStore } from "../../mobx/auth";
 import { User } from "realm";
+import { ToastAndroid } from "react-native";
+
+const showToast = (message: string) => {
+    ToastAndroid.showWithGravityAndOffset(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+};
 
 export const MenuData1 = [
     {
@@ -110,8 +121,12 @@ export const MenuData3 = [
         id: '1',
         iconUrl: require('../../../assets/icon/menu/logout.png'),
         title: 'Sign Out',
-        onPress: (navigation: NavigationProp<any, any>) => {
-            logout(navigation, UserStore.user.id, UserStore.deviceToken)
+        onPress: async (navigation: NavigationProp<any, any>) => {
+            await logout(navigation, UserStore.user.id, UserStore.deviceToken)
+            .then((message: string) => {
+                // setMessage(message);
+                showToast(message);
+            });
         },
     },
 ]

@@ -78,15 +78,32 @@ export async function logout(
         });
 
         if (responce.status == 200) {
+            const message = 'Logout Successfully'
             UserStore.logoutUser();
             console.log(responce.data);
             navigation.navigate('SignIn');
+            return message;
         } else {
             console.log(responce.status);
+            UserStore.setIsLoading(false);
+            const message = responce.data.message;
+            return message;
         }
     } catch (error) {
-      console.log(error);
-        throw error;
+        let message = '';
+        if (axios.isAxiosError(error)) {
+            console.error("Error message:", error.message);
+            if (error.response) {
+              console.error("Error details:", error.response.data);
+              message = error.response.data.message;
+            }    
+          } else {
+              console.error("Unhandled error:", error);
+              message = 'Unhandled error';
+            }
+
+        UserStore.setIsLoading(false);
+        return message;
     }
 }
 

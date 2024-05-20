@@ -248,6 +248,22 @@
       "eps-edit profile": "编辑个人资料",
       "eps-display name": "显示名称",
       "eps-phone number": "电话号码",
-      "eps-save": "保存"
+      "eps-save": "保存",
+
+      "sis-just": "让我们",
+      "sis-sign in": "登录",
+      "sis-we will": "，并一起管理您的支出",
+      "sis-if you dont": "如果您还没有帐户",
+      "sis-sign up here": "登记",
+      "sis-email address": "电子邮件地址",
+      "sis-email": "电子邮件",
+      "sis-email error": "邮箱不能为空",
+      "sis-password title": "密码",
+      "sis-password": "密码",
+      "sis-password error": "密码不能为空",
+      "sis-forgot password": "忘记密码？",
+      "sis-sign in button": "登录",
+      "sis-or": "或者",
+      "sis-connect with": "与连接"
     }
 }

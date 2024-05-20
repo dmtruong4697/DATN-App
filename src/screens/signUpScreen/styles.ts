@@ -4,18 +4,18 @@ import { colors } from "../../constants/colors";
 export const styles = StyleSheet.create({
     viewContainer: {
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         backgroundColor: '#FFFFFF',
         height: '100%',
     },
 
     title1: {
-        marginTop: 0,
+        marginTop: 15,
         width: '90%',
     },
 
     title2: {
-        marginTop: 20,
+        marginTop: 10,
         width: '90%',
     },
 
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     },
 
     inputField: {
-        marginTop: 22,
+        marginTop: 15,
     },
 
     inputFieldTitle: {
@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     },
 
     signInButton: {
-        width: 306,
+        width: '88%',
         height: 53,
         backgroundColor: colors.PrimaryColor,
         borderRadius: 12,
@@ -87,6 +87,7 @@ export const styles = StyleSheet.create({
     },
 
     buttonGroup: {
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
     },

@@ -248,6 +248,22 @@
       "eps-edit profile": "Chỉnh sửa trang cá nhân",
       "eps-display name": "Tên hiển thị",
       "eps-phone number": "Số điện thoại",
-      "eps-save": "CẬP NHẬT"
+      "eps-save": "CẬP NHẬT",
+
+      "sis-just": "Hãy",
+      "sis-sign in": "Đăng nhập",
+      "sis-we will": ", và cùng quản lý chi tiêu của bạn",
+      "sis-if you dont": "Nếu bạn chưa có tài khoản hãy",
+      "sis-sign up here": "Đăng ký",
+      "sis-email address": "Địa chỉ email",
+      "sis-email": "email",
+      "sis-email error": "Email không được trống",
+      "sis-password title": "Mật khẩu",
+      "sis-password": "mật khẩu",
+      "sis-password error": "Mật khẩu không được trống",
+      "sis-forgot password": "Quên mật khẩu?",
+      "sis-sign in button": "ĐĂNG NHẬP",
+      "sis-or": "Hoặc",
+      "sis-connect with": "Kết nối với"
     }
 }
