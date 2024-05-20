@@ -9,6 +9,7 @@ import { RealmContext } from '../../realm/models';
 import { getTransactionTypeById } from '../../realm/services/transactionType';
 import { getWalletById } from '../../realm/services/wallets';
 import { useTranslation } from 'react-i18next';
+import { TypeIconData } from '../../data/typeIconData';
 
 interface IProps {
 
@@ -63,7 +64,7 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
       </View>
 
       <View style={styles.view1}>
-          <View style={styles.imgTypeIcon}/>
+          <Image style={styles.imgTypeIcon} source={TypeIconData[Number(transactionType?.iconUrl)].iconUrl}/>
           <View>
             <Text style={styles.txtType}>{transactionType?.name}</Text>
             <Text style={[styles.txtTotal, {color: (transaction?.income)? '#25A969':'#F95B51'}]}>{formatter.format(Number(transaction?.total))}</Text>

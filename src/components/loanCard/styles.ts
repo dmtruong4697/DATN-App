@@ -19,8 +19,15 @@ export const styles = StyleSheet.create({
         backgroundColor: '#F0F6F5',
         marginRight: 10,
         padding: 5,
+
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
+    imgIcon: {
+        height: 35,
+        width: 35,
+    },
 
     viewContent: {
         flex: 1,

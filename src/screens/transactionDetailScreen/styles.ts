@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
         height: 40,
         width: 40,
         borderRadius: 1000,
-        backgroundColor: 'gray',
+        backgroundColor: '#F0F6F5',
         marginRight: 10,
     },
 

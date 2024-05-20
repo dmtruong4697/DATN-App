@@ -16,7 +16,7 @@ const TransactionTypeIcon: React.FC<IProps> = ({size, iconUri, additionStyle, on
         style={[styles.viewContainer, {height: size, width: size}, additionStyle]}
         onPress={onPress}
     >
-      <Image style={[styles.imgIcon, {height: size*0.7}]} source={{uri: iconUri}}/>
+      <Image style={[styles.imgIcon, {height: size*0.7}]} source={iconUri}/>
     </TouchableOpacity>
   )
 }

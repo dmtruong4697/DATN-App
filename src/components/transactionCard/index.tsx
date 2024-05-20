@@ -7,6 +7,7 @@ import { RealmContext } from '../../realm/models';
 import { getAllTransactionType, getTransactionTypeById } from '../../realm/services/transactionType';
 import { getWalletById } from '../../realm/services/wallets';
 import { deleteTransactionById } from '../../realm/services/transactions';
+import { TypeIconData } from '../../data/typeIconData';
 // import image from '../../../assets/icon/socialMedia/google.png';
 
 // const DEFAULT_IMAGE = Image.resolveAssetSource(image).uri;
@@ -61,7 +62,7 @@ const TransactionCard: React.FC<IProps>  = ({
         onPress={() => {navigation.navigate('TransactionDetail', {_id: _id})}}
     >
         <View style={styles.viewIcon}>
-            {/* <Image style={styles.imgIcon} source={require('../../../assets/icon/transactionCard/transaction.png')}/> */}
+            <Image style={styles.imgIcon} source={TypeIconData[Number(getTransactionTypeById(realm, transactionTypeId)?.iconUrl)].iconUrl}/>
         </View>
 
         <View style={styles.viewContent}>

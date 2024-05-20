@@ -1,6 +1,7 @@
 import { View, Text, ImageSourcePropType, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { styles } from './styles';
+import { TypeIconData } from '../../data/typeIconData';
 
 interface IProps {
     _id: Realm.BSON.ObjectId;
@@ -16,7 +17,7 @@ const TransactionTypeCard: React.FC<IProps> = ({_id, iconUrl, income, name, onPr
         style={styles.viewContainer}
         onPress={onPress}
     >
-        <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/addType.png')}/>
+        <Image style={styles.imgIcon} source={TypeIconData[Number(iconUrl)].iconUrl}/>
         <Text style={styles.txtName}>{name}</Text>
     </TouchableOpacity>
   )

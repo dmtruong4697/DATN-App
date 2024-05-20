@@ -65,6 +65,7 @@ const LoanCard: React.FC<IProps>  = ({
         onPress={() => {navigation.navigate('LoanDetail', {_id: _id})}}
     >
         <View style={styles.viewIcon}>
+            <Image style={styles.imgIcon} source={require('../../../assets/icon/transactionType/14.png')}/>
         </View>
 
         <View style={styles.viewContent}>

@@ -89,3 +89,93 @@ export async function logout(
         throw error;
     }
 }
+
+export async function signUp(
+    navigation: NavigationProp<any, any>,
+    userName: string,
+    email: string,
+    password: string,
+    phoneNumber: string,
+) {
+    try {
+        UserStore.setIsLoading(true);
+        const responce = await axios.post(API + '/signup', {
+            email: email,
+            password: password,
+            userName: userName,
+            phoneNumber: phoneNumber,
+        });
+
+        if (responce.status == 201) {
+
+            const message = 'Sign up success';
+
+            console.log(responce.data);
+            navigation.navigate('ValidateEmail', {email: email});
+            return message;
+        } else {
+            console.log(responce.status);
+            UserStore.setIsLoading(false);
+            const message = responce.data.message;
+            return message;
+        }
+    } catch (error) {
+        let message = '';
+        if (axios.isAxiosError(error)) {
+            console.error("Error message:", error.message);
+            if (error.response) {
+              console.error("Error details:", error.response.data);
+              message = error.response.data.message;
+            }    
+          } else {
+              console.error("Unhandled error:", error);
+              message = 'Unhandled error';
+            }
+
+        UserStore.setIsLoading(false);
+        return message;
+    }
+}
+
+export async function validateEmail(
+    navigation: NavigationProp<any, any>,
+    email: string,
+    validateCode: string,
+) {
+    try {
+        UserStore.setIsLoading(true);
+        const responce = await axios.post(API + '/validate-email', {
+            email: email,
+            validateCode: validateCode,
+        });
+
+        if (responce.status == 200) {
+
+            const message = 'Validated Successfully';
+
+            console.log(responce.data);
+            navigation.navigate('SignIn');
+            return message;
+        } else {
+            console.log(responce.status);
+            UserStore.setIsLoading(false);
+            const message = responce.data.message;
+            return message;
+        }
+    } catch (error) {
+        let message = '';
+        if (axios.isAxiosError(error)) {
+            console.error("Error message:", error.message);
+            if (error.response) {
+              console.error("Error details:", error.response.data);
+              message = error.response.data.message;
+            }    
+          } else {
+              console.error("Unhandled error:", error);
+              message = 'Unhandled error';
+            }
+
+        UserStore.setIsLoading(false);
+        return message;
+    }
+}

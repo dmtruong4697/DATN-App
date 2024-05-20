@@ -10,6 +10,7 @@ import { getTransactionTypeById } from '../../realm/services/transactionType';
 import { getWalletById } from '../../realm/services/wallets';
 import TransactionCard from '../../components/transactionCard';
 import { useTranslation } from 'react-i18next';
+import { TypeIconData } from '../../data/typeIconData';
 
 interface IProps {
 
@@ -57,7 +58,7 @@ const TypeDetailScreen: React.FC<IProps>  = () => {
       </View>
 
       <View style={styles.view1}>
-          <View style={styles.imgTypeIcon}/>
+          <Image style={styles.imgTypeIcon} source={TypeIconData[Number(type?.iconUrl)].iconUrl}/>
           <View>
             <Text style={styles.txtType}>{type!.name}</Text>
             <Text style={[styles.txtTotal, {color: (type!.income)? '#25A969':'#F95B51'}]}>{(type!.income)? 'Income':'Expenses'}</Text>

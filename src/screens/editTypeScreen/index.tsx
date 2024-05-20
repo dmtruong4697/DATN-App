@@ -14,6 +14,7 @@ import { TransactionTypeIconData } from '../../constants/transactionTypeIcon';
 import TransactionTypeIcon from '../../components/transactionTypeIcon';
 import { RootStackParamList } from '../../navigator/mainNavigator';
 import { useTranslation } from 'react-i18next';
+import { TypeIconData } from '../../data/typeIconData';
 
 interface IProps {}
 
@@ -192,14 +193,17 @@ const EditTypeScreen: React.FC<IProps> = () => {
             >
               <BottomSheetView style={{flex: 1}}>
                 <FlatList
-                  data={TransactionTypeIconData}
+                  data={TypeIconData}
                   keyExtractor={item => item.id}
-                  renderItem={({item}) => (
+                  renderItem={({item, index}) => (
                     <TransactionTypeIcon
-                      iconUri={item.uri}
+                      iconUri={item.iconUrl}
                       size={40}
                       additionStyle={{marginHorizontal: 16,}}
-                      onPress={() => {}}
+                      onPress={() => {
+                        setIconUrl(index.toString());
+                        handleCloseIconModal();
+                      }}
                     />
                   )}
                   numColumns={5}

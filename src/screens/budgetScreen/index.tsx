@@ -283,7 +283,7 @@ const BudgetScreen: React.FC<IProps>  = () => {
                 }}
               >
                 <Image style={[styles.imgOptionIcon]} source={require('../../../assets/icon/shoppingListScreen/delete.png')}/>
-                <Text style={[styles.txtOptionButton, {color: '#CD3131'}]}>{t('bs-delete')}</Text>
+                <Text style={[styles.txtOptionButton, {color: '#CD3131'}]}>{t('bs-Delete')}</Text>
               </TouchableOpacity>
 
             </BottomSheetView>

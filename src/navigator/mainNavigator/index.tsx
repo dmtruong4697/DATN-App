@@ -50,7 +50,9 @@ export type RootStackParamList = {
 
     SignUp: {};
 
-    ValidateEmail: {};
+    ValidateEmail: {
+        email: string,
+    };
 
     Home: {};
 

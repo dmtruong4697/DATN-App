@@ -13,6 +13,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { TransactionTypeIconData } from '../../constants/transactionTypeIcon';
 import TransactionTypeIcon from '../../components/transactionTypeIcon';
 import { useTranslation } from 'react-i18next';
+import { TypeIconData } from '../../data/typeIconData';
 
 interface IProps {}
 
@@ -126,7 +127,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
           </TouchableOpacity>
         </View>
 
-        {/* income */}
+        {/* income type */}
         <View style={styles.viewRadioGroup}>
           {/* expenses */}
           <View style={styles.viewRadioItem}>
@@ -187,14 +188,14 @@ const AddTypeScreen: React.FC<IProps> = () => {
             >
               <BottomSheetView style={{flex: 1}}>
                 <FlatList
-                  data={TransactionTypeIconData}
+                  data={TypeIconData}
                   keyExtractor={item => item.id}
-                  renderItem={({item}) => (
+                  renderItem={({item, index}) => (
                     <TransactionTypeIcon
-                      iconUri={item.uri}
+                      iconUri={item.iconUrl}
                       size={40}
                       additionStyle={{marginHorizontal: 16,}}
-                      onPress={() => {}}
+                      onPress={() => {setIconUrl(index.toString())}}
                     />
                   )}
                   numColumns={5}
