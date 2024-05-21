@@ -26,6 +26,7 @@ export async function login(
                 token: responce.data.token,
                 deviceToken: deviceToken,
                 phoneNumber: responce.data.phoneNumber,
+                dataId: responce.data.dataId,
             }
 
             const message = 'Login success';
@@ -160,7 +161,7 @@ export async function validateEmail(
     validateCode: string,
 ) {
     try {
-        UserStore.setIsLoading(true);
+        // UserStore.setIsLoading(true);
         const responce = await axios.post(API + '/validate-email', {
             email: email,
             validateCode: validateCode,
@@ -175,7 +176,7 @@ export async function validateEmail(
             return message;
         } else {
             console.log(responce.status);
-            UserStore.setIsLoading(false);
+            // UserStore.setIsLoading(false);
             const message = responce.data.message;
             return message;
         }

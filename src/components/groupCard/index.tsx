@@ -37,7 +37,7 @@ const GroupCard: React.FC<IProps> = ({groupId, iconUri}) => {
         onPress={() => {navigation.navigate('GroupDetail', {_id: groupId})}}
     >
         <View style={styles.viewIcon}>
-
+          <Image style={styles.imgIcon} source={require('../../../assets/icon/groupCard/group.png')}/>
         </View>
 
         <View style={styles.viewContent}>

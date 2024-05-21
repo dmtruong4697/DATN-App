@@ -26,8 +26,13 @@ export const styles = StyleSheet.create({
         borderRadius: 3,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'pink',
+        backgroundColor: '#F0F6F5',
         marginRight: 10,
+    },
+
+    imgIcon: {
+        width: 40,
+        height: 40,
     },
 
     viewContent: {

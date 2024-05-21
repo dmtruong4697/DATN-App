@@ -64,3 +64,12 @@ export function getListTransactionType(
     const transactionTypes = realm.objects<TransactionType>('TransactionType');
     return transactionTypes.filtered('income = $0', income);
 };
+
+export function deleteAllTransactionType(
+    realm: Realm,
+) {
+    const types = realm.objects<TransactionType>('TransactionType');
+    realm.write(() => {
+        realm.delete(types);
+    })
+};

@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     title1: {
         marginTop: 0,
         width: '90%',
+        // backgroundColor: 'pink'
     },
 
     title2: {

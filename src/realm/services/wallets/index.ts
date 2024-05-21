@@ -118,3 +118,12 @@ export function getWalletIdsByUnit(
 
     return result;
 }
+
+export function deleteAllWallet(
+    realm: Realm,
+) {
+    const wallets = realm.objects<Wallet>('Wallet');
+    realm.write(() => {
+        realm.delete(wallets);
+    })
+};

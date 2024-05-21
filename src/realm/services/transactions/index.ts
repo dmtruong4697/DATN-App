@@ -49,6 +49,15 @@ export function addTransaction(
     });
 };
 
+export function addTransactionSync(
+    realm: Realm, 
+    transaction: TransactionType
+) {
+    realm.write(() => {
+      realm.create('Transaction', transaction);
+    });
+};
+
 export function getTransactionById(
     realm: Realm,
     _id: Realm.BSON.ObjectId,
@@ -233,3 +242,12 @@ export function getTransactionByTypeId(
     const transactions = allTransaction.filtered('transactionTypeId = $0', typeId);
     return transactions;
 }
+
+export function deleteAllTransaction(
+    realm: Realm,
+) {
+    const transactions = realm.objects<Transaction>('Transaction');
+    realm.write(() => {
+        realm.delete(transactions);
+    })
+};

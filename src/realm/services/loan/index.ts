@@ -48,6 +48,15 @@ export function addLoan(
     });
 };
 
+export function addLoanSync(
+    realm: Realm, 
+    loan: LoanType
+) {
+    realm.write(() => {
+      realm.create('Loan', loan);
+    });
+};
+
 export function getLoanById(
     realm: Realm,
     _id: Realm.BSON.ObjectId,
@@ -132,4 +141,13 @@ export function getLoanHistory(
 
     if(loans.length <= quantity) return loans;
         else return loans.slice(Math.max(loans.length - quantity, 0));
+};
+
+export function deleteAllLoan(
+    realm: Realm,
+) {
+    const loans = realm.objects<Loan>('Loan');
+    realm.write(() => {
+        realm.delete(loans);
+    })
 };

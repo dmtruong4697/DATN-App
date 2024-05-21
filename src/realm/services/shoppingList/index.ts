@@ -197,3 +197,21 @@ export function getShoppingListProgress(
         done: doneItems.length,
     };
 };
+
+export function deleteAllShoppingList(
+    realm: Realm,
+) {
+    const lists = realm.objects<ShoppingList>('ShoppingList');
+    realm.write(() => {
+        realm.delete(lists);
+    })
+};
+
+export function deleteAllShoppingListItem(
+    realm: Realm,
+) {
+    const items = realm.objects<ShoppingListItem>('ShoppingListItem');
+    realm.write(() => {
+        realm.delete(items);
+    })
+};

@@ -56,3 +56,12 @@ export function deleteSavingById(
         realm.delete(saving);
     })
 };
+
+export function deleteAllSaving(
+    realm: Realm,
+) {
+    const savings = realm.objects<Saving>('Saving');
+    realm.write(() => {
+        realm.delete(savings);
+    })
+};

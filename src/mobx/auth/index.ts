@@ -10,6 +10,7 @@ export type User = {
     token: string | null,
     deviceToken: string | null,
     phoneNumber: string | null,
+    dataId: string | null,
 }
 class store {
     user: User = {
@@ -20,6 +21,7 @@ class store {
         token: null,
         deviceToken: null,
         phoneNumber: null,
+        dataId: null,
     }
 
     deviceToken = ''
@@ -51,6 +53,7 @@ class store {
             token: null,
             deviceToken: null,
             phoneNumber: null,
+            dataId: null,
         };
     }
 

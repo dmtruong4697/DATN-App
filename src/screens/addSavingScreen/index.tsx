@@ -17,7 +17,7 @@ import { colors } from '../../constants/colors';
 
 interface IProps {}
 
-type SavingType = {
+export type SavingType = {
     _id: Realm.BSON.ObjectId;
     name: string,
     total: number,

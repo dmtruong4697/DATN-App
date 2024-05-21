@@ -9,6 +9,8 @@ import { observer } from 'mobx-react'
 import { login } from '../../services/auth'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { syncData } from '../../services/sync'
+import { RealmContext } from '../../realm/models'
 
 type User = {
     uid: string;
@@ -25,6 +27,8 @@ const SignInScreen: FC = () => {
 
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {t} = useTranslation();
+    const {useRealm} = RealmContext;
+    const realm = useRealm();
 
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -42,14 +46,6 @@ const SignInScreen: FC = () => {
         );
     };
 
-    const handleLogin = async() => {
-        await login(navigation, email, password, UserStore.deviceToken)
-            .then((message: string) => {
-                // setMessage(message);
-                showToast(message);
-            });
-    }
-
     const {
         register,
         handleSubmit,
@@ -60,8 +56,12 @@ const SignInScreen: FC = () => {
 
     const onSubmit = async(data: any)=> {
         await login(navigation, getValues().email, getValues().password, UserStore.deviceToken)
-            .then((message: string) => {
+            .then(async(message: string) => {
                 // setMessage(message);
+                await syncData(realm, navigation)
+                .then((message: string) => {
+                    showToast(message);
+                })
                 showToast(message);
             });
     };
@@ -70,7 +70,7 @@ const SignInScreen: FC = () => {
     <View style={styles.container}>
       
       <View style={styles.title1}>
-        <View style={{width: 219, height: 72,}}
+        <View style={{width: 300, height: 72,}}
         >
             <Text style={styles.txtTitle}>
                 {t('sis-just')} {""}

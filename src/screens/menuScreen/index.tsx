@@ -24,7 +24,7 @@ const MenuScreen: React.FC<IProps>  = () => {
   const {t} = useTranslation();
 
   const uploadUserData = async() => {
-    // await uploadData(realm);
+    await uploadData(realm);
   }
 
   return (
@@ -127,20 +127,6 @@ const MenuScreen: React.FC<IProps>  = () => {
         )}
         // contentContainerStyle={{width: layout.width-18, gap: 5,}}
       />
-
-      {/* <MenuItem
-        id='1'
-        title='Currency Convert'
-        backgroundColor='pink'
-        onPress={() => {navigation.navigate('Convert')}}
-      />
-
-      <MenuItem
-        id='2'
-        title='Loan/Debt'
-        backgroundColor='green'
-        onPress={() => {navigation.navigate('LoanList')}}
-      /> */}
 
     </ScrollView>
   )

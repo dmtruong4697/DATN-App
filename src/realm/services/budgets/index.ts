@@ -135,3 +135,12 @@ export function getBudgetDetail(
     }
 
 };
+
+export function deleteAllBudget(
+    realm: Realm,
+) {
+    const budgets = realm.objects<Budget>('Budget');
+    realm.write(() => {
+        realm.delete(budgets);
+    })
+};
