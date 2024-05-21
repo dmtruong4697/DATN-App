@@ -129,7 +129,7 @@ const SignInScreen: FC = () => {
                         <TextInput 
                             placeholder={t('sis-password')}
                             placeholderTextColor={'#939393'}
-                            secureTextEntry={isShowPassword}
+                            secureTextEntry={!isShowPassword}
                             style={styles.viewInput}
                             value={value}
                             onChangeText={value => onChange(value)}

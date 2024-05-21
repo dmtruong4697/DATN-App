@@ -9,6 +9,7 @@ import { createRealmContext } from "@realm/react";
 import { Budget } from "../../models/Budget";
 import { RealmContext } from "../../models";
 import { WalletSelectList } from "../../../mobx/exportData";
+import { ActiveStore } from "../../../mobx/active";
 
 type TransactionType = {
     _id: Realm.BSON.ObjectId;
@@ -47,6 +48,8 @@ export function addTransaction(
     realm.write(() => {
       realm.create('Transaction', transaction);
     });
+
+    ActiveStore.setLastTransaction();
 };
 
 export function addTransactionSync(

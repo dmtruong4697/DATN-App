@@ -3,6 +3,7 @@ import { logout } from "../../services/auth";
 import { UserStore } from "../../mobx/auth";
 import { User } from "realm";
 import { ToastAndroid } from "react-native";
+import { Realm } from "realm";
 
 const showToast = (message: string) => {
     ToastAndroid.showWithGravityAndOffset(
@@ -121,8 +122,8 @@ export const MenuData3 = [
         id: '1',
         iconUrl: require('../../../assets/icon/menu/logout.png'),
         title: 'Sign Out',
-        onPress: async (navigation: NavigationProp<any, any>) => {
-            await logout(navigation, UserStore.user.id, UserStore.deviceToken)
+        onPress: async (navigation: NavigationProp<any, any>, realm: Realm) => {
+            await logout(navigation, UserStore.user.id, UserStore.deviceToken, realm)
             .then((message: string) => {
                 // setMessage(message);
                 showToast(message);

@@ -42,6 +42,7 @@ import ExportDataScreen from "../../screens/exportDataScreen";
 import ExportDataPickWalletScreen from "../../screens/exportDataPickWalletScreen";
 import ExportDataPickTimeScreen from "../../screens/exportDataPickTimeScreen";
 import ChangeLanguageScreen from "../../screens/changeLanguageScreen";
+import SyncScreen from "../../screens/syncScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -155,6 +156,8 @@ export type RootStackParamList = {
     ExportDataPickTime: {};
 
     ChangeLanguage: {};
+
+    Sync: {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -486,6 +489,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="ChangeLanguage"
             component={ChangeLanguageScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="Sync"
+            component={SyncScreen}
             options={{
                 headerShown: false,
             }}

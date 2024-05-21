@@ -13,6 +13,7 @@ import { addShoppingList, addShoppingListItem, deleteAllShoppingList, deleteAllS
 import { NavigationProp } from '@react-navigation/native';
 import { SavingType } from '../../screens/addSavingScreen';
 import { ObjectId } from "bson";
+import { SyncStore } from '../../mobx/sync';
 
 export const makeDataFile = async (realm: Realm) => {
     try {
@@ -66,6 +67,7 @@ export const uploadData = async (realm: Realm) => {
       }
     })
 
+    SyncStore.setLastSync();
     console.log(responce.status)
 
   } catch (error) { 

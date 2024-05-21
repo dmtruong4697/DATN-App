@@ -122,7 +122,7 @@ const MenuScreen: React.FC<IProps>  = () => {
             id={item.id}
             title={item.title}
             iconUrl={item.iconUrl}
-            onPress={() => item.onPress(navigation)}
+            onPress={() => item.onPress(navigation, realm)}
           />
         )}
         // contentContainerStyle={{width: layout.width-18, gap: 5,}}

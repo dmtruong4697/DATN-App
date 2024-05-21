@@ -32,6 +32,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import messaging, { firebase } from '@react-native-firebase/messaging';
 import installations from '@react-native-firebase/installations';
 import { UserStore } from './src/mobx/auth';
+import notifee from '@notifee/react-native';
+import { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -59,34 +61,47 @@ function App(): React.JSX.Element {
     console.log("ID: ", id);
   }
 
-  // const bootstrap = async() => {
-  //   await inAppMessaging().setMessagesDisplaySuppressed(true);
-  // }
+  const onMessageReceived = (message: FirebaseMessagingTypes.RemoteMessage): Promise<any> => {
+      notifee.displayNotification({
+        title: 'Your order has been shipped',
+        body: `Your order was shipped at!`,
+        android: {
+          channelId: 'orders',
+        },
+      });
 
-  // const fetchConfig = async() => {
+      const t: any = 'a';
+      return t;
+  }
 
-  //   await remoteConfig().fetch(50);
+  async function onDisplayNotification(message: FirebaseMessagingTypes.RemoteMessage): Promise<any> {
+    await notifee.requestPermission()
 
-  //   await remoteConfig().fetchAndActivate()
-  //     .then(fetchedRemotely => {
-  //       if (fetchedRemotely) {
-  //         console.log('Configs were retrieved from the backend and activated.');
-  //         // const newVersion = remoteConfig().getValue('newversion').asString();
-  //       } else {
-  //         console.log(
-  //           'No configs were fetched from the backend, and the local configs were already activated',
-  //         );
-  //       }
-  //     })
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
 
-  // }
+    await notifee.displayNotification({
+      title: 'Notification Title',
+      body: 'Main body content of the notification',
+      android: {
+        channelId,
+        pressAction: {
+          id: 'default',
+        },
+      },
+    });
+
+    console.log(message);
+  }
 
   useEffect(() => {
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
     requestUserPermission();
     getToken();
-    // fetchConfig();
-    // bootstrap();
+    messaging().onMessage(onDisplayNotification);
+    messaging().setBackgroundMessageHandler(onDisplayNotification);
   },[])
 
 

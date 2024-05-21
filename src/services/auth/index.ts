@@ -2,6 +2,15 @@ import { NavigationProp } from "@react-navigation/native";
 import { User, UserStore } from "../../mobx/auth";
 import axios from "axios";
 import { API } from "../../constants/api";
+import { uploadData } from "../sync";
+import { Realm } from "realm";
+import { deleteAllBudget } from "../../realm/services/budgets";
+import { deleteAllLoan } from "../../realm/services/loan";
+import { deleteAllSaving } from "../../realm/services/saving";
+import { deleteAllShoppingList, deleteAllShoppingListItem } from "../../realm/services/shoppingList";
+import { deleteAllTransaction } from "../../realm/services/transactions";
+import { deleteAllTransactionType } from "../../realm/services/transactionType";
+import { deleteAllWallet } from "../../realm/services/wallets";
 
 export async function login(
     navigation: NavigationProp<any, any>,
@@ -14,7 +23,7 @@ export async function login(
         const responce = await axios.post(API + '/login', {
             email: email,
             password: password,
-            deviceToken: deviceToken,
+            deviceToken: UserStore.deviceToken,
         });
 
         if (responce.status == 200) {
@@ -64,7 +73,10 @@ export async function logout(
     navigation: NavigationProp<any, any>,
     userId: object | null,
     deviceToken: string,
+    realm: Realm,
 ) {
+
+    await uploadData(realm);
     try {
         // UserStore.setIsLoading(true);
         const responce = await axios.post(API + '/logout', 
@@ -80,6 +92,16 @@ export async function logout(
 
         if (responce.status == 200) {
             const message = 'Logout Successfully'
+
+            deleteAllBudget(realm);
+            deleteAllLoan(realm);
+            deleteAllSaving(realm);
+            deleteAllShoppingList(realm);
+            deleteAllShoppingListItem(realm);
+            deleteAllTransaction(realm);
+            deleteAllTransactionType(realm);
+            deleteAllWallet(realm);
+
             UserStore.logoutUser();
             console.log(responce.data);
             navigation.navigate('SignIn');
