@@ -39,7 +39,7 @@ const TransactionScreen: React.FC<IProps>  = () => {
       }, {})
     );
 
-  const [index, setIndex] = React.useState(tabData.length);
+  const [index, setIndex] = React.useState(tabData.length - 1);
 
   const routes= React.useMemo(() => (
     tabData.map((item: any) => ({ key: item.id, title: item.name, }))

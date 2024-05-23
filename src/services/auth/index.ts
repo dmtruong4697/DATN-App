@@ -219,3 +219,45 @@ export async function validateEmail(
         return message;
     }
 }
+
+export async function changePassword(
+    navigation: NavigationProp<any, any>,
+    password: string,
+) {
+    try {
+        const responce = await axios.post(API + '/change-password', {
+            password: password,
+        },
+        {
+            headers: {
+                Authorization: UserStore.user.token,
+            }
+        });
+
+        if (responce.status == 200) {
+
+            const message = 'Updated password successful';
+
+            console.log(responce.data);
+            navigation.goBack();
+            return message;
+        } else {
+            console.log(responce.status);
+            const message = responce.data.message;
+            return message;
+        }
+    } catch (error) {
+        let message = '';
+        if (axios.isAxiosError(error)) {
+            console.error("Error message:", error.message);
+            if (error.response) {
+              console.error("Error details:", error.response.data);
+              message = error.response.data.message;
+            }    
+          } else {
+              console.error("Unhandled error:", error);
+              message = 'Unhandled error';
+            }
+        return message;
+    }
+}

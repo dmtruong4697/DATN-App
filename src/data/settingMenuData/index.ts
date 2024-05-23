@@ -55,7 +55,7 @@ export const SettingMenuData2 = [
         state: '',
         renderToggle: false,
         onPress: (navigation: NavigationProp<any, any>) => {
-            // navigation.navigate('ChangeLanguage');
+            navigation.navigate('ChangePassword');
         },
         onPressToggle: () => {},
         toggleState: false,

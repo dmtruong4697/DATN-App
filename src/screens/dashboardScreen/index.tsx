@@ -245,6 +245,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
           barBorderRadius={4}
           onPress={(item) => {showToast(formatter.format(item.value))}}
           renderTooltip={() => {}}
+          scrollToIndex={Number((new Date()).getDate()) - 3}
         />
 
         {/* month analyst

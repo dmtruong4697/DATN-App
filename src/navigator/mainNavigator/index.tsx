@@ -43,6 +43,7 @@ import ExportDataPickWalletScreen from "../../screens/exportDataPickWalletScreen
 import ExportDataPickTimeScreen from "../../screens/exportDataPickTimeScreen";
 import ChangeLanguageScreen from "../../screens/changeLanguageScreen";
 import SyncScreen from "../../screens/syncScreen";
+import ChangePasswordScreen from "../../screens/changePasswordScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -158,6 +159,8 @@ export type RootStackParamList = {
     ChangeLanguage: {};
 
     Sync: {};
+
+    ChangePassword: {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -169,7 +172,7 @@ const MainNavigator = () => {
     const [startTime, setStartTime] = useState(new Date().toISOString().slice(0, 10));
     const [finishTime, setFinishTime] = useState(new Date().toISOString().slice(0, 10));
     const [inputType, setInputType] = useState(0);
-    const [tabData, setTabData] = useState(generateDay(5).reverse());
+    const [tabData, setTabData] = useState(generateDay(20).reverse());
 
   return (
     <RangeContext.Provider value={{startTime, setStartTime, finishTime, setFinishTime, inputType, setInputType, tabData, setTabData}}>
@@ -497,6 +500,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="Sync"
             component={SyncScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="ChangePassword"
+            component={ChangePasswordScreen}
             options={{
                 headerShown: false,
             }}
