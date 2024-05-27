@@ -1,5 +1,5 @@
 import { ActivityIndicator, Image, Modal, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { ParamListBase, useNavigation } from '@react-navigation/native'
 import { styles } from './styles'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -11,6 +11,9 @@ import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { syncData } from '../../services/sync'
 import { RealmContext } from '../../realm/models'
+import { GoogleSignin } from '@react-native-community/google-signin'
+import { API } from '../../constants/api'
+// import { GoogleSignin } from '@react-native-community/google-signin';
 
 type User = {
     uid: string;
@@ -66,6 +69,37 @@ const SignInScreen: FC = () => {
             });
     };
 
+    const signInGoogle = async () => {
+        try {
+          await GoogleSignin.hasPlayServices();
+          const userInfo = await GoogleSignin.signIn();
+          const idToken = userInfo.idToken;
+      
+          // Gửi token tới server để xác thực
+          const response = await fetch(API + '/google-auth', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token: idToken }),
+          });
+      
+          const data = await response.json();
+          console.log(data); // Nhận JWT token từ server
+        } catch (error) {
+          // Xử lý các lỗi có thể xảy ra trong quá trình đăng nhập
+          console.error(error);
+        }
+      };
+
+    useEffect(() => {
+        GoogleSignin.configure({
+            scopes: ['https://www.googleapis.com/auth/drive'],
+            webClientId: '159333030534-5juv7kiqjgorklm6fedlkj7b45k837sq.apps.googleusercontent.com',
+            offlineAccess: true,
+            forceCodeForRefreshToken: true,
+        });
+    },[])
   return (
     <View style={styles.container}>
       
@@ -188,6 +222,9 @@ const SignInScreen: FC = () => {
 
         <TouchableOpacity
             style={[styles.socialButton, ]}
+            onPress={() => {
+                signInGoogle();
+            }}
         >
             <Image style={styles.mediaIcon} source={require('../../../assets/icon/socialMedia/google.png')}/>
             <Text style={styles.socialButtonText}>{t('sis-connect with')} Google</Text>
