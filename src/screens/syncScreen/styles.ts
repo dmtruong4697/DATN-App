@@ -36,4 +36,42 @@ export const styles = StyleSheet.create({
         marginTop: 5,
     },
 
+    viewLoading: {
+        // height: 100,
+        // width: 100,
+        // backgroundColor: 'pink',
+        // position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+    },
+
+    imgSync: {
+        width: 300,
+        height: 300,
+        alignSelf: 'center',
+        marginVertical: 10,
+    },
+
+    txtDescription: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#666666',
+        textAlign: 'center',
+    },
+
+    txtLastSync: {
+        fontSize: 16,
+        fontWeight: '400',
+        color: '#111111',
+        marginTop: 40,
+        padding: 15,
+        textAlign: 'center',
+    },
+
+    viewButtonGroup: {
+        width: '100%',
+        padding: 10,
+        marginTop: 20,
+    },
 })

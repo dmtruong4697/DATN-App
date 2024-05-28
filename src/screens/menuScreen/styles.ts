@@ -46,6 +46,17 @@ export const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
 
+    viewSyncNoti: {
+        width: 20,
+        height: 20,
+        borderRadius: 1000,
+        // backgroundColor: colors.ErrorColor,
+
+        position: 'absolute',
+        top: -5,
+        right: -5,
+    },
+
     btnBack: {
         width: 40,
         height: 40,

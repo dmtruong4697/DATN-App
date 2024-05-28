@@ -10,6 +10,7 @@ import { Budget } from "../../models/Budget";
 import { RealmContext } from "../../models";
 import { WalletSelectList } from "../../../mobx/exportData";
 import { ActiveStore } from "../../../mobx/active";
+import { SyncStore } from "../../../mobx/sync";
 
 type TransactionType = {
     _id: Realm.BSON.ObjectId;
@@ -50,6 +51,7 @@ export function addTransaction(
     });
 
     ActiveStore.setLastTransaction();
+    SyncStore.setSyncStatus();
 };
 
 export function addTransactionSync(

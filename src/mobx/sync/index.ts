@@ -3,7 +3,7 @@ import { observable, action, makeObservable, makeAutoObservable } from 'mobx';
 
 class store {
     lastSync = '';
-    syncStatus = true;
+    syncStatus = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -11,6 +11,11 @@ class store {
 
     setLastSync() {
         this.lastSync = (new Date()).toISOString();
+        this.syncStatus = false;
+    }
+
+    setSyncStatus() {
+        this.syncStatus = true;
     }
 
 }

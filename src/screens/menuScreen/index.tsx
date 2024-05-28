@@ -12,6 +12,7 @@ import { uploadData } from '../../services/sync';
 import { RealmContext } from '../../realm/models';
 import { observer } from 'mobx-react'
 import { useTranslation } from 'react-i18next';
+import { SyncStore } from '../../mobx/sync';
 
 interface IProps {}
 
@@ -52,10 +53,12 @@ const MenuScreen: React.FC<IProps>  = () => {
             <TouchableOpacity
               style={styles.btnNotification}
               onPress={() => {
-                uploadUserData();
+                // uploadUserData();
+                navigation.navigate('Sync');
               }}
             >
               <Image style={styles.imgButtonNotification} source={require('../../../assets/icon/menu/sync.png')}/>
+              {(SyncStore.syncStatus) && <Image style={styles.viewSyncNoti} source={require('../../../assets/icon/menu/sync-noti.png')}/>}
             </TouchableOpacity>
           </View>
         </View>
