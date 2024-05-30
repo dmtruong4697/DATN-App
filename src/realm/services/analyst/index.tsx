@@ -1,7 +1,7 @@
 import { Realm } from "realm";
 import { Transaction } from "../../models/Transaction";
 import { getExpensesTotalByTime, getIncomeTotalByTime } from "../transactions";
-import { generateWeek, getMonthEnd, getMonthStart } from "../dateTime";
+import { generateWeek, getMonthEnd, getMonthStart, getYearEnd, getYearStart } from "../dateTime";
 import { Budget } from "../../models/Budget";
 import { Text } from "react-native";
 
@@ -151,6 +151,30 @@ export function getMonthAnalyst(
     }
     // console.log(startTime,'   ',finishTime,'   ',startTime.toISOString().slice(0, 10),'   ',(new Date(finishTime.toISOString().slice(0, 10))).getDate());
 
+
+    return result;
+}
+
+export function getYearAnalyst(
+    realm: Realm,
+    income: boolean,
+    currencyUnit: string,
+) {
+
+    const startTime = getYearStart(new Date());
+    const finishTime = getYearEnd(new Date());
+    const result = [];
+    
+    for (let month = 0; month < 12; month++) {
+        const startOfMonth = new Date(startTime.getFullYear(), month, 1);
+        const endOfMonth = new Date(startTime.getFullYear(), month + 1, 0);
+        // const days = endOfMonth.getDate();
+
+        result.push({
+            value: (income)? getIncomeTotalByTime(realm, startOfMonth.toISOString().slice(0, 10), endOfMonth.toISOString().slice(0, 10)):getExpensesTotalByTime(realm, startOfMonth.toISOString().slice(0, 10),endOfMonth.toISOString().slice(0, 10), currencyUnit),
+            label: `${startOfMonth.toLocaleString('default', { month: 'short' })}`,
+        });
+    }
 
     return result;
 }
