@@ -57,7 +57,7 @@ const SyncScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Sync Data</Text>
+        <Text style={styles.txtTitle}>{t('ss-sync data')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -70,12 +70,12 @@ const SyncScreen: React.FC<IProps>  = () => {
       </View>
 
       <Image style={styles.imgSync} source={require('../../../assets/illustration/syncScreen/sync.png')}/>
-      <Text style={styles.txtDescription}>Sync your data to our Server</Text>
-      <Text style={styles.txtLastSync}>Your last sync: {formatDate(SyncStore.lastSync)}</Text>
+      <Text style={styles.txtDescription}>{t('ss-sync your data')}</Text>
+      <Text style={styles.txtLastSync}>{t('ss-last sync')}: {formatDate(SyncStore.lastSync)}</Text>
 
       <View style={styles.viewButtonGroup}>
         <Button
-          content='SYNC DATA'
+          content={t('ss-sync data button')}
           onPress={() => {
             uploadUserData();
             console.log(SyncStore.lastSync)

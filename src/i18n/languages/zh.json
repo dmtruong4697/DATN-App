@@ -264,6 +264,11 @@
       "sis-forgot password": "忘记密码？",
       "sis-sign in button": "登录",
       "sis-or": "或者",
-      "sis-connect with": "与连接"
+      "sis-connect with": "与连接",
+
+      "ss-sync data": "同步数据",
+      "ss-sync your data": "将您的数据同步到我们的服务器",
+      "ss-last sync": "您的最后一次同步",
+      "ss-sync data button": "同步数据"
     }
 }

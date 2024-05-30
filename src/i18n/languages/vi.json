@@ -264,6 +264,11 @@
       "sis-forgot password": "Quên mật khẩu?",
       "sis-sign in button": "ĐĂNG NHẬP",
       "sis-or": "Hoặc",
-      "sis-connect with": "Kết nối với"
+      "sis-connect with": "Kết nối với",
+
+      "ss-sync data": "Đồng bộ dữ liệu",
+      "ss-sync your data": "Lưu dữ liệu của bạn lên máy chủ của chúng tôi",
+      "ss-last sync": "Lần đồng bộ cuối cùng",
+      "ss-sync data button": "ĐỒNG BỘ"
     }
 }

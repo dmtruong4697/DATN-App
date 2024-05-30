@@ -264,6 +264,11 @@
       "sis-forgot password": "Forgot password?",
       "sis-sign in button": "SIGN IN",
       "sis-or": "Or",
-      "sis-connect with": "Connect with"
+      "sis-connect with": "Connect with",
+
+      "ss-sync data": "Sync Data",
+      "ss-sync your data": "Sync your data to our Server",
+      "ss-last sync": "Your last sync",
+      "ss-sync data button": "SYNC DATA"
     }
 }
