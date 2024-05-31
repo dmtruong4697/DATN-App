@@ -44,6 +44,7 @@ import ExportDataPickTimeScreen from "../../screens/exportDataPickTimeScreen";
 import ChangeLanguageScreen from "../../screens/changeLanguageScreen";
 import SyncScreen from "../../screens/syncScreen";
 import ChangePasswordScreen from "../../screens/changePasswordScreen";
+import AnalystMenuScreen from "../../screens/analystMenuScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -161,6 +162,8 @@ export type RootStackParamList = {
     Sync: {};
 
     ChangePassword: {};
+
+    AnalystMenu: {};
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -508,6 +511,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="ChangePassword"
             component={ChangePasswordScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="AnalystMenu"
+            component={AnalystMenuScreen}
             options={{
                 headerShown: false,
             }}

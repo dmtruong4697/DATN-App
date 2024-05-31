@@ -40,6 +40,14 @@ export const MenuData1 = [
             navigation.navigate('TypeList');
         },
     },
+    {
+        id: '4',
+        iconUrl: require('../../../assets/icon/menu/chart.png'),
+        title: 'Analyst',
+        onPress: (navigation: NavigationProp<any, any>) => {
+            navigation.navigate('AnalystMenu');
+        },
+    },
 ]
 
 export const MenuData2 = [

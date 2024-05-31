@@ -89,14 +89,14 @@ export async function syncData(
         }
       });
 
-      deleteAllBudget(realm);
-      deleteAllLoan(realm);
-      deleteAllSaving(realm);
-      deleteAllShoppingList(realm);
-      deleteAllShoppingListItem(realm);
-      deleteAllTransaction(realm);
-      deleteAllTransactionType(realm);
-      deleteAllWallet(realm);
+      // deleteAllBudget(realm);
+      // deleteAllLoan(realm);
+      // deleteAllSaving(realm);
+      // deleteAllShoppingList(realm);
+      // deleteAllShoppingListItem(realm);
+      // deleteAllTransaction(realm);
+      // deleteAllTransactionType(realm);
+      // deleteAllWallet(realm);
 
       if (responce.status == 200) {
           const message = 'Sync Data Successfully';
