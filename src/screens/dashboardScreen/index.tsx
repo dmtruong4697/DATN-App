@@ -43,7 +43,8 @@ const DashboardScreen: React.FC<IProps>  = () => {
 
     let transactions = getTransactionHistory(realm, 5);
     let loans = getLoanHistory(realm, 5);
-    const [barData, setBarData] = useState(getMonthAnalyst(realm, false, 'VND'));
+    // const [barData, setBarData] = useState(getMonthAnalyst(realm, false, 'VND'));
+    const [barData, setBarData] = useState(getDayOfWeekAnalyst(realm, false, 'VND'));
     const [analystType, setAnalystType] = useState('Week');
     const isFocus = useIsFocused();
     useEffect(() => {

@@ -4,6 +4,9 @@ import { getExpensesTotalByTime, getIncomeTotalByTime } from "../transactions";
 import { generateWeek, getMonthEnd, getMonthStart, getYearEnd, getYearStart } from "../dateTime";
 import { Budget } from "../../models/Budget";
 import { Text } from "react-native";
+import { Wallet } from "../../models/Wallet";
+import { Loan } from "../../models/Loan";
+import { Saving } from "../../models/Saving";
 
 
 export function getDayOfWeekAnalyst(
@@ -175,6 +178,75 @@ export function getYearAnalyst(
             label: `${startOfMonth.toLocaleString('default', { month: 'short' })}`,
         });
     }
+
+    return result;
+}
+
+
+//man hinh tai chinh hien tai
+export function getWalletsTotalByUnit(
+    realm: Realm,
+    unit: string,
+) {
+    const w = realm.objects<Wallet>('Wallet');
+
+    const wallets = w.filtered('currencyUnit = $0', unit);
+    let result = 0;
+    wallets.map((item) => {
+        result = result + item.balance;
+    })
+
+    return result;
+}
+
+//man hinh tai chinh hien tai
+export function getLoansTotalByUnit(
+    realm: Realm,
+    unit: string,
+) {
+    const l = realm.objects<Loan>('Loan');
+
+    let result = 0;
+    l.map((item) => {
+        const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', item.walletId);
+        if(wallet?.currencyUnit == unit && item.isLoan == true) {
+            result = result + item.total;
+        }
+    })
+
+    return result;
+}
+
+//man hinh tai chinh hien tai
+export function getDebtsTotalByUnit(
+    realm: Realm,
+    unit: string,
+) {
+    const l = realm.objects<Loan>('Loan');
+
+    let result = 0;
+    l.map((item) => {
+        const wallet = realm.objectForPrimaryKey<Wallet>('Wallet', item.walletId);
+        if(wallet?.currencyUnit == unit && item.isLoan == false) {
+            result = result + item.total;
+        }
+    })
+
+    return result;
+}
+
+//man hinh tai chinh hien tai
+export function getSavingsTotalByUnit(
+    realm: Realm,
+    unit: string,
+) {
+    const s = realm.objects<Saving>('Saving');
+
+    const savings = s.filtered('currencyUnit = $0', unit);
+    let result = 0;
+    savings.map((item) => {
+        result = result + item.total;
+    })
 
     return result;
 }

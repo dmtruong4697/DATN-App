@@ -4,9 +4,9 @@ export const AnalystMenuData = [
     {
         id: '1',
         iconUrl: require('../../../assets/icon/analystMenu/am1.png'),
-        title: 'Tai chinh hien tai',
+        title: 'Financial Statement',
         onPress: (navigation: NavigationProp<any, any>) => {
-            navigation.navigate('SavingList');
+            navigation.navigate('FinancialStatement');
         },
     },
     {
@@ -38,7 +38,7 @@ export const AnalystMenuData = [
         iconUrl: require('../../../assets/icon/analystMenu/am5.png'),
         title: 'The doi vay no',
         onPress: (navigation: NavigationProp<any, any>) => {
-            navigation.navigate('SavingList');
+            navigation.navigate('LoanList');
         },
     },
     {
