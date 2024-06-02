@@ -3,10 +3,11 @@ import { Transaction } from "../../models/Transaction";
 import { getExpensesTotalByTime, getIncomeTotalByTime } from "../transactions";
 import { generateWeek, getMonthEnd, getMonthStart, getYearEnd, getYearStart } from "../dateTime";
 import { Budget } from "../../models/Budget";
-import { Text } from "react-native";
+import { Dimensions, Text } from "react-native";
 import { Wallet } from "../../models/Wallet";
 import { Loan } from "../../models/Loan";
 import { Saving } from "../../models/Saving";
+import { colors } from "../../../constants/colors";
 
 
 export function getDayOfWeekAnalyst(
@@ -112,29 +113,12 @@ export function formatNumber(num: number): string {
     return num.toString();
 }
 
+
 export function getMonthAnalyst(
     realm: Realm,
     income: boolean,
     currencyUnit: string,
 ) {
-    function formatNumber(num: number): string {
-        if (num >= 1000000000) {
-            return (num / 1000000000).toFixed(2) + 'b';
-        }
-        if (num >= 1000000) {
-            return (num / 1000000).toFixed(2) + 'm';
-        }
-        if (num >= 1000) {
-            return (num / 1000).toFixed(2) + 'k';
-        }
-        return num.toString();
-    }
-
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: currencyUnit,
-    });
-
     const startTime = getMonthStart(new Date());
     const finishTime = getMonthEnd(new Date());
     const days = (new Date(finishTime.toISOString().slice(0, 10))).getDate() - (new Date(startTime.toISOString().slice(0, 10))).getDate();
@@ -158,9 +142,123 @@ export function getMonthAnalyst(
     return result;
 }
 
+// man income vs expense
+export function getQuarterAnalyst(
+    realm: Realm,
+    currencyUnit: string,
+) {
+
+    const startTime = getYearStart(new Date());
+    const finishTime = getYearEnd(new Date());
+    const resultMonth = [];
+    
+    for (let month = 0; month < 12; month++) {
+        const startOfMonth = new Date(startTime.getFullYear(), month, 1);
+        const endOfMonth = new Date(startTime.getFullYear(), month + 1, 0);
+        // const days = endOfMonth.getDate();
+
+        resultMonth.push({
+            value: getIncomeTotalByTime(realm, startOfMonth.toISOString().slice(0, 10), endOfMonth.toISOString().slice(0, 10)),
+            label: (month + 1).toString(),
+            frontColor: colors.PrimaryColor,
+            spacing: 2,
+            labelWidth: 20,
+        },
+        {
+            value: getExpensesTotalByTime(realm, startOfMonth.toISOString().slice(0, 10),endOfMonth.toISOString().slice(0, 10), currencyUnit),
+            frontColor: colors.ErrorColor,
+        });
+    }
+
+    const windowWidth = Dimensions.get('window').width;
+    const result = [
+        {
+            value: resultMonth[0].value + resultMonth[2].value + resultMonth[4].value,
+            label: "Quarter I",
+            frontColor: colors.PrimaryColor,
+            spacing: 2,
+            labelWidth: 80,
+        },
+        {
+            value: resultMonth[1].value + resultMonth[3].value + resultMonth[5].value,
+            frontColor: colors.ErrorColor,
+        },
+
+        {
+            value: resultMonth[6].value + resultMonth[8].value + resultMonth[10].value,
+            label: "Quarter II",
+            frontColor: colors.PrimaryColor,
+            spacing: 2,
+            labelWidth: 80,
+        },
+        {
+            value: resultMonth[7].value + resultMonth[9].value + resultMonth[11].value,
+            frontColor: colors.ErrorColor,
+        },
+
+        {
+            value: resultMonth[12].value + resultMonth[14].value + resultMonth[16].value,
+            label: "Quarter III",
+            frontColor: colors.PrimaryColor,
+            spacing: 2,
+            labelWidth: 80,
+        },
+        {
+            value: resultMonth[13].value + resultMonth[15].value + resultMonth[17].value,
+            frontColor: colors.ErrorColor,
+        },
+
+        {
+            value: resultMonth[18].value + resultMonth[20].value + resultMonth[22].value,
+            label: "Quarter IV",
+            frontColor: colors.PrimaryColor,
+            spacing: 2,
+            labelWidth: 80,
+        },
+        {
+            value: resultMonth[19].value + resultMonth[21].value + resultMonth[23].value,
+            frontColor: colors.ErrorColor,
+        },
+    ]
+
+    return result;
+}
+
+
+// man hinh income vs expense
 export function getYearAnalyst(
     realm: Realm,
-    income: boolean,
+    currencyUnit: string,
+) {
+    const result = [];
+    
+    for (let year = -2; year < 3; year++) {
+        const today = new Date();
+        const yearDate = new Date(today);
+        yearDate.setFullYear(today.getFullYear() + year);
+        const startOfYear = getYearStart(yearDate);
+        const endOfYear = getYearEnd(yearDate);
+        // const days = endOfMonth.getDate();
+
+        result.push({
+            value: getIncomeTotalByTime(realm, startOfYear.toISOString().slice(0, 10), endOfYear.toISOString().slice(0, 10)),
+            label: yearDate.getFullYear().toString(),
+            frontColor: colors.PrimaryColor,
+            spacing: 2,
+            labelWidth: 80,
+        },
+        {
+            value: getExpensesTotalByTime(realm, startOfYear.toISOString().slice(0, 10),endOfYear.toISOString().slice(0, 10), currencyUnit),
+            frontColor: colors.ErrorColor,
+        });
+    }
+
+    return result;
+}
+
+// man hinh income vs expense
+export function getMonthOfYearAnalyst(
+    realm: Realm,
     currencyUnit: string,
 ) {
 
@@ -174,8 +272,15 @@ export function getYearAnalyst(
         // const days = endOfMonth.getDate();
 
         result.push({
-            value: (income)? getIncomeTotalByTime(realm, startOfMonth.toISOString().slice(0, 10), endOfMonth.toISOString().slice(0, 10)):getExpensesTotalByTime(realm, startOfMonth.toISOString().slice(0, 10),endOfMonth.toISOString().slice(0, 10), currencyUnit),
-            label: `${startOfMonth.toLocaleString('default', { month: 'short' })}`,
+            value: getIncomeTotalByTime(realm, startOfMonth.toISOString().slice(0, 10), endOfMonth.toISOString().slice(0, 10)),
+            label: (month + 1).toString(),
+            frontColor: colors.PrimaryColor,
+            spacing: 2,
+            labelWidth: 20,
+        },
+        {
+            value: getExpensesTotalByTime(realm, startOfMonth.toISOString().slice(0, 10),endOfMonth.toISOString().slice(0, 10), currencyUnit),
+            frontColor: colors.ErrorColor,
         });
     }
 

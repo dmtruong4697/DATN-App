@@ -46,6 +46,7 @@ import SyncScreen from "../../screens/syncScreen";
 import ChangePasswordScreen from "../../screens/changePasswordScreen";
 import AnalystMenuScreen from "../../screens/analystMenuScreen";
 import FinancialStatementScreen from "../../screens/financialStatementScreen";
+import ExpenseVsIncomeScreen from "../../screens/expenseVsIncomeScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -168,6 +169,7 @@ export type RootStackParamList = {
 
     FinancialStatement: {};
 
+    ExpenseVsIncome: {};
 
 };
 
@@ -532,6 +534,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="FinancialStatement"
             component={FinancialStatementScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="ExpenseVsIncome"
+            component={ExpenseVsIncomeScreen}
             options={{
                 headerShown: false,
             }}

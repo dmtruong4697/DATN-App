@@ -12,9 +12,9 @@ export const AnalystMenuData = [
     {
         id: '2',
         iconUrl: require('../../../assets/icon/analystMenu/am2.png'),
-        title: 'Tinh Hinh thu chi',
+        title: 'Expense Vs Income',
         onPress: (navigation: NavigationProp<any, any>) => {
-            navigation.navigate('SavingList');
+            navigation.navigate('ExpenseVsIncome');
         },
     },
     {

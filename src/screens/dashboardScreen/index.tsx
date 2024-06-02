@@ -50,7 +50,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
     useEffect(() => {
       transactions = getTransactionHistory(realm, 5);
       loans = getLoanHistory(realm, 5);
-      setBarData(getMonthAnalyst(realm, false, 'VND'));
+      setBarData(getDayOfWeekAnalyst(realm, false, 'VND'));
     }, [isFocus]);
 
     const ref = React.createRef<any>();
