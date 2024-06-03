@@ -12,9 +12,9 @@ import Button from '../../components/button';
 import { observer } from 'mobx-react'
 import { TimeRangeData } from '../../data/timeRangeData';
 import { ExportDataStore } from '../../mobx/exportData';
-import { Calendar } from 'react-native-calendars';
 import { colors } from '../../constants/colors';
 import { useTranslation } from 'react-i18next';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 interface IProps {}
 
@@ -30,53 +30,39 @@ const ExportDataPickTimeScreen: React.FC<IProps>  = () => {
     // const [finish, setFinish] = useState((new Date()).toISOString().slice(0, 10));
     const [isCustom, setIsCustom] = useState(false);
 
-    // start date bottom sheet
-    const startBottomSheetModalRef = useRef<BottomSheetModal>(null);
-    const startSnapPoints = useMemo(() => ['25%', '60%'], []);
-    const handlePresentStartModalPress = useCallback(() => {
-        startBottomSheetModalRef.current?.present();
-    }, []);
-    
-    const handleCloseStartModal = useCallback(() => {
-        startBottomSheetModalRef.current?.close();
-    }, []);
-    
-    const handleStartSheetChanges = useCallback((index: number) => {
-        // console.log('handleSheetChanges', index);
-    }, []);
-    
-    const renderStartBackdrop = useCallback(
-        (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} 
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        onPress={handleCloseStartModal}
-        />,
-        []
-    );
+    // date time modal
+    // start date
+    const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
 
-    // finish date bottom sheet
-    const finishBottomSheetModalRef = useRef<BottomSheetModal>(null);
-    const finishSnapPoints = useMemo(() => ['25%', '60%'], []);
-    const handlePresentFinishModalPress = useCallback(() => {
-        finishBottomSheetModalRef.current?.present();
-    }, []);
-    
-    const handleCloseFinishModal = useCallback(() => {
-        finishBottomSheetModalRef.current?.close();
-    }, []);
-    
-    const handleFinishSheetChanges = useCallback((index: number) => {
-        // console.log('handleSheetChanges', index);
-    }, []);
-    
-    const renderFinishBackdrop = useCallback(
-        (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} 
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        onPress={handleCloseFinishModal}
-        />,
-        []
-    );
+    const showStartDatePicker = () => {
+      setStartDatePickerVisibility(true);
+    };
+  
+    const hideStartDatePicker = () => {
+      setStartDatePickerVisibility(false);
+    };
+  
+    const handleStartDateConfirm = (date: Date) => {
+      ExportDataStore.setStartTime(date.toISOString().slice(0, 10));
+      hideStartDatePicker();
+    };
+
+    // date time modal
+    // finish date
+    const [isFinishDatePickerVisible, setFinishDatePickerVisibility] = useState(false);
+
+    const showFinishDatePicker = () => {
+      setFinishDatePickerVisibility(true);
+    };
+  
+    const hideFinishDatePicker = () => {
+      setFinishDatePickerVisibility(false);
+    };
+  
+    const handleFinishDateConfirm = (date: Date) => {
+      ExportDataStore.setFinishTime(date.toISOString().slice(0, 10));
+      hideFinishDatePicker();
+    };
   
   return (
     <View style={styles.viewContainer}>
@@ -150,8 +136,8 @@ const ExportDataPickTimeScreen: React.FC<IProps>  = () => {
         <TouchableOpacity
             style={styles.viewRange}
             onPress={() => {
-                ExportDataStore.setCustomTime();
-                handlePresentStartModalPress();
+                // ExportDataStore.setCustomTime();
+                showStartDatePicker();
             }}
         >
             <Text style={styles.txtRange}>{t('edpts-from')}:</Text>
@@ -161,8 +147,8 @@ const ExportDataPickTimeScreen: React.FC<IProps>  = () => {
         <TouchableOpacity
             style={styles.viewRange}
             onPress={() => {
-                ExportDataStore.setCustomTime();
-                handlePresentFinishModalPress();
+                // ExportDataStore.setCustomTime();
+                showFinishDatePicker();
             }}
         >
             <Text style={styles.txtRange}>{t('edpts-to')}:</Text>
@@ -171,87 +157,23 @@ const ExportDataPickTimeScreen: React.FC<IProps>  = () => {
 
       </View>
 
-        {/* modal pick start date */}
-        <BottomSheetModalProvider>
-          <View style={{}}>
-            <BottomSheetModal
-              ref={startBottomSheetModalRef}
-              index={1}
-              snapPoints={startSnapPoints}
-              onChange={handleStartSheetChanges}
-              backdropComponent={renderStartBackdrop}
-            >
-              <BottomSheetView style={{flex: 1}}>
-              <Calendar
-                initialDate={ExportDataStore.startTime}
-                minDate={'2002-03-02'}
-                maxDate={'2102-03-02'}
-                onDayPress={day => {
-                  ExportDataStore.setStartTime(day.dateString);
-                  console.log('selected day', day);
-                  handleCloseStartModal();
-                }}
-                markedDates={{
-                  [ExportDataStore.startTime]: {selected: true, selectedColor: colors.PrimaryColor, },
-                }}
-                onDayLongPress={day => {
-                  console.log('selected day', day);
-                }}
-                monthFormat={'yyyy MM'}
-                hideExtraDays={true}
-                disableMonthChange={true}
-                firstDay={1}
-                showWeekNumbers={true}
-                onPressArrowLeft={subtractMonth => subtractMonth()}
-                onPressArrowRight={addMonth => addMonth()}
-                disableAllTouchEventsForDisabledDays={true}
-                enableSwipeMonths={true}
-              />
-              </BottomSheetView>
-            </BottomSheetModal>
-          </View>
-        </BottomSheetModalProvider>
+        {/* start time modal */}
+        <DateTimePickerModal
+          isVisible={isStartDatePickerVisible}
+          mode='date'
+          onConfirm={handleStartDateConfirm}
+          onCancel={hideStartDatePicker}
+          // date={new Date()}
+        />
 
-        {/* modal pick finish date */}
-        <BottomSheetModalProvider>
-          <View style={{}}>
-            <BottomSheetModal
-              ref={finishBottomSheetModalRef}
-              index={1}
-              snapPoints={finishSnapPoints}
-              onChange={handleFinishSheetChanges}
-              backdropComponent={renderFinishBackdrop}
-            >
-              <BottomSheetView style={{flex: 1}}>
-              <Calendar
-                initialDate={ExportDataStore.finishTime}
-                minDate={'2002-03-02'}
-                maxDate={'2102-03-02'}
-                onDayPress={day => {
-                  ExportDataStore.setFinishTime(day.dateString);
-                  console.log('selected day', day);
-                  handleCloseFinishModal();
-                }}
-                markedDates={{
-                  [ExportDataStore.finishTime]: {selected: true, selectedColor: colors.PrimaryColor, },
-                }}
-                onDayLongPress={day => {
-                  console.log('selected day', day);
-                }}
-                monthFormat={'yyyy MM'}
-                hideExtraDays={true}
-                disableMonthChange={true}
-                firstDay={1}
-                showWeekNumbers={true}
-                onPressArrowLeft={subtractMonth => subtractMonth()}
-                onPressArrowRight={addMonth => addMonth()}
-                disableAllTouchEventsForDisabledDays={true}
-                enableSwipeMonths={true}
-              />
-              </BottomSheetView>
-            </BottomSheetModal>
-          </View>
-        </BottomSheetModalProvider>
+        {/* finish time modal */}
+        <DateTimePickerModal
+          isVisible={isFinishDatePickerVisible}
+          mode='date'
+          onConfirm={handleFinishDateConfirm}
+          onCancel={hideFinishDatePicker}
+          // date={new Date()}
+        />
 
     </View>
   )

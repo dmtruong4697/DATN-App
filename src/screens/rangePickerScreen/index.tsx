@@ -13,6 +13,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { TransactionTypeIconData } from '../../constants/transactionTypeIcon';
 import TransactionTypeIcon from '../../components/transactionTypeIcon';
 import { RangeContext } from '../../navigator/mainNavigator';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 interface IProps {}
 
@@ -31,6 +32,39 @@ const AddTypeScreen: React.FC<IProps> = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const {startTime, setStartTime, finishTime, setFinishTime, inputType, setInputType, tabData, setTabData} = useContext(RangeContext);
 
+      // date time modal
+    // start date
+    const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
+
+    const showStartDatePicker = () => {
+      setStartDatePickerVisibility(true);
+    };
+  
+    const hideStartDatePicker = () => {
+      setStartDatePickerVisibility(false);
+    };
+  
+    const handleStartDateConfirm = (date: Date) => {
+      setStartTime(date.toISOString().slice(0, 10));
+      hideStartDatePicker();
+    };
+
+    // date time modal
+    // finish date
+    const [isFinishDatePickerVisible, setFinishDatePickerVisibility] = useState(false);
+
+    const showFinishDatePicker = () => {
+      setFinishDatePickerVisibility(true);
+    };
+  
+    const hideFinishDatePicker = () => {
+      setFinishDatePickerVisibility(false);
+    };
+  
+    const handleFinishDateConfirm = (date: Date) => {
+      setFinishTime(date.toISOString().slice(0, 10));
+      hideFinishDatePicker();
+    };
   return (
     <View style={styles.viewContainer}>
       <View style={styles.viewTopContainer}>
@@ -71,8 +105,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={() => {
-                setInputType(0);
-                navigation.navigate('CalendarList');
+                showStartDatePicker();
             }}
           >
             <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/calendar.png')}/>
@@ -87,8 +120,7 @@ const AddTypeScreen: React.FC<IProps> = () => {
           <TouchableOpacity 
             style={styles.viewFormItem}
             onPress={() => {
-                setInputType(1);
-                navigation.navigate('CalendarList');
+                showFinishDatePicker();
             }}
           >
             <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/calendar.png')}/>
@@ -125,6 +157,24 @@ const AddTypeScreen: React.FC<IProps> = () => {
         />
 
       </View>
+
+        {/* create time modal */}
+        <DateTimePickerModal
+          isVisible={isStartDatePickerVisible}
+          mode='date'
+          onConfirm={handleStartDateConfirm}
+          onCancel={hideStartDatePicker}
+          // date={new Date()}
+        />
+
+        {/* create time modal */}
+        <DateTimePickerModal
+          isVisible={isFinishDatePickerVisible}
+          mode='date'
+          onConfirm={handleFinishDateConfirm}
+          onCancel={hideFinishDatePicker}
+          // date={new Date()}
+        />
     </View>
   )
 }

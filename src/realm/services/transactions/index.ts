@@ -191,13 +191,15 @@ export function getIncomeTotalByTime(
     realm: Realm,
     startTime: string,
     finishTime: string,
+    currencyUnit: string,
 ) {
     const transactions = realm.objects<Transaction>('Transaction').
         filtered('createAt >= $0 AND createAt <= $1', startTime, finishTime);
     
     let total = 0;
     transactions.map(item => {
-        if(item.income) total = total + item.total;
+        const wallet = realm.objectForPrimaryKey<Wallet>('Wallet',item.walletId);
+        if((item.income) && (wallet?.currencyUnit == currencyUnit)) total = total + item.total;
     })
 
     return total;

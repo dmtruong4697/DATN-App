@@ -3,7 +3,6 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { CalendarProvider, ExpandableCalendar, WeekCalendar } from 'react-native-calendars';
 import { colors } from '../../constants/colors';
 import { generateDay, generateMonth, generateWeek } from '../../realm/services/dateTime';
 import { SceneMap, TabBar, TabBarProps, TabView } from 'react-native-tab-view';

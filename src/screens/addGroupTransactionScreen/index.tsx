@@ -7,10 +7,11 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheet
 import { RealmContext } from '../../realm/models';
 import { RootStackParamList } from '../../navigator/mainNavigator';
 import Button from '../../components/button';
-import { Calendar } from 'react-native-calendars';
 import { colors } from '../../constants/colors';
 import { createGroupTransaction } from '../../services/transaction';
 import { UserStore } from '../../mobx/auth';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
@@ -22,35 +23,65 @@ const AddGroupTransactionScreen: React.FC<IProps>  = () => {
 
     const route = useRoute<RouteProp<RootStackParamList, 'AddGroupTransaction'>>();
     const {_id} = route.params;
+    const {t} = useTranslation();
 
     const [name, setName] = useState('');
     const [total, setTotal] = useState(0);
-    const [createAt, setCreateAt] = useState(new Date().toISOString());
+    const [createAt, setCreateAt] = React.useState(new Date().toISOString().slice(0, 10));
+    const [createTime, setCreateTime] = useState(new Date());
     const [note, setNote] = useState('');
 
-    // date bottom sheet
-    const dateBottomSheetModalRef = useRef<BottomSheetModal>(null);
-    const dateSnapPoints = useMemo(() => ['25%', '60%'], []);
-    const handlePresentDateModalPress = useCallback(() => {
-      dateBottomSheetModalRef.current?.present();
-    }, []);
+    // date time modal
+    // create time
+    const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+
+    const showTimePicker = () => {
+      setTimePickerVisibility(true);
+    };
   
-    const handleCloseDateModal = useCallback(() => {
-      dateBottomSheetModalRef.current?.close();
-    }, []);
+    const hideTimePicker = () => {
+      setTimePickerVisibility(false);
+    };
   
-    const handleDateSheetChanges = useCallback((index: number) => {
-      // console.log('handleSheetChanges', index);
-    }, []);
+    const handleTimeConfirm = (date: Date) => {
+      // console.warn("A date has been picked: ", date);
+      setCreateTime(date);
+      hideTimePicker();
+    };
+
+    // date time modal
+    // create time
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+      setDatePickerVisibility(true);
+    };
   
-    const renderDateBackdrop = useCallback(
-      (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} 
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        onPress={handleCloseDateModal}
-      />,
-      []
-    );
+    const hideDatePicker = () => {
+      setDatePickerVisibility(false);
+    };
+  
+    const handleDateConfirm = (date: Date) => {
+      setCreateAt(date.toISOString().slice(0, 10))
+      hideDatePicker();
+    };
+
+    function convertTime(isoDate: Date) {
+      let date = new Date(isoDate);
+  
+      date.setHours(date.getHours() + 0);
+  
+      let hours = date.getHours();
+      let minutes = date.getMinutes().toString();
+  
+      if (Number(minutes) < 10) {
+          minutes = '0' + minutes;
+      }
+  
+      let timeString = `${hours}:${minutes}`;
+  
+      return timeString;
+  }
 
     // note bottom sheet
     const noteBottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -84,6 +115,7 @@ const AddGroupTransactionScreen: React.FC<IProps>  = () => {
         name,
         total,
         createAt,
+        convertTime(createTime),
         note,
         '',
       );
@@ -149,15 +181,30 @@ const AddGroupTransactionScreen: React.FC<IProps>  = () => {
 
         {/* date */}
         <View style={styles.viewFormItemContainer}>
-          <Text style={styles.txtFormItemTitle}>DATE</Text>
+          <Text style={styles.txtFormItemTitle}>{t('ats-date')}</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <TouchableOpacity 
-            style={styles.viewFormItem}
-            onPress={handlePresentDateModalPress}
+            style={[styles.viewFormItem, {width: '60%'}]}
+            onPress={() => {
+              showDatePicker();
+            }}
           >
             <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/calendar.png')}/>
             <Text style={styles.txtTypeName}>{createAt}</Text>
             <Image style={[styles.imgIcon, {marginRight: 0,}]} source={require('../../../assets/icon/addTransaction/down-1.png')}/>
           </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.viewFormItem, {width: '35%'}]}
+            onPress={() => {
+              showTimePicker();
+            }}
+          >
+            <Image style={styles.imgIcon} source={require('../../../assets/icon/addTransaction/clock.png')}/>
+            <Text style={styles.txtTypeName}>{convertTime(createTime)}</Text>
+            {/* <Image style={[styles.imgIcon, {marginRight: 0,}]} source={require('../../../assets/icon/addTransaction/down-1.png')}/> */}
+          </TouchableOpacity>
+          </View>
         </View>
 
         {/* note */}
@@ -181,46 +228,22 @@ const AddGroupTransactionScreen: React.FC<IProps>  = () => {
         />
       </View>
 
-      {/* modal pick transaction date */}
-      <BottomSheetModalProvider>
-        <View style={{}}>
-          <BottomSheetModal
-            ref={dateBottomSheetModalRef}
-            index={1}
-            snapPoints={dateSnapPoints}
-            onChange={handleDateSheetChanges}
-            backdropComponent={renderDateBackdrop}
-          >
-            <BottomSheetView style={{flex: 1}}>
-            <Calendar
-              initialDate={createAt}
-              minDate={'2002-03-02'}
-              maxDate={'2102-03-02'}
-              onDayPress={day => {
-                setCreateAt(day.dateString);
-                console.log('selected day', day);
-                handleCloseDateModal();
-              }}
-              markedDates={{
-                [createAt]: {selected: true, selectedColor: colors.PrimaryColor, },
-              }}
-              onDayLongPress={day => {
-                console.log('selected day', day);
-              }}
-              monthFormat={'yyyy MM'}
-              hideExtraDays={true}
-              disableMonthChange={true}
-              firstDay={1}
-              showWeekNumbers={true}
-              onPressArrowLeft={subtractMonth => subtractMonth()}
-              onPressArrowRight={addMonth => addMonth()}
-              disableAllTouchEventsForDisabledDays={true}
-              enableSwipeMonths={true}
-            />
-            </BottomSheetView>
-          </BottomSheetModal>
-        </View>
-      </BottomSheetModalProvider>
+        {/* create time modal */}
+        <DateTimePickerModal
+          isVisible={isTimePickerVisible}
+          mode='time'
+          onConfirm={handleTimeConfirm}
+          onCancel={hideTimePicker}
+        />
+
+        {/* create time modal */}
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode='date'
+          onConfirm={handleDateConfirm}
+          onCancel={hideDatePicker}
+          // date={new Date()}
+        />
 
       {/* modal note */}
       <BottomSheetModalProvider>

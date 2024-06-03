@@ -52,6 +52,11 @@ export const styles = StyleSheet.create({
         paddingTop: 0,
     },
 
+    viewTabContainer: {
+        flex: 1,
+        height: '120%',
+    },
+
     viewTab: {
         // flex: 1,
         // padding: 10,
@@ -59,6 +64,8 @@ export const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderBottomWidth: 1,
         borderColor: '#DDDDDD',
+
+        marginBottom: 10,
     },
 
     viewType: {

@@ -17,26 +17,26 @@ export const AnalystMenuData = [
             navigation.navigate('ExpenseVsIncome');
         },
     },
-    {
-        id: '3',
-        iconUrl: require('../../../assets/icon/analystMenu/am3.png'),
-        title: 'Phan tich chi tieu',
-        onPress: (navigation: NavigationProp<any, any>) => {
-            navigation.navigate('SavingList');
-        },
-    },
-    {
-        id: '4',
-        iconUrl: require('../../../assets/icon/analystMenu/am4.png'),
-        title: 'Phan tich thu',
-        onPress: (navigation: NavigationProp<any, any>) => {
-            navigation.navigate('SavingList');
-        },
-    },
+    // {
+    //     id: '3',
+    //     iconUrl: require('../../../assets/icon/analystMenu/am3.png'),
+    //     title: 'Phan tich chi tieu',
+    //     onPress: (navigation: NavigationProp<any, any>) => {
+    //         navigation.navigate('SavingList');
+    //     },
+    // },
+    // {
+    //     id: '4',
+    //     iconUrl: require('../../../assets/icon/analystMenu/am4.png'),
+    //     title: 'Phan tich thu',
+    //     onPress: (navigation: NavigationProp<any, any>) => {
+    //         navigation.navigate('SavingList');
+    //     },
+    // },
     {
         id: '5',
         iconUrl: require('../../../assets/icon/analystMenu/am5.png'),
-        title: 'The doi vay no',
+        title: 'Loan/Debt',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('LoanList');
         },

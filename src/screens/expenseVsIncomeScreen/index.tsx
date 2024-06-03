@@ -22,6 +22,7 @@ import { formatNumber, getDayOfWeekAnalyst, getDebtsTotalByUnit, getLoansTotalBy
 import { colors } from '../../constants/colors';
 import { BarChart } from 'react-native-gifted-charts';
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
+import IncomeVsExpenseItem from '../../components/incomeVsExpenseItem';
 
 interface IProps {}
 const windowWidth = Dimensions.get('window').width;
@@ -52,6 +53,7 @@ const WeekRoute = () => {
       });
   
     return (
+    <View style={styles.viewTabContainer}>
     <View style={styles.viewTab}>
         <View style={styles.viewType}>
             <View style={styles.viewTypeItem}>
@@ -67,8 +69,8 @@ const WeekRoute = () => {
         <BarChart
           noOfSections={3}
           frontColor={'#177AD5'}
-          barWidth={20}
-          data={getDayOfWeekAnalyst(realm, false, 'VND')}
+          barWidth={26}
+          data={getDayOfWeekAnalyst(realm, false, 'VND').result}
           width={windowWidth - 50}
           formatYLabel={(item) => (formatNumber(Number(item)))}
         //   yAxisLabelWidth={40}
@@ -79,6 +81,25 @@ const WeekRoute = () => {
           renderTooltip={() => {}}
           scrollToIndex={Number((new Date()).getDate()) - 3}
         />
+
+
+    </View>
+
+      <FlatList
+        data={getDayOfWeekAnalyst(realm, false, 'VND').resultList}
+        keyExtractor={item => item.title}
+        renderItem={({item}) => (
+          <IncomeVsExpenseItem
+            id={item.title}
+            currencyUnit={'VND'}
+            expense={item.expense}
+            income={item.income}
+            title={item.title}
+          />
+        )}
+        style={{width: '100%',}}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
 )};
 
@@ -101,6 +122,7 @@ const MonthRoute = () => {
       });
   
     return (
+    <View style={styles.viewTabContainer}>
     <View style={styles.viewTab}>
         <View style={styles.viewType}>
             <View style={styles.viewTypeItem}>
@@ -117,7 +139,7 @@ const MonthRoute = () => {
           noOfSections={3}
           frontColor={'#177AD5'}
           barWidth={10}
-          data={getMonthOfYearAnalyst(realm, 'VND')}
+          data={getMonthOfYearAnalyst(realm, 'VND').result}
           width={windowWidth - 50}
           formatYLabel={(item) => (formatNumber(Number(item)))}
         //   yAxisLabelWidth={5}
@@ -128,6 +150,23 @@ const MonthRoute = () => {
           renderTooltip={() => {}}
           scrollToIndex={Number((new Date()).getDate()) - 3}
         />
+    </View>
+
+      <FlatList
+        data={getMonthOfYearAnalyst(realm, 'VND').resultList}
+        keyExtractor={item => item.title}
+        renderItem={({item}) => (
+          <IncomeVsExpenseItem
+            id={item.title}
+            currencyUnit={'VND'}
+            expense={item.expense}
+            income={item.income}
+            title={item.title}
+          />
+        )}
+        style={{width: '100%',}}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
 )};
 
@@ -150,6 +189,7 @@ const QuarterRoute = () => {
       });
   
     return (
+    <View style={styles.viewTabContainer}>
     <View style={styles.viewTab}>
         <View style={styles.viewType}>
             <View style={styles.viewTypeItem}>
@@ -167,7 +207,7 @@ const QuarterRoute = () => {
           noOfSections={3}
           frontColor={'#177AD5'}
           barWidth={40}
-          data={getQuarterAnalyst(realm, 'VND')}
+          data={getQuarterAnalyst(realm, 'VND').result}
           width={windowWidth - 50}
           formatYLabel={(item) => (formatNumber(Number(item)))}
         //   yAxisLabelWidth={80}
@@ -178,6 +218,23 @@ const QuarterRoute = () => {
           renderTooltip={() => {}}
           scrollToIndex={Number((new Date()).getDate()) - 3}
         />
+    </View>
+
+      <FlatList
+        data={getQuarterAnalyst(realm, 'VND').resultList}
+        keyExtractor={item => item.title}
+        renderItem={({item}) => (
+          <IncomeVsExpenseItem
+            id={item.title}
+            currencyUnit={'VND'}
+            expense={item.expense}
+            income={item.income}
+            title={item.title}
+          />
+        )}
+        style={{width: '100%',}}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
 )};
 
@@ -200,6 +257,7 @@ const YearRoute = () => {
       });
   
     return (
+    <View style={styles.viewTabContainer}>
     <View style={styles.viewTab}>
         <View style={styles.viewType}>
             <View style={styles.viewTypeItem}>
@@ -217,7 +275,7 @@ const YearRoute = () => {
           noOfSections={3}
           frontColor={'#177AD5'}
           barWidth={40}
-          data={getYearAnalyst(realm, 'VND')}
+          data={getYearAnalyst(realm, 'VND').result}
           width={windowWidth - 50}
           formatYLabel={(item) => (formatNumber(Number(item)))}
         //   yAxisLabelWidth={80}
@@ -228,6 +286,23 @@ const YearRoute = () => {
           renderTooltip={() => {}}
           scrollToIndex={Number((new Date()).getDate()) - 3}
         />
+    </View>
+
+      <FlatList
+        data={getYearAnalyst(realm, 'VND').resultList}
+        keyExtractor={item => item.title}
+        renderItem={({item}) => (
+          <IncomeVsExpenseItem
+            id={item.title}
+            currencyUnit={'VND'}
+            expense={item.expense}
+            income={item.income}
+            title={item.title}
+          />
+        )}
+        style={{width: '100%',}}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
 )};
   

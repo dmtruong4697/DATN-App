@@ -236,8 +236,8 @@ const DashboardScreen: React.FC<IProps>  = () => {
         <BarChart
           noOfSections={3}
           frontColor={'#177AD5'}
-          barWidth={22}
-          data={barData}
+          barWidth={26}
+          data={barData.result}
           width={windowWidth - 50}
           formatYLabel={(item) => (formatNumber(Number(item)))}
           yAxisLabelWidth={40}

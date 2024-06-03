@@ -12,7 +12,6 @@ import { CurrencyUnitData } from '../../constants/currencyUnit';
 import CurrencyUnitCard from '../../components/currencyUnitCard';
 import { FlatList } from 'react-native-gesture-handler';
 import { addSaving } from '../../realm/services/saving';
-import { Calendar } from 'react-native-calendars';
 import { colors } from '../../constants/colors';
 import { BudgetType, addBudget } from '../../realm/services/budgets';
 import { getMonthEnd, getMonthStart, getWeekEnd, getWeekStart } from '../../realm/services/dateTime';

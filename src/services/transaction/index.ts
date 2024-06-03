@@ -10,6 +10,7 @@ export async function createGroupTransaction(
     name: string,
     total: number,
     createAt: string,
+    createTime: string,
     note: string,
     imageUrls: string,
 ) {
@@ -21,6 +22,7 @@ export async function createGroupTransaction(
             name: name,
             total: total,
             createAt: createAt,
+            createTime: createTime,
             note: note,
             imageUrls: imageUrls,
         },
