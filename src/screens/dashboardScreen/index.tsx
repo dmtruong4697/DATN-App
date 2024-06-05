@@ -127,16 +127,6 @@ const DashboardScreen: React.FC<IProps>  = () => {
       currency: 'VND',
     });
 
-    const setWeekAnalyst = () => {
-      // setAnalystType('Week');
-      setBarData(getDayOfWeekAnalyst(realm, false, 'VND'));
-    };
-
-    const setMonthAnalyst = () => {
-      setBarData(getMonthAnalyst(realm, false, 'VND'));
-      setAnalystType('Month');
-    }
-
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>
       <View style={styles.viewTopContainer}>

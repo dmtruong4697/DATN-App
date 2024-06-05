@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, TextInput, SafeAreaView, KeyboardAvoidingView, ScrollView } from 'react-native'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
@@ -20,6 +20,7 @@ import { getAllWallet, getWalletById } from '../../realm/services/wallets';
 import WalletCard from '../../components/walletCard';
 import { useTranslation } from 'react-i18next';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import ImagePicker from 'react-native-image-crop-picker';
 
 const FormContext = createContext<any>(null);
 
@@ -159,6 +160,19 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     const [note, setNote] = useState('');
     const [walletId, setWalletId] = useState<Realm.BSON.ObjectId>(getAllWallet(realm)[0]._id);
     // const [walletId, setWalletId] = useState<Realm.BSON.ObjectId>(new Realm.BSON.ObjectId());
+    const [images, setImages] = useState<any[]>([]);
+
+    const openPicker = () => {
+      ImagePicker.openPicker({
+        multiple: true
+      }).then(selectedImages => {
+        const newImages = images.concat(selectedImages);
+        setImages(newImages);
+        console.log(selectedImages);
+      }).catch(error => {
+        console.error(error);
+      });
+    };
 
     let wallets = getAllWallet(realm);
     const isFocus = useIsFocused();
@@ -319,7 +333,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
 
   return (
     <FormContext.Provider value={{typeName, typeId, setTypeId, setTypeName, typeIcon, setTypeIcon, walletId, setWalletId, handleCloseTypeModal}}>
-    <View style={styles.viewContainer}>
+    <ScrollView contentContainerStyle={styles.viewContainer}>
       <View style={styles.viewTopContainer}>
         <View style={styles.viewHeaderBar}>
           <View
@@ -437,6 +451,29 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
           >
             <Text style={styles.txtTypeName}>{note}</Text>
           </TouchableOpacity>
+        </View>
+
+        {/* image */}
+        <View style={styles.viewFormItemContainer}>
+          <Text style={styles.txtFormItemTitle}>{t('ats-photo')}</Text>
+          <FlatList
+            data={images}
+            // keyExtractor={item => item._id.toString()}
+            horizontal={true}
+            renderItem={({item}) => (
+              <Image style={styles.imgPhoto} source={{uri: item.path}}/>
+            )}
+            style={{width: '100%',}}
+            showsVerticalScrollIndicator={false}
+            ListFooterComponent={() => (
+              <TouchableOpacity
+                style={styles.btnAddImage}
+                onPress={() => {
+                  openPicker()
+                }}
+              ></TouchableOpacity>
+            )}
+          />
         </View>
 
         <Button
@@ -561,7 +598,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
           onCancel={hideDatePicker}
           // date={new Date()}
         />
-    </View>
+    </ScrollView>
     </FormContext.Provider>
   )
 }

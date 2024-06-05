@@ -6,40 +6,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 import { UserStore } from '../../mobx/auth';
 import Button from '../../components/button';
-import * as ImagePicker from 'react-native-image-picker';
 import { updateAvatar, updateProfile } from '../../services/user';
 // import { updateProfile } from '../../services/user';
+import ImagePicker from 'react-native-image-crop-picker';
 
 interface IProps {}
-
-interface Action {
-  title: string;
-  type: 'capture' | 'library';
-  options: ImagePicker.CameraOptions | ImagePicker.ImageLibraryOptions;
-}
-
-const actions: Action[] = [
-  {
-    title: 'Take Image',
-    type: 'capture',
-    options: {
-      saveToPhotos: true,
-      mediaType: 'photo',
-      includeBase64: false,
-      includeExtra: true,
-    },
-  },
-  {
-    title: 'Select Image',
-    type: 'library',
-    options: {
-      selectionLimit: 0,
-      mediaType: 'photo',
-      includeBase64: false,
-      includeExtra: true,
-    },
-  },
-]
 
 const EditProfileScreen: React.FC<IProps>  = () => {
 
@@ -47,16 +18,18 @@ const EditProfileScreen: React.FC<IProps>  = () => {
     const {t} = useTranslation();
     const [name, setName] = useState<string>(UserStore.user.userName!);
     const [number, setNumber] = useState<string>(UserStore.user.phoneNumber!);
-    const [response, setResponse] = React.useState<any>(null);
-    const [image, setImage] = useState<any>(UserStore.user.avatarImage);
+    const [image, setImage] = useState<any>();
 
-    const onButtonPress = React.useCallback((type: any, options: any) => {
-      if (type === 'capture') {
-        ImagePicker.launchCamera(options, setResponse);
-      } else {
-        ImagePicker.launchImageLibrary(options, setResponse);
-      }
-    }, []);
+    const handlePickImage = () => {
+      ImagePicker.openPicker({
+        width: 300,
+        height: 400,
+        cropping: true
+      }).then(image => {
+        console.log(image);
+        setImage(image);
+      });
+    }
 
     const showToast = (message: string) => {
       ToastAndroid.showWithGravityAndOffset(
@@ -79,7 +52,7 @@ const EditProfileScreen: React.FC<IProps>  = () => {
   const handleUpdateAvatar = async() => {
     const form = new FormData();
     form.append('file', {
-      uri: response?.assets[0].uri,
+      uri: image.path,
       type: "image/jpeg",
       name: `${(new Date()).toISOString()}.jpg`,
     });
@@ -114,11 +87,11 @@ const EditProfileScreen: React.FC<IProps>  = () => {
       <TouchableOpacity
         style={styles.viewAvatar}
         onPress={() => {
-          onButtonPress(actions[1].type, actions[1].options);
+          handlePickImage()
         }}
       >
-        {(!response) && <Image style={styles.imgAvatar} source={{uri: UserStore.user.avatarImage!}}/>}
-        {(response) && <Image style={styles.imgAvatar} source={{uri: response?.assets[0].uri}}/>}
+        {(!image) && <Image style={styles.imgAvatar} source={{uri: UserStore.user.avatarImage!}}/>}
+        {(image) && <Image style={styles.imgAvatar} source={{uri: image.path}}/>}
         <View style={styles.viewEdit}>
           <Image style={styles.imgEdit} source={require('../../../assets/icon/menu/edit.png')}/>
         </View>
@@ -150,7 +123,7 @@ const EditProfileScreen: React.FC<IProps>  = () => {
           onPress={() => {
             // console.log(response);
             handleUpdate();
-            if(response) {
+            if(image) {
             handleUpdateAvatar();
             }
           }}

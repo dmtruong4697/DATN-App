@@ -154,4 +154,21 @@ export const styles = StyleSheet.create({
         width: 20,
         marginRight: 5,
     },
+
+    btnAddImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#DDDDDD',
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    imgPhoto: {
+        width: 50,
+        height: 50,
+        borderRadius: 10,
+    },
 })
