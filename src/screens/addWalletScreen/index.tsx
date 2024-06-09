@@ -134,7 +134,7 @@ const AddWalletScreen: React.FC<IProps> = () => {
         </View>
 
         <Button
-          content={t('aws-add wallet')}
+          content={t('aws-add wallet button')}
           onPress={() => {
             handleAddWallet();
           }}

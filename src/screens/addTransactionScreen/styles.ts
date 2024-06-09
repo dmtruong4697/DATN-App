@@ -164,11 +164,18 @@ export const styles = StyleSheet.create({
         padding: 10,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    imgPlus: {
+        width: 30,
+        height: 30,
     },
 
     imgPhoto: {
         width: 50,
         height: 50,
         borderRadius: 10,
+        marginRight: 5,
     },
 })

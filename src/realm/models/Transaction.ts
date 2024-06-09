@@ -11,7 +11,7 @@ export class Transaction extends Realm.Object {
     transactionTypeId!: Realm.BSON.ObjectID;
     walletId!: Realm.BSON.ObjectID;
     note!: string;
-    imageUrl!: string;
+    imageUrl!: string[];
 
     static schema = {
         name: 'Transaction',
@@ -26,7 +26,7 @@ export class Transaction extends Realm.Object {
             transactionTypeId: 'objectId',
             walletId: 'objectId',
             note: 'string',
-            imageUrl: 'string',
+            imageUrl: {type: 'list', objectType: 'string'},
         }
     }
 }

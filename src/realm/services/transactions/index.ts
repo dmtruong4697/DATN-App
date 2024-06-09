@@ -22,7 +22,7 @@ type TransactionType = {
     transactionTypeId: Realm.BSON.ObjectID;
     walletId: Realm.BSON.ObjectID;
     note: string;
-    imageUrl: string;
+    imageUrl: string[];
 }
 
 export function getAllTransaction(realm: Realm) {

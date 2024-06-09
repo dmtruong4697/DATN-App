@@ -21,6 +21,7 @@ import WalletCard from '../../components/walletCard';
 import { useTranslation } from 'react-i18next';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ImagePicker from 'react-native-image-crop-picker';
+import RNFS from 'react-native-fs';
 
 const FormContext = createContext<any>(null);
 
@@ -182,6 +183,8 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
     }, [isFocus])
 
     const handleAddTransaction = () => {
+      let urls: any[] = [];
+      if(images.length > 0) urls = convertImage();
       const newTransaction = {
         _id: new Realm.BSON.ObjectId(),
         name: '',
@@ -191,7 +194,8 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
         transactionTypeId: typeId,
         walletId: walletId,
         note: note,
-        imageUrl: '',
+        // imageUrl: urls,
+        imageUrl: [],
         createTime: convertTime(createTime),
       };
   
@@ -331,6 +335,19 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
       return timeString;
   }
 
+  const convertImage = async() => {
+    const imageArray: string[] = [];
+    for(let i = 0; i < images.length; i++) {
+      await RNFS.readFile(images[i].path, 'base64')
+      .then(res =>{
+        const uri = 'data:image/png;base64,' + res;
+        imageArray.push(uri);
+      });
+    }
+    console.log(imageArray);
+    return imageArray;
+  }
+
   return (
     <FormContext.Provider value={{typeName, typeId, setTypeId, setTypeName, typeIcon, setTypeIcon, walletId, setWalletId, handleCloseTypeModal}}>
     <ScrollView contentContainerStyle={styles.viewContainer}>
@@ -359,7 +376,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
             <TouchableOpacity
               style={styles.btnBack}
               onPress={() => {
-                // console.log(getAllTransaction(realm));
+                convertImage();
               }}
             >
               <Image style={styles.imgButtonBack} source={require('../../../assets/icon/addTransaction/option.png')}/>
@@ -463,7 +480,7 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
             renderItem={({item}) => (
               <Image style={styles.imgPhoto} source={{uri: item.path}}/>
             )}
-            style={{width: '100%',}}
+            style={{width: '100%'}}
             showsVerticalScrollIndicator={false}
             ListFooterComponent={() => (
               <TouchableOpacity
@@ -471,7 +488,9 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
                 onPress={() => {
                   openPicker()
                 }}
-              ></TouchableOpacity>
+              >
+                <Image style={styles.imgPlus} source={require('../../../assets/icon/addTransaction/add.png')}/>
+              </TouchableOpacity>
             )}
           />
         </View>
