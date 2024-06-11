@@ -210,4 +210,11 @@ export const styles = StyleSheet.create({
         borderRadius: 2,
         backgroundColor: '#e8e8e8',
     },
+
+    txtPeriod: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        padding: 10,
+    },
 })

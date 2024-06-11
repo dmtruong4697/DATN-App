@@ -47,6 +47,7 @@ import ChangePasswordScreen from "../../screens/changePasswordScreen";
 import AnalystMenuScreen from "../../screens/analystMenuScreen";
 import FinancialStatementScreen from "../../screens/financialStatementScreen";
 import ExpenseVsIncomeScreen from "../../screens/expenseVsIncomeScreen";
+import GroupTransactionDetailScreen from "../../screens/groupTransactionDetailScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -170,6 +171,12 @@ export type RootStackParamList = {
     FinancialStatement: {};
 
     ExpenseVsIncome: {};
+
+    GroupTransactionDetail: {
+        transactionId: string;
+        userId: string;
+        groupId: string;
+    };
 
 };
 
@@ -542,6 +549,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="ExpenseVsIncome"
             component={ExpenseVsIncomeScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="GroupTransactionDetail"
+            component={GroupTransactionDetailScreen}
             options={{
                 headerShown: false,
             }}

@@ -7,13 +7,17 @@ import { RootStackParamList } from '../../navigator/mainNavigator';
 import { RealmContext } from '../../realm/models';
 import { getWalletById } from '../../realm/services/wallets';
 import { deleteLoanById, getLoanById } from '../../realm/services/loan';
-import { getGroupDetail, getGroupTotal, getGroupTransactions, splitMoney } from '../../services/group';
+import { deleteGroup, getGroupDetail, getGroupTotal, getGroupTransactions, resetGroup, splitMoney } from '../../services/group';
 import { getUserInfo } from '../../services/user';
 import Clipboard from '@react-native-clipboard/clipboard';
 import TransactionCard from '../../components/transactionCard';
-import { Realm } from "realm";
+import { Realm, UserState } from "realm";
 import GroupTransactionCard from '../../components/groupTransactionCard';
 import { useTranslation } from 'react-i18next';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetFlatList, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
+import OptionButton from '../../components/optionButton';
+import { UserStore } from '../../mobx/auth';
+
 
 interface IProps {}
 
@@ -55,9 +59,9 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
     fetchGroupInfo();
   },[isFocus])
 
-  const showToast = () => {
+  const showToast = (message: string) => {
     ToastAndroid.showWithGravityAndOffset(
-      'Copied to clipboard!',
+      message,
       ToastAndroid.LONG,
       ToastAndroid.BOTTOM,
       25,
@@ -69,6 +73,45 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
     const data = await splitMoney(_id);
     console.log(data);
   }
+
+  const handlereset = async() => {
+    await resetGroup(_id)
+    .then((message: string) => {
+        fetchGroupInfo();
+        showToast(message);
+    });
+  }
+
+  const handlerDelete = async() => {
+    await deleteGroup(navigation, _id)
+    .then((message: string) => {
+        showToast(message);
+    });
+  }
+
+    // option bottom sheet
+    const optionBottomSheetModalRef = useRef<BottomSheetModal>(null);
+    const optionSnapPoints = useMemo(() => ['25%', '32%'], []);
+    const handlePresentOptionModalPress = useCallback(() => {
+      optionBottomSheetModalRef.current?.present();
+    }, []);
+  
+    const handleCloseOptionModal = useCallback(() => {
+      optionBottomSheetModalRef.current?.close();
+    }, []);
+  
+    const handleOptionSheetChanges = useCallback((index: number) => {
+      // console.log('handleSheetChanges', index);
+    }, []);
+  
+    const renderOptionBackdrop = useCallback(
+      (props: BottomSheetBackdropProps) => <BottomSheetBackdrop {...props} 
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        onPress={handleCloseOptionModal}
+      />,
+      []
+    );
   
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>
@@ -82,16 +125,19 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
 
         <Text style={styles.txtTitle}>{groupDetail.name}</Text>
         
+        {(UserStore.user.id == groupDetail.groupOwnerId) &&
         <TouchableOpacity
           style={styles.btnBack}
           onPress={() => {
             // navigation.navigate('EditLoan', {_id: _id})
-            console.log(groupDetail);
+            // console.log(groupDetail);
+            handlePresentOptionModalPress();
           }}
         >
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/>
           {/* <Text style={styles.txtEdit}>Edit</Text> */}
         </TouchableOpacity>
+        }
       </View>
 
       {/* top group */}
@@ -131,7 +177,7 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
             style={styles.viewInviteCode}
             onPress={() => {
               Clipboard.setString(groupDetail.inviteCode);
-              showToast();
+              showToast("Copied to clipboard!");
             }}
           >
             <Text style={styles.txtInviteCode}>{groupDetail.inviteCode}</Text>
@@ -185,6 +231,39 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
         />
 
       </View>
+
+
+      {/* modal option */}
+      <BottomSheetModalProvider>
+        <View style={{}}>
+          <BottomSheetModal
+            ref={optionBottomSheetModalRef}
+            index={1}
+            snapPoints={optionSnapPoints}
+            onChange={handleOptionSheetChanges}
+            backdropComponent={renderOptionBackdrop}
+          >
+            <BottomSheetView style={{flex: 1}}>
+              <Text style={styles.txtPeriod}>{t('gds-option')}</Text>
+              <OptionButton
+                content={t('gds-reset')}
+                onPress={() => {
+                  handlereset();
+                  handleCloseOptionModal();
+                }}
+              />
+              <OptionButton
+                content={t('gds-delete')}
+                onPress={() => {
+                  handlerDelete();
+                  handleCloseOptionModal();
+                }}
+              />
+
+            </BottomSheetView>
+          </BottomSheetModal>
+        </View>
+      </BottomSheetModalProvider>
     </ScrollView>
   )
 }

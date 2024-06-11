@@ -201,6 +201,9 @@
       "gds-split money": "Split Money",
       "gds-transactions history": "Transactions History",
       "gds-see all": "See all",
+      "gds-option": "Option",
+      "gds-reset": "Reset Group",
+      "gds-delete": "Delete Group",
 
       "sms-total": "Total",
       "sms-members": "Members",

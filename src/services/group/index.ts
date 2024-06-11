@@ -195,3 +195,71 @@ export async function splitMoney(groupId: string): Promise<any> {
       throw error;
   }
 }
+
+export async function resetGroup(
+  groupId: string,
+): Promise<any> {
+  try {
+    const responce = await axios.post(API + '/reset-transaction',
+      {
+        groupId: groupId,
+      },
+      {
+          headers: {
+              Authorization: UserStore.user.token,
+          }
+      }
+    );
+
+    if (responce.status == 200) {
+      return responce.data.message;
+    }
+
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Error message:", error.message);
+      if (error.response) {
+        console.error("Error details:", error.response.data);
+        return error.response.data.message;
+      }    
+    } else {
+        console.error("Unhandled error:", error);
+        return error;
+      }
+  }
+}
+
+export async function deleteGroup(
+  navigation: NavigationProp<any, any>,
+  groupId: string,
+): Promise<any> {
+  try {
+    const responce = await axios.post(API + '/delete-group',
+      {
+        groupId: groupId,
+      },
+      {
+          headers: {
+              Authorization: UserStore.user.token,
+          }
+      }
+    );
+
+    if (responce.status == 200) {
+      navigation.goBack();
+      return responce.data.message;
+    }
+
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Error message:", error.message);
+      if (error.response) {
+        console.error("Error details:", error.response.data);
+        return error.response.data.message;
+      }    
+    } else {
+        console.error("Unhandled error:", error);
+        return error;
+      }
+  }
+}

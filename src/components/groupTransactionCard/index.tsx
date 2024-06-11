@@ -51,17 +51,33 @@ const GroupTransactionCard: React.FC<IProps>  = ({
         getUserDetail();
     },[])
 
+    function formatDate(isoString: string): string {
+        // Tạo một đối tượng Date từ chuỗi ISO
+        const date = new Date(isoString);
+    
+        // Lấy các thành phần của ngày và giờ
+        const day = date.getUTCDate().toString().padStart(2, '0');
+        const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Tháng trong Date object bắt đầu từ 0
+        const year = date.getUTCFullYear().toString();
+        const hours = date.getUTCHours().toString().padStart(2, '0');
+        const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+        const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+    
+        // Định dạng ngày tháng và giờ
+        return `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`;
+    }
+
   return (
     <TouchableOpacity 
         style={styles.viewContainer}
-        // onPress={() => {navigation.navigate('TransactionDetail', {_id: _id})}}
+        onPress={() => {navigation.navigate('GroupTransactionDetail', {transactionId: _id, userId: userId, groupId: groupId})}}
     >
 
         <Image style={styles.viewIcon} source={{uri: user.avatarImage}}/>
 
         <View style={styles.viewContent}>
             <Text style={styles.txtName}>{name}</Text>
-            <Text style={styles.txtTime}>{createAt}</Text>
+            <Text style={styles.txtTime}>{formatDate(createAt)}</Text>
         </View>
 
         <Text style={styles.txtTotal}>{formatter.format(total)}</Text>

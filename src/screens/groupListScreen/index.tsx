@@ -27,9 +27,10 @@ const GroupListScreen: React.FC<IProps>  = () => {
       setGroupIds(groupIds);
     }
 
+    const isFocus = useIsFocused();
     useEffect( () => {
       fetchGroupList();
-    },[])
+    },[isFocus])
 
     // bottom sheet
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
