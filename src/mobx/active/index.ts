@@ -2,14 +2,14 @@ import { observable, action, makeObservable, makeAutoObservable } from 'mobx';
 import { ImageSourcePropType } from 'react-native';
 
 class store {
-    lastTransaction: string = (new Date("2000-01-01")).toISOString();
+    lastTransaction: Date = new Date("2000-01-01");
     
     constructor() {
         makeAutoObservable(this);
     }
 
     setLastTransaction() {
-        this.lastTransaction = (new Date()).toISOString();
+        this.lastTransaction = new Date();
     }
     
 }

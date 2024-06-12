@@ -18,13 +18,7 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+
 import SplashScreen from './src/screens/splashScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import MainNavigator from './src/navigator/mainNavigator';
@@ -32,15 +26,11 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import messaging, { firebase } from '@react-native-firebase/messaging';
 import installations from '@react-native-firebase/installations';
 import { UserStore } from './src/mobx/auth';
-import notifee from '@notifee/react-native';
+import notifee, { RepeatFrequency, TriggerType } from '@notifee/react-native';
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
+import { ActiveStore } from './src/mobx/active';
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();
@@ -96,6 +86,47 @@ function App(): React.JSX.Element {
     console.log(message);
   }
 
+  function isSameDay(date: Date): boolean {
+    const today = new Date();
+    return (
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate()
+    );
+  }
+
+  // thong bao hang ngay
+  const createNotificationChannel = async () => {
+    const channelId = await notifee.createChannel({
+      id: 'daily-reminder',
+      name: 'Daily Reminder',
+      // importance: notifee.Importance.HIGH, 
+    });
+
+    return channelId;
+  };
+
+  const scheduleDailyNotification = async () => {
+    const channelId = await createNotificationChannel();
+
+    await notifee.createTriggerNotification({
+      title: 'Chào buổi tối!',
+      body: (isSameDay(ActiveStore.lastTransaction))? 'Cùng nhau xem lại các giao dịch bạn đã thực hiện trong ngày nhé!':'Hôm nay bạn chưa có giao dịch nào, cùng nhau ghi chép nhé!',
+      android: {
+        channelId,
+        pressAction: {
+          id: 'default',
+        },
+      },
+    },
+    {
+      type: TriggerType.TIMESTAMP, // Trigger at a specific time
+      timestamp: 1718193600, // Set notification time to 8:00 PM
+      repeatFrequency: RepeatFrequency.DAILY,
+    },
+  );
+  };
+
   useEffect(() => {
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
     requestUserPermission();
@@ -113,24 +144,5 @@ function App(): React.JSX.Element {
     </GestureHandlerRootView>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
