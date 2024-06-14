@@ -48,6 +48,7 @@ import AnalystMenuScreen from "../../screens/analystMenuScreen";
 import FinancialStatementScreen from "../../screens/financialStatementScreen";
 import ExpenseVsIncomeScreen from "../../screens/expenseVsIncomeScreen";
 import GroupTransactionDetailScreen from "../../screens/groupTransactionDetailScreen";
+import SearchScreen from "../../screens/searchScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -177,6 +178,8 @@ export type RootStackParamList = {
         userId: string;
         groupId: string;
     };
+
+    Search: {};
 
 };
 
@@ -557,6 +560,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="GroupTransactionDetail"
             component={GroupTransactionDetailScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="Search"
+            component={SearchScreen}
             options={{
                 headerShown: false,
             }}

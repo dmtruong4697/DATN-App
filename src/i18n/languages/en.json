@@ -18,6 +18,7 @@
       "ts-week": "Week",
       "ts-month": "Month",
       "ts-custom": "Custom",
+      "ts-search": "search here",
 
       "ats-add transaction title": "Add Transaction",
       "ats-transaction type": "TRANSACTION TYPE",

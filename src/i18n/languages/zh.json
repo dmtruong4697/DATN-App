@@ -18,6 +18,7 @@
       "ts-week": "星期",
       "ts-month": "月",
       "ts-custom": "风俗",
+      "ts-search": "在这里搜索",
 
       "ats-add transaction title": "添加交易",
       "ats-transaction type": "交易类型",

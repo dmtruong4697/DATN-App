@@ -3,14 +3,18 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     viewContainer: {
         flex: 1,
+        backgroundColor: '#FFFFFF',
     },
 
     viewHeader: {
         // flex : 1,
         flexDirection: 'row',
-        padding: 15,
+        padding: 12,
         justifyContent: 'space-between',
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderColor: '#DDDDDD',
     },
 
     btnBack: {
@@ -33,18 +37,11 @@ export const styles = StyleSheet.create({
         marginTop: 5,
     },
 
-    txtPeriod: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        padding: 10,
-    },
-
     viewSearch: {
         width: '100%',
         paddingHorizontal: 10,
         paddingVertical: 3,
-        backgroundColor: '#FFFFFF',
+        // backgroundColor: '#FFFFFF',
         // backgroundColor: 'pink',
     },
 

@@ -18,6 +18,7 @@
       "ts-week": "Tuần",
       "ts-month": "Tháng",
       "ts-custom": "Tùy chọn",
+      "ts-search": "tìm kiếm",
 
       "ats-add transaction title": "Tạo giao dịch",
       "ats-transaction type": "LOẠI GIAO DỊCH",

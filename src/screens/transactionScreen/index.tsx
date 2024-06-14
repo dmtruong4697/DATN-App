@@ -107,6 +107,19 @@ const TransactionScreen: React.FC<IProps>  = () => {
         </TouchableOpacity>
       </View>
 
+      <TouchableOpacity
+        style={styles.viewSearch}
+        onPress={() => {
+          navigation.navigate('Search');
+        }}
+      >
+        <TextInput
+          style={styles.inputSearch}
+          placeholder={t('ts-search')+'...'}
+          editable={false}
+        />
+      </TouchableOpacity>
+
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
