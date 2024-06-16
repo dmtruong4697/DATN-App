@@ -18,6 +18,6 @@ export const LanguageData = [
         code: 'zh',
         name: '中国人',
         eName: 'Chinese',
-        iconUrl: require('../../../assets/image/currencyFlag/vietnam-flag.png'),
+        iconUrl: require('../../../assets/image/currencyFlag/china-flag.png'),
     },
 ]

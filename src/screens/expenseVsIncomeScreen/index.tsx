@@ -79,7 +79,7 @@ const WeekRoute = () => {
           barBorderRadius={4}
           onPress={(item) => {showToast(formatter.format(item.value))}}
           renderTooltip={() => {}}
-          scrollToIndex={Number((new Date()).getDate()) - 3}
+          // scrollToIndex={Number((new Date()).getDate()) - 3}
         />
 
 

@@ -17,6 +17,7 @@ import { UserStore } from './src/mobx/auth';
 import notifee, { RepeatFrequency, TriggerType, TimestampTrigger, AndroidImportance } from '@notifee/react-native';
 import { ActiveStore } from './src/mobx/active';
 import { generateDailyNotification } from './src/services/notification';
+import { SettingStore } from './src/mobx/setting';
 
 function App(): React.JSX.Element {
 
@@ -51,7 +52,8 @@ function App(): React.JSX.Element {
 
     const trigger: TimestampTrigger = {
       type: TriggerType.TIMESTAMP,
-      timestamp: date.getTime(),
+      // timestamp: date.getTime(),
+      timestamp: SettingStore.notificationTime,
       // timestamp: 1718462959,
       repeatFrequency: RepeatFrequency.DAILY,
     };

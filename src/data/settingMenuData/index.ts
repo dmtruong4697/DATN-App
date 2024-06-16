@@ -61,3 +61,28 @@ export const SettingMenuData2 = [
         toggleState: false,
     },
 ]
+
+export const SettingMenuData3 = [
+    {
+        id: '1',
+        title: 'Enable Notification',
+        state: '',
+        renderToggle: true,
+        onPress: (navigation: NavigationProp<any, any>) => {
+            navigation.navigate('ChangePassword');
+        },
+        onPressToggle: () => {},
+        toggleState: true,
+    },
+    // {
+    //     id: '1',
+    //     title: 'Notification Time',
+    //     state: '',
+    //     renderToggle: false,
+    //     onPress: (navigation: NavigationProp<any, any>) => {
+    //         navigation.navigate('ChangePassword');
+    //     },
+    //     onPressToggle: () => {},
+    //     toggleState: false,
+    // },
+]

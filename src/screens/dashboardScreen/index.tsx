@@ -215,7 +215,8 @@ const DashboardScreen: React.FC<IProps>  = () => {
           <Text style={styles.txtTitle}>{t('dbs-statistics')}</Text>
           <TouchableOpacity
             onPress={() => {
-              setBarData(getDayOfWeekAnalyst(realm, false, 'VND'));
+              // setBarData(getDayOfWeekAnalyst(realm, false, 'VND'));
+              navigation.navigate('ExpenseVsIncome')
             }}
           >
             <Text style={styles.txtSeeAll}>{t('dbs-detail')}</Text>
@@ -227,16 +228,16 @@ const DashboardScreen: React.FC<IProps>  = () => {
           noOfSections={3}
           frontColor={'#177AD5'}
           barWidth={26}
-          data={barData.result}
+          data={getDayOfWeekAnalyst(realm, false, 'VND').result}
           width={windowWidth - 50}
           formatYLabel={(item) => (formatNumber(Number(item)))}
-          yAxisLabelWidth={40}
+        //   yAxisLabelWidth={40}
           yAxisThickness={0}
           xAxisThickness={0}
           barBorderRadius={4}
           onPress={(item) => {showToast(formatter.format(item.value))}}
           renderTooltip={() => {}}
-          scrollToIndex={Number((new Date()).getDate()) - 3}
+          // scrollToIndex={Number((new Date()).getDate()) - 3}
         />
 
         {/* month analyst
