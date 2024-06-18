@@ -18,8 +18,16 @@ import notifee, { RepeatFrequency, TriggerType, TimestampTrigger, AndroidImporta
 import { ActiveStore } from './src/mobx/active';
 import { generateDailyNotification } from './src/services/notification';
 import { SettingStore } from './src/mobx/setting';
+import { GoogleSignin } from '@react-native-community/google-signin';
 
 function App(): React.JSX.Element {
+
+  GoogleSignin.configure({
+    webClientId: '159333030534-3cqvdt5pvtvrgmate5plem0tcl5o1e5p.apps.googleusercontent.com',
+    androidClientId: '159333030534-leh4cepddkcns39m3j7h319vfp69r1fm.apps.googleusercontent.com',
+    // iosClientId: GOOGLE_IOS_CLIENT_ID,
+    scopes: ['profile', 'email'],
+  });
 
   async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();

@@ -69,6 +69,60 @@ export async function login(
     }
 }
 
+export async function googleLogin(
+    navigation: NavigationProp<any, any>,
+    token: string | null,
+    deviceToken: string,
+) {
+    try {
+        UserStore.setIsLoading(true);
+        const responce = await axios.post(API + '/google-auth', {
+            token: token,
+        });
+
+        if (responce.status == 200) {
+            const user: User = {
+                id: responce.data.id,
+                userName: responce.data.userName,
+                email: responce.data.email,
+                avatarImage: responce.data.avatarImage,
+                token: responce.data.token,
+                deviceToken: deviceToken,
+                phoneNumber: responce.data.phoneNumber,
+                dataId: responce.data.dataId,
+            }
+
+            const message = 'Login success';
+
+            UserStore.setCurrentUser(user);
+            console.log(responce.data);
+            UserStore.setIsLoading(false);
+            navigation.navigate('Home');
+            return message;
+        } else {
+            console.log(responce.status);
+            UserStore.setIsLoading(false);
+            const message = responce.data.message;
+            return message;
+        }
+    } catch (error) {
+        let message = '';
+        if (axios.isAxiosError(error)) {
+            console.error("Error message:", error.message);
+            if (error.response) {
+              console.error("Error details:", error.response.data);
+              message = error.response.data.message;
+            }    
+          } else {
+              console.error("Unhandled error:", error);
+              message = 'Unhandled error';
+            }
+
+        UserStore.setIsLoading(false);
+        return message;
+    }
+}
+
 export async function logout(
     navigation: NavigationProp<any, any>,
     userId: object | null,

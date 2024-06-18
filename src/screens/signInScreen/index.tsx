@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { colors } from '../../constants/colors'
 import { UserStore } from '../../mobx/auth'
 import { observer } from 'mobx-react'
-import { login } from '../../services/auth'
+import { googleLogin, login } from '../../services/auth'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { syncData } from '../../services/sync'
@@ -69,36 +69,61 @@ const SignInScreen: FC = () => {
             });
     };
 
-    const signInGoogle = async () => {
-        try {
-          await GoogleSignin.hasPlayServices();
-          const userInfo = await GoogleSignin.signIn();
-          const idToken = userInfo.idToken;
-      
-          // Gửi token tới server để xác thực
-          const response = await fetch(API + '/google-auth', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ token: idToken }),
-          });
-      
-          const data = await response.json();
-          console.log(data); // Nhận JWT token từ server
-        } catch (error) {
-          // Xử lý các lỗi có thể xảy ra trong quá trình đăng nhập
-          console.error(error);
-        }
-      };
+    const GoogleLogin = async () => {
+        await GoogleSignin.hasPlayServices();
+        const userInfo = await GoogleSignin.signIn();
+        // console.log(userInfo);
+        return userInfo;
+    };
+
+    const handleGoogleLogin = async () => {
+		// setLoading(true);
+		try {
+			const response = await GoogleLogin();
+			const { idToken, user } = response;
+
+			if (idToken) {
+				// const resp = await authAPI.validateToken({
+				// 	token: idToken,
+				// 	email: user.email,
+				// });
+				// await handlePostLoginData(resp.data);
+                console.log(user);
+			}
+            // Gửi token tới server để xác thực
+            // const res = await fetch(API + '/google-auth', {
+            //     method: 'POST',
+            //     headers: {
+            //     'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({ token: idToken }),
+            // });
+        
+            // const data = await res.json();
+            // console.log(data); 
+            await googleLogin(navigation, idToken, UserStore.deviceToken)
+            .then(async(message: string) => {
+                // setMessage(message);
+                await syncData(realm, navigation)
+                .then((message: string) => {
+                    showToast(message);
+                })
+                showToast(message);
+            });
+		} catch (apiError) {
+			// setError(
+			// 	apiError?.response?.data?.error?.message || 'Something went wrong'
+			// );
+		}
+	};
 
     useEffect(() => {
         GoogleSignin.configure({
-            scopes: ['https://www.googleapis.com/auth/drive'],
-            webClientId: '159333030534-5juv7kiqjgorklm6fedlkj7b45k837sq.apps.googleusercontent.com',
-            offlineAccess: true,
-            forceCodeForRefreshToken: true,
-        });
+            webClientId: '159333030534-3cqvdt5pvtvrgmate5plem0tcl5o1e5p.apps.googleusercontent.com',
+            androidClientId: '159333030534-leh4cepddkcns39m3j7h319vfp69r1fm.apps.googleusercontent.com',
+            // iosClientId: GOOGLE_IOS_CLIENT_ID,
+            scopes: ['profile', 'email'],
+          });
     },[])
   return (
     <View style={styles.container}>
@@ -222,9 +247,7 @@ const SignInScreen: FC = () => {
 
         <TouchableOpacity
             style={[styles.socialButton, ]}
-            onPress={() => {
-                signInGoogle();
-            }}
+            onPress={handleGoogleLogin}
         >
             <Image style={styles.mediaIcon} source={require('../../../assets/icon/socialMedia/google.png')}/>
             <Text style={styles.socialButtonText}>{t('sis-connect with')} Google</Text>
