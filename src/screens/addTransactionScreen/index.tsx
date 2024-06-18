@@ -182,27 +182,43 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
       wallets = getAllWallet(realm);
     }, [isFocus])
 
-    const handleAddTransaction = () => {
+    const convertImage = async () => {
+      const imageArray: string[] = [];
+      for (let i = 0; i < images.length; i++) {
+        try {
+          const res = await RNFS.readFile(images[i].path, 'base64');
+          const uri = 'data:image/png;base64,' + res;
+          imageArray.push(uri);
+        } catch (error) {
+          console.error("Error converting image to base64: ", error);
+        }
+      }
+      // console.log(imageArray);
+      return imageArray;
+    };
+
+    const handleAddTransaction = async () => {
       let urls: any[] = [];
-      if(images.length > 0) urls = convertImage();
+      if (images.length > 0) {
+        urls = await convertImage();
+      }
       const newTransaction = {
         _id: new Realm.BSON.ObjectId(),
         name: '',
-        income: getTransactionTypeById(realm, typeId)!.income,
+        income: getTransactionTypeById(realm, typeId)?.income ?? false,
         total: Number(total),
         createAt: selectedDay,
         transactionTypeId: typeId,
         walletId: walletId,
         note: note,
-        // imageUrl: urls,
-        imageUrl: [],
+        imageUrl: urls,
         createTime: convertTime(createTime),
       };
   
       addTransaction(realm, newTransaction);
-
+  
       navigation.goBack();
-    }
+    };
 
   // type bottom sheet tab
   const [index, setIndex] = React.useState(0);
@@ -333,19 +349,6 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
       let timeString = `${hours}:${minutes}`;
   
       return timeString;
-  }
-
-  const convertImage = async() => {
-    const imageArray: string[] = [];
-    for(let i = 0; i < images.length; i++) {
-      await RNFS.readFile(images[i].path, 'base64')
-      .then(res =>{
-        const uri = 'data:image/png;base64,' + res;
-        imageArray.push(uri);
-      });
-    }
-    console.log(imageArray);
-    return imageArray;
   }
 
   return (

@@ -10,6 +10,7 @@ import { getTransactionTypeById } from '../../realm/services/transactionType';
 import { getWalletById } from '../../realm/services/wallets';
 import { useTranslation } from 'react-i18next';
 import { TypeIconData } from '../../data/typeIconData';
+import ImageView from "react-native-image-viewing";
 
 interface IProps {
 
@@ -28,18 +29,29 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
     let transaction = getTransactionById(realm, _id);
     let transactionType = getTransactionTypeById(realm, transaction!.transactionTypeId);
     let wallet = getWalletById(realm, transaction!.walletId);
+    const [imageData, setImageData] = useState<any[]>([]);
 
     const isFocus = useIsFocused();
     useEffect(() => {
         transaction = getTransactionById(realm, _id);
         transactionType = getTransactionTypeById(realm, transaction!.transactionTypeId);
         wallet = getWalletById(realm, transaction!.walletId);
+
+        const imgData: any[] = [];
+        transaction?.imageUrl.forEach((image) => {
+          imgData.push({uri: image});
+        })
+
+        setImageData(imgData);
     },[isFocus])
 
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: getWalletById(realm, transaction!.walletId)?.currencyUnit,
     });
+
+    const [visible, setIsVisible] = useState(false);
+    const [imgIndex, setImgIndex] = useState(0);
   
   return (
     <View style={styles.viewContainer}>
@@ -56,7 +68,7 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
         <TouchableOpacity
           style={styles.btnBack}
           onPress={() => {
-
+            // console.log(transaction?.imageUrl)
           }}
         >
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/>
@@ -80,6 +92,28 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
         </View>
       </View>
 
+      {/* image */}
+      <View style={styles.viewFormItemContainer}>
+        <Text style={styles.txtFormItemTitle}>{t('ats-photo')}</Text>
+        <FlatList
+          data={transaction?.imageUrl}
+          // keyExtractor={item => item._id.toString()}
+          horizontal={true}
+          renderItem={({item, index}) => (
+            <TouchableOpacity
+              onPress={() => {
+                setImgIndex(index);
+                setIsVisible(true);
+              }}
+            >
+              <Image style={styles.imgPhoto} source={{uri: item}}/>
+            </TouchableOpacity>
+          )}
+          style={{width: '100%'}}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+
       <TouchableOpacity
         style={styles.btnEdit}
         onPress={() => {navigation.navigate('EditTransaction', {_id: _id})}}
@@ -96,6 +130,13 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
       >
         <Text style={styles.txtDelete}>{t('tds-delete')}</Text>
       </TouchableOpacity>
+
+      <ImageView
+        images={imageData}
+        imageIndex={imgIndex}
+        visible={visible}
+        onRequestClose={() => setIsVisible(false)}
+      />
 
     </View>
   )

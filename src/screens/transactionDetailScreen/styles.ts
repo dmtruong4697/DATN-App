@@ -114,4 +114,25 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+
+    viewFormItemContainer: {
+        width: '100%',
+        flexDirection: 'column',
+        marginBottom: 13,
+        padding: 10,
+    },
+
+    txtFormItemTitle: {
+        fontSize: 12,
+        fontWeight: '600',
+        color: '#666666',
+        marginBottom: 5,
+    },
+
+    imgPhoto: {
+        width: 50,
+        height: 50,
+        borderRadius: 10,
+        marginRight: 5,
+    },
 })
