@@ -19,7 +19,7 @@ export const SettingMenuData1 = [
         state: '',
         renderToggle: false,
         onPress: (navigation: NavigationProp<any, any>) => {
-            // navigation.navigate('Setting');
+            navigation.navigate('FormatDate');
         },
         onPressToggle: () => {},
         toggleState: false,

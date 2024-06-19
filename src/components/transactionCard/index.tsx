@@ -9,6 +9,8 @@ import { getWalletById } from '../../realm/services/wallets';
 import { deleteTransactionById } from '../../realm/services/transactions';
 import { TypeIconData } from '../../data/typeIconData';
 // import image from '../../../assets/icon/socialMedia/google.png';
+import { observer } from 'mobx-react'
+import { formatDate } from '../../mobx/setting';
 
 // const DEFAULT_IMAGE = Image.resolveAssetSource(image).uri;
 export type TransactionType = {
@@ -67,7 +69,7 @@ const TransactionCard: React.FC<IProps>  = ({
 
         <View style={styles.viewContent}>
             <Text style={styles.txtName}>{getTransactionTypeById(realm, transactionTypeId)?.name}</Text>
-            <Text style={styles.txtTime}>{createAt}</Text>
+            <Text style={styles.txtTime}>{formatDate(createAt)}</Text>
         </View>
 
         <Text style={[styles.txtTotal, {color: (income)? '#25A969':'#F95B51'}]}>{formatter.format(total)}</Text>
@@ -75,4 +77,4 @@ const TransactionCard: React.FC<IProps>  = ({
   )
 }
 
-export default TransactionCard    
+export default observer(TransactionCard)    

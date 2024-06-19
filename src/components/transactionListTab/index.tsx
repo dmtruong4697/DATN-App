@@ -8,6 +8,8 @@ import { RealmContext } from '../../realm/models';
 import { FlatList } from 'react-native-gesture-handler';
 import TransactionCard from '../transactionCard';
 import { useTranslation } from 'react-i18next';
+import { observer } from 'mobx-react'
+import { formatDate } from '../../mobx/setting';
 
 interface IProps {
     navigation: NavigationProp<any, any>,
@@ -58,4 +60,4 @@ const TransactionListTab: React.FC<IProps> = ({id, finishTime, name, navigation,
   )
 }
 
-export default TransactionListTab
+export default observer(TransactionListTab)

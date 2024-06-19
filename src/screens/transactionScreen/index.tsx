@@ -12,6 +12,8 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheet
 import OptionButton from '../../components/optionButton';
 import { RangeContext } from '../../navigator/mainNavigator';
 import { useTranslation } from 'react-i18next';
+import { observer } from 'mobx-react'
+import { formatDate } from '../../mobx/setting';
 
 interface IProps {}
 
@@ -41,7 +43,7 @@ const TransactionScreen: React.FC<IProps>  = () => {
   const [index, setIndex] = React.useState(tabData.length - 1);
 
   const routes= React.useMemo(() => (
-    tabData.map((item: any) => ({ key: item.id, title: item.name, }))
+    tabData.map((item: any) => ({ key: item.id, title: formatDate(item.name), }))
   ), [tabData]);
 
   const renderTabBar = (props: any) => (
@@ -176,4 +178,4 @@ const TransactionScreen: React.FC<IProps>  = () => {
   )
 }
 
-export default TransactionScreen    
+export default observer(TransactionScreen)    

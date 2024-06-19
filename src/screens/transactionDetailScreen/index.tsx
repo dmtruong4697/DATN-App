@@ -11,6 +11,8 @@ import { getWalletById } from '../../realm/services/wallets';
 import { useTranslation } from 'react-i18next';
 import { TypeIconData } from '../../data/typeIconData';
 import ImageView from "react-native-image-viewing";
+import { observer } from 'mobx-react'
+import { formatDate } from '../../mobx/setting';
 
 interface IProps {
 
@@ -86,7 +88,7 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
       <View style={styles.view2}>
         <Image style={styles.imgDateIcon} source={require('../../../assets/icon/transactionDetail/calendar.png')}/>
         <View style={{gap: 10,}}>
-            <Text style={styles.txtDate}>{transaction?.createAt}   {transaction?.createTime}</Text>
+            <Text style={styles.txtDate}>{formatDate(transaction!.createAt)}   {transaction?.createTime}</Text>
             <Text style={styles.txtDate}>{t('tds-note')}: {transaction?.note}</Text>
             <Text style={styles.txtDate}>{wallet?.name}</Text>
         </View>
@@ -142,4 +144,4 @@ const TransactionDetailScreen: React.FC<IProps>  = () => {
   )
 }
 
-export default TransactionDetailScreen    
+export default observer(TransactionDetailScreen)    

@@ -39,14 +39,36 @@ async function createDailyNotification() {
     );
   }
 
+  // ham format date
+  export function formatDate(dateString: string): string {
+    const [year, month, day] = dateString.split('-');
+  
+    switch (SettingStore.dateFormat) {
+      case 'yyyy/mm/dd':
+        return `${year}/${month}/${day}`;
+      case 'dd/mm/yyyy':
+        return `${day}/${month}/${year}`;
+      case 'mm/dd/yyyy':
+        return `${month}/${day}/${year}`;
+      default:
+        throw new Error('Invalid format');
+    }
+  }
+
 class store {
     language: string = 'en';
+
     notificationEnable = true;
-    
     notificationTime = date.getTime();
+
+    dateFormat: string = 'dd/mm/yyyy';
 
     setLanguage(lang: string) {
         this.language = lang;
+    }
+
+    setDateFormat(format: string) {
+      this.dateFormat = format;
     }
 
     setNotificationTime(time: number) {
