@@ -282,6 +282,11 @@
       "fss-wallet balance": "钱包余额",
       "fss-saving": "节省",
       "fss-loan": "贷款",
-      "fss-total liabilities": "负债总额"
+      "fss-total liabilities": "负债总额",
+
+      "hn-dashboard": "仪表板",
+      "hn-transactions": "交易",
+      "hn-budgets": "颜萨赫",
+      "hn-menu": "菜单"
     }
 }

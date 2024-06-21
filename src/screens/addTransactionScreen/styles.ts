@@ -178,4 +178,27 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         marginRight: 5,
     },
+
+    viewImage: {
+
+    },
+
+    btnDelete: {
+        width: 16,
+        height: 16,
+
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        zIndex: 1,
+    },
+
+    imgDelete: {
+        width: 16,
+        height: 16,
+
+        // position: 'absolute',
+        // top: 5,
+        // right: 5,
+    },
 })

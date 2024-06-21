@@ -282,6 +282,11 @@
       "fss-wallet balance": "Số dư ví",
       "fss-saving": "Tiết kiệm",
       "fss-loan": "Khoản cho vay",
-      "fss-total liabilities": "Tổng nợ"
+      "fss-total liabilities": "Tổng nợ",
+
+      "hn-dashboard": "Tổng quan",
+      "hn-transactions": "Giao dịch",
+      "hn-budgets": "Ngân sách",
+      "hn-menu": "menu"
     }
 }

@@ -282,6 +282,11 @@
       "fss-wallet balance": "Wallet balance",
       "fss-saving": "Saving",
       "fss-loan": "Loan",
-      "fss-total liabilities": "Total liabilities"
+      "fss-total liabilities": "Total liabilities",
+
+      "hn-dashboard": "Dashboard",
+      "hn-transactions": "Transactions",
+      "hn-budgets": "Budgets",
+      "hn-menu": "Menu"
     }
 }

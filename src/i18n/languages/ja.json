@@ -282,6 +282,11 @@
         "fss-wallet balance": "ウォレット残高",
         "fss-saving": "貯蓄",
         "fss-loan": "ローン",
-        "fss-total liabilities": "負債の合計"
+        "fss-total liabilities": "負債の合計",
+
+        "hn-dashboard": "家",
+        "hn-transactions": "トラン",
+        "hn-budgets": "予算",
+        "hn-menu": "メニュー"
     }
 }

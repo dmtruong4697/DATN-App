@@ -175,6 +175,12 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
       });
     };
 
+    const removeImage = (index: number) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      setImages(newImages);
+    };
+
     let wallets = getAllWallet(realm);
     const isFocus = useIsFocused();
   
@@ -480,8 +486,18 @@ const AddTransactionScreen: React.FC<IProps>  = () => {
             data={images}
             // keyExtractor={item => item._id.toString()}
             horizontal={true}
-            renderItem={({item}) => (
-              <Image style={styles.imgPhoto} source={{uri: item.path}}/>
+            renderItem={({item, index}) => (
+              <View style={styles.viewImage}>
+                <TouchableOpacity
+                  style={styles.btnDelete}
+                  onPress={() => {
+                    removeImage(index);
+                  }}
+                >
+                  <Image style={styles.imgDelete} source={require('../../../assets/icon/addTransaction/remove.png')}/>
+                </TouchableOpacity>
+                <Image style={styles.imgPhoto} source={{uri: item.path}}/>
+              </View>
             )}
             style={{width: '100%'}}
             showsVerticalScrollIndicator={false}

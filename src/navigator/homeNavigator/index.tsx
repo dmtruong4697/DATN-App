@@ -8,10 +8,13 @@ import { Image, TouchableOpacity, View } from 'react-native';
 import { colors } from '../../constants/colors';
 import { styles } from './styles';
 import { useIsFocused } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 
 const HomeNavigator = () => {
+
+    const {t} = useTranslation();
 
     const screenOptions = {
         tabBarStyle:{
@@ -35,7 +38,7 @@ const HomeNavigator = () => {
                 name="Dashboard" 
                 component={DashboardScreen} 
                 options={{
-                    tabBarLabel: "Dashboard",
+                    tabBarLabel: t("hn-dashboard"),
                     headerShown: false,
                     tabBarActiveTintColor: colors.PrimaryColor,
                     tabBarLabelStyle: {
@@ -54,7 +57,7 @@ const HomeNavigator = () => {
                 name="Transaction" 
                 component={TransactionScreen} 
                 options={{
-                    tabBarLabel: "Transactions",
+                    tabBarLabel: t("hn-transactions"),
                     headerShown: false,
                     tabBarActiveTintColor: colors.PrimaryColor,
                     tabBarLabelStyle: {
@@ -86,7 +89,7 @@ const HomeNavigator = () => {
                 name="Budget" 
                 component={BudgetScreen} 
                 options={{
-                    tabBarLabel: "Budgets",
+                    tabBarLabel: t("hn-budgets"),
                     headerShown: false,
                     tabBarActiveTintColor: colors.PrimaryColor,
                     tabBarLabelStyle: {
@@ -105,7 +108,7 @@ const HomeNavigator = () => {
                 name="Menu" 
                 component={MenuScreen} 
                 options={{
-                    tabBarLabel: "Menu",
+                    tabBarLabel: t("hn-menu"),
                     headerShown: false,
                     tabBarActiveTintColor: colors.PrimaryColor,
                     tabBarLabelStyle: {

@@ -4,6 +4,7 @@ import { UserStore } from "../../mobx/auth";
 import { User } from "realm";
 import { ToastAndroid } from "react-native";
 import { Realm } from "realm";
+import { useTranslation } from "react-i18next";
 
 const showToast = (message: string) => {
     ToastAndroid.showWithGravityAndOffset(
@@ -14,6 +15,8 @@ const showToast = (message: string) => {
       50,
     );
 };
+
+const {t} = useTranslation();
 
 export const MenuData1 = [
     {
