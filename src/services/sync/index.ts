@@ -67,11 +67,33 @@ export const uploadData = async (realm: Realm) => {
       }
     })
 
-    SyncStore.setLastSync();
-    console.log(responce.status)
+      if(responce.status == 200) {
+        const message = "Upload data successfully"
+        SyncStore.setLastSync();
+        console.log(responce.status)
+        return message;
+      } else {
+        console.log(responce.status);
+        const message = responce.data.message;
+        return message;
+      }
 
   } catch (error) { 
-    console.log(error);
+    let message = '';
+    if (axios.isAxiosError(error)) {
+        console.error("Error message:", error.message);
+        if (error.response) {
+          console.error("Error details:", error.response.data);
+          message = error.response.data.message;
+        }    
+      } else {
+          // console.error("Unhandled error:", error);
+          console.log(error)
+          message = 'Unhandled error';
+        }
+
+    UserStore.setIsLoading(false);
+    return message;
   }
 };
 

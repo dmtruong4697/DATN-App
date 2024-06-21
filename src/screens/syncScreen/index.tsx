@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions, ScrollView, ActivityIndicator } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions, ScrollView, ActivityIndicator, ToastAndroid } from 'react-native'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
@@ -25,9 +25,23 @@ const SyncScreen: React.FC<IProps>  = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const showToast = (message: string) => {
+      ToastAndroid.showWithGravityAndOffset(
+        message,
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50,
+      );
+  };
+
     const uploadUserData = async() => {
       setIsLoading(true);
-      await uploadData(realm);
+      await uploadData(realm)
+        .then((message: string) => {
+          // setMessage(message);
+          showToast(message);
+      });
       setIsLoading(false);
     }
 

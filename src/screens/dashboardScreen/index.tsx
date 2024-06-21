@@ -109,7 +109,7 @@ const DashboardScreen: React.FC<IProps>  = () => {
     };
 
     useEffect(() => {
-      if(UserStore.user.id == null) {
+      if(!UserStore.user.id) {
         navigation.navigate('SignIn');
       }
     },[])
