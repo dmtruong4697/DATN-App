@@ -67,7 +67,7 @@ const FinancialStatementScreen: React.FC<IProps>  = () => {
           <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/back.png')}/>
         </TouchableOpacity>
 
-        <Text style={styles.txtTitle}>Financial Statement</Text>
+        <Text style={styles.txtTitle}>{t('fss-financial statement')}</Text>
         
         <TouchableOpacity
           style={styles.btnBack}
@@ -82,14 +82,14 @@ const FinancialStatementScreen: React.FC<IProps>  = () => {
 
       <View style={styles.viewGroup}>
         <View style={styles.viewItem}>
-            <Text style={styles.txtItemTitle}>Tai chinh hien tai</Text>
+            <Text style={styles.txtItemTitle}>{t('fss-current finances')}</Text>
             <Text style={[styles.txtTotal, {color: '#111111'}]}>{formatter.format(walletTotal + savingTotal + loanTotal - debtTotal)}</Text>
         </View>
       </View>
 
       <View style={styles.viewGroup}>
         <View style={styles.viewItem}>
-            <Text style={styles.txtItemTitle}>Tong co</Text>
+            <Text style={styles.txtItemTitle}>{t('fss-total')}</Text>
             <Text style={[styles.txtTotal, {color: '#111111'}]}>{formatter.format(walletTotal + savingTotal + loanTotal)}</Text>
         </View>
 
@@ -100,7 +100,7 @@ const FinancialStatementScreen: React.FC<IProps>  = () => {
             }}
         >
             <Image style={styles.imgIcon} source={require('../../../assets/icon/financialStateScreen/wallet.png')}/>
-            <Text style={styles.txtItemTitle}>Tien trong vi</Text>
+            <Text style={styles.txtItemTitle}>{t('fss-wallet balance')}</Text>
             <Text style={[styles.txtTotal, {color: colors.PrimaryColor}]}>{formatter.format(walletTotal)}</Text>
             <Image style={styles.imgRight} source={require('../../../assets/icon/menu/right.png')}/>
         </TouchableOpacity>
@@ -112,7 +112,7 @@ const FinancialStatementScreen: React.FC<IProps>  = () => {
             }}
         >
         <Image style={styles.imgIcon} source={require('../../../assets/icon/financialStateScreen/saving.png')}/>
-            <Text style={styles.txtItemTitle}>Tai khoan tiet kiem</Text>
+            <Text style={styles.txtItemTitle}>{t('fss-saving')}</Text>
             <Text style={[styles.txtTotal, {color: colors.PrimaryColor}]}>{formatter.format(savingTotal)}</Text>
             <Image style={styles.imgRight} source={require('../../../assets/icon/menu/right.png')}/>
         </TouchableOpacity>
@@ -124,7 +124,7 @@ const FinancialStatementScreen: React.FC<IProps>  = () => {
             }}
         >
             <Image style={styles.imgIcon} source={require('../../../assets/icon/financialStateScreen/loan.png')}/>
-            <Text style={styles.txtItemTitle}>Cho vay</Text>
+            <Text style={styles.txtItemTitle}>{t('fss-loan')}</Text>
             <Text style={[styles.txtTotal, {color: colors.PrimaryColor}]}>{formatter.format(loanTotal)}</Text>
             <Image style={styles.imgRight} source={require('../../../assets/icon/menu/right.png')}/>
         </TouchableOpacity>
@@ -138,7 +138,7 @@ const FinancialStatementScreen: React.FC<IProps>  = () => {
             }}
         >
             <Image style={styles.imgIcon} source={require('../../../assets/icon/financialStateScreen/debt.png')}/>
-            <Text style={styles.txtItemTitle}>Tong no</Text>
+            <Text style={styles.txtItemTitle}>{t('fss-total liabilities')}</Text>
             <Text style={[styles.txtTotal, {color: colors.ErrorColor}]}>{formatter.format(debtTotal)}</Text>
             <Image style={styles.imgRight} source={require('../../../assets/icon/menu/right.png')}/>
         </TouchableOpacity>

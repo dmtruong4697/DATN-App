@@ -3,6 +3,7 @@ import {initReactI18next} from 'react-i18next';
 import en from './languages/en.json'; 
 import vi from './languages/vi.json'; 
 import zh from './languages/zh.json'; 
+import ja from './languages/ja.json'; 
   
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -11,6 +12,7 @@ i18n
       en: en,
       vi: vi,
       zh: zh,
+      ja: ja,
     },
     lng: "en", // if you're using a language detector, do not define the lng option
     fallbackLng: "en",

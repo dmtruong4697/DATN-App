@@ -274,6 +274,14 @@
       "ss-sync data": "同步数据",
       "ss-sync your data": "将您的数据同步到我们的服务器",
       "ss-last sync": "您的最后一次同步",
-      "ss-sync data button": "同步数据"
+      "ss-sync data button": "同步数据",
+
+      "fss-financial statement": "财务报告",
+      "fss-current finances": "目前的财务状况",
+      "fss-total": "全部的",
+      "fss-wallet balance": "钱包余额",
+      "fss-saving": "节省",
+      "fss-loan": "贷款",
+      "fss-total liabilities": "负债总额"
     }
 }

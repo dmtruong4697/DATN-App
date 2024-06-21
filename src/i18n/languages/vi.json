@@ -274,6 +274,14 @@
       "ss-sync data": "Đồng bộ dữ liệu",
       "ss-sync your data": "Lưu dữ liệu của bạn lên máy chủ của chúng tôi",
       "ss-last sync": "Lần đồng bộ cuối cùng",
-      "ss-sync data button": "ĐỒNG BỘ"
+      "ss-sync data button": "ĐỒNG BỘ",
+
+      "fss-financial statement": "Báo cáo tài chính",
+      "fss-current finances": "Tài chính hiện tại",
+      "fss-total": "Tổng cộng",
+      "fss-wallet balance": "Số dư ví",
+      "fss-saving": "Tiết kiệm",
+      "fss-loan": "Khoản cho vay",
+      "fss-total liabilities": "Tổng nợ"
     }
 }

@@ -274,6 +274,14 @@
       "ss-sync data": "Sync Data",
       "ss-sync your data": "Sync your data to our Server",
       "ss-last sync": "Your last sync",
-      "ss-sync data button": "SYNC DATA"
+      "ss-sync data button": "SYNC DATA",
+
+      "fss-financial statement": "Financial Statement",
+      "fss-current finances": "Current finances",
+      "fss-total": "Total",
+      "fss-wallet balance": "Wallet balance",
+      "fss-saving": "Saving",
+      "fss-loan": "Loan",
+      "fss-total liabilities": "Total liabilities"
     }
 }

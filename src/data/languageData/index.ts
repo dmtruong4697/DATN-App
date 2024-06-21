@@ -20,4 +20,11 @@ export const LanguageData = [
         eName: 'Chinese',
         iconUrl: require('../../../assets/image/currencyFlag/china-flag.png'),
     },
+    {
+        id: '4',
+        code: 'ja',
+        name: '日本語',
+        eName: 'Japanese',
+        iconUrl: require('../../../assets/image/currencyFlag/japan-flag.png'),
+    },
 ]
