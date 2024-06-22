@@ -11,6 +11,7 @@ import { deleteAllShoppingList, deleteAllShoppingListItem } from "../../realm/se
 import { deleteAllTransaction } from "../../realm/services/transactions";
 import { deleteAllTransactionType } from "../../realm/services/transactionType";
 import { deleteAllWallet } from "../../realm/services/wallets";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export async function login(
     navigation: NavigationProp<any, any>,
@@ -43,6 +44,8 @@ export async function login(
             UserStore.setCurrentUser(user);
             console.log(responce.data);
             UserStore.setIsLoading(false);
+
+            await AsyncStorage.setItem('user', JSON.stringify(user));
             navigation.navigate('Home');
             return message;
         } else {
@@ -97,6 +100,9 @@ export async function googleLogin(
             UserStore.setCurrentUser(user);
             console.log(responce.data);
             UserStore.setIsLoading(false);
+
+            await AsyncStorage.setItem('user', JSON.stringify(user));
+
             navigation.navigate('Home');
             return message;
         } else {
@@ -155,6 +161,8 @@ export async function logout(
             deleteAllTransaction(realm);
             deleteAllTransactionType(realm);
             deleteAllWallet(realm);
+
+            await AsyncStorage.removeItem('user');
 
             UserStore.logoutUser();
             console.log(responce.data);

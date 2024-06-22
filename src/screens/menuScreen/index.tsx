@@ -6,13 +6,14 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import MenuItem from '../../components/menuItem';
 import { ScrollView } from 'react-native-gesture-handler';
 import MenuItem1 from '../../components/menuItem1';
-import { MenuData1, MenuData2, MenuData3 } from '../../data/menuData';
+// import { MenuData1, MenuData2, MenuData3 } from '../../data/menuData';
 import { UserStore } from '../../mobx/auth';
 import { uploadData } from '../../services/sync';
 import { RealmContext } from '../../realm/models';
 import { observer } from 'mobx-react'
 import { useTranslation } from 'react-i18next';
 import { SyncStore } from '../../mobx/sync';
+import { MenuDataWrapper } from '../../data/menuData';
 
 interface IProps {}
 
@@ -83,7 +84,7 @@ const MenuScreen: React.FC<IProps>  = () => {
       </View>
 
       <FlatList
-        data={MenuData1}
+        data={MenuDataWrapper().MenuData1}
         keyExtractor={item => item.id}
         scrollEnabled={false}
         renderItem={({item}) => (
@@ -99,7 +100,7 @@ const MenuScreen: React.FC<IProps>  = () => {
 
       <View style={styles.viewList}>
       <FlatList
-        data={MenuData2}
+        data={MenuDataWrapper().MenuData2}
         keyExtractor={item => item.id}
         scrollEnabled={false}
         numColumns={4}
@@ -117,7 +118,7 @@ const MenuScreen: React.FC<IProps>  = () => {
       </View>
 
       <FlatList
-        data={MenuData3}
+        data={MenuDataWrapper().MenuData3}
         keyExtractor={item => item.id}
         scrollEnabled={false}
         renderItem={({item}) => (

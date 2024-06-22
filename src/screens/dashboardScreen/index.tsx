@@ -17,6 +17,7 @@ import { getLoanHistory } from '../../realm/services/loan';
 import { UserStore } from '../../mobx/auth';
 import { colors } from '../../constants/colors';
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IProps {}
 
@@ -109,9 +110,23 @@ const DashboardScreen: React.FC<IProps>  = () => {
     };
 
     useEffect(() => {
-      if(!UserStore.user.id) {
-        navigation.navigate('SignIn');
-      }
+      const checkLoginStatus = async () => {
+        try {
+          const userJson = await AsyncStorage.getItem('user');
+          if (userJson) {
+            const user = JSON.parse(userJson);
+            UserStore.setCurrentUser(user);
+            // navigation.navigate('Home');
+          } else {
+            navigation.navigate('SignIn');
+          }
+        } catch (error) {
+          console.error('Error retrieving user from AsyncStorage:', error);
+          navigation.navigate('SignIn');
+        }
+      };
+    
+      checkLoginStatus();
     },[])
 
     const showToast = (message: string) => {

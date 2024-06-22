@@ -6,6 +6,8 @@ import { ToastAndroid } from "react-native";
 import { Realm } from "realm";
 import { useTranslation } from "react-i18next";
 
+export const MenuDataWrapper = () => {
+
 const showToast = (message: string) => {
     ToastAndroid.showWithGravityAndOffset(
       message,
@@ -18,11 +20,11 @@ const showToast = (message: string) => {
 
 const {t} = useTranslation();
 
-export const MenuData1 = [
+const MenuData1 = [
     {
         id: '1',
         iconUrl: require('../../../assets/icon/menu/setting.png'),
-        title: 'Setting',
+        title: t("md1-setting"),
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('Setting');
         },
@@ -30,7 +32,7 @@ export const MenuData1 = [
     {
         id: '2',
         iconUrl: require('../../../assets/icon/menu/wallet.png'),
-        title: 'My Wallet',
+        title: t("md1-my wallet"),
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('MyWallet');
         },
@@ -38,7 +40,7 @@ export const MenuData1 = [
     {
         id: '3',
         iconUrl: require('../../../assets/icon/menu/transaction.png'),
-        title: 'Transaction Type',
+        title: t("md1-transaction type"),
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('TypeList');
         },
@@ -46,17 +48,17 @@ export const MenuData1 = [
     {
         id: '4',
         iconUrl: require('../../../assets/icon/menu/chart.png'),
-        title: 'Analyst',
+        title: t("md1-analyst"),
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('AnalystMenu');
         },
     },
 ]
 
-export const MenuData2 = [
+const MenuData2 = [
     {
         id: '1',
-        title: 'Currency Convert',
+        title: t("md2-currency convert"),
         backgroundColor: '#4546df',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('Convert');
@@ -65,7 +67,7 @@ export const MenuData2 = [
     },
     {
         id: '2',
-        title: 'Loan/Debt',
+        title: t("md2-loan debt"),
         backgroundColor: '#f6c871',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('LoanList');
@@ -74,7 +76,7 @@ export const MenuData2 = [
     },
     {
         id: '3',
-        title: 'Shopping List',
+        title: t("md2-shopping list"),
         backgroundColor: '#66d3e7',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('ShoppingList');
@@ -83,7 +85,7 @@ export const MenuData2 = [
     },
     {
         id: '4',
-        title: 'Group',
+        title: t("md2-group"),
         backgroundColor: '#e87838',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('GroupList');
@@ -92,7 +94,7 @@ export const MenuData2 = [
     },
     {
         id: '5',
-        title: 'Personal Tax',
+        title: t("md2-personal tax"),
         backgroundColor: '#aa75f7',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('PersonalTax');
@@ -101,7 +103,7 @@ export const MenuData2 = [
     },
     {
         id: '6',
-        title: 'Nearby ATM',
+        title: t("md2-nearby atm"),
         backgroundColor: '#58bf56',
         onPress: (navigation: NavigationProp<any, any>) => {
             // navigation.navigate('GroupList');
@@ -110,7 +112,7 @@ export const MenuData2 = [
     },
     {
         id: '7',
-        title: 'Export Data',
+        title: t("md2-export data"),
         backgroundColor: '#3c84f3',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('ExportData');
@@ -119,7 +121,7 @@ export const MenuData2 = [
     },
     {
         id: '8',
-        title: 'Saving',
+        title: t("md2-saving"),
         backgroundColor: '#eb5240',
         onPress: (navigation: NavigationProp<any, any>) => {
             navigation.navigate('SavingList');
@@ -128,11 +130,11 @@ export const MenuData2 = [
     },
 ]
 
-export const MenuData3 = [
+const MenuData3 = [
     {
         id: '1',
         iconUrl: require('../../../assets/icon/menu/logout.png'),
-        title: 'Sign Out',
+        title: t("md3-sign out"),
         onPress: async (navigation: NavigationProp<any, any>, realm: Realm) => {
             await logout(navigation, UserStore.user.id, UserStore.deviceToken, realm)
             .then((message: string) => {
@@ -142,3 +144,5 @@ export const MenuData3 = [
         },
     },
 ]
+return { MenuData1, MenuData2, MenuData3 };
+}

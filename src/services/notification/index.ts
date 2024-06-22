@@ -11,5 +11,6 @@ function isSameDay(date: Date): boolean {
 
 export const generateDailyNotification = () => {
     const notiBody = (isSameDay(ActiveStore.lastTransaction))? 'Cùng nhau xem lại các giao dịch bạn đã thực hiện trong ngày nhé!':'Hôm nay bạn chưa có giao dịch nào, cùng nhau ghi chép nhé!';
+    
     return notiBody;
 }
