@@ -106,7 +106,7 @@ const MenuData2 = [
         title: t("md2-nearby atm"),
         backgroundColor: '#58bf56',
         onPress: (navigation: NavigationProp<any, any>) => {
-            // navigation.navigate('GroupList');
+            navigation.navigate('NearbyATM');
         },
         iconUrl: require('../../../assets/icon/menu/menu2/atm.png'),
     },

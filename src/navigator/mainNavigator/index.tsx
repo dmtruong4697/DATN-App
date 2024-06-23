@@ -50,6 +50,7 @@ import ExpenseVsIncomeScreen from "../../screens/expenseVsIncomeScreen";
 import GroupTransactionDetailScreen from "../../screens/groupTransactionDetailScreen";
 import SearchScreen from "../../screens/searchScreen";
 import FormatDateScreen from "../../screens/formatDateScreen";
+import NearbyATMScreen from "../../screens/nearbyATMScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -183,6 +184,8 @@ export type RootStackParamList = {
     Search: {};
 
     FormatDate: {};
+
+    NearbyATM: {};
 
 };
 
@@ -579,6 +582,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="FormatDate"
             component={FormatDateScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="NearbyATM"
+            component={NearbyATMScreen}
             options={{
                 headerShown: false,
             }}
