@@ -5,16 +5,15 @@ import { ImageSourcePropType } from 'react-native';
 import { UserStore } from '../auth';
 import { generateDailyNotification } from '../../services/notification';
 import notifee, { RepeatFrequency, TriggerType, TimestampTrigger, AndroidImportance } from '@notifee/react-native';
+import { ThemeData } from '../../data/themeData';
 
 const date = new Date(Date.now());
-date.setHours(21, 0, 0, 0); // Đặt giờ là 19:00:00
+date.setHours(21, 0, 0, 0); 
 
 async function createDailyNotification() {
-    // Tạo trigger cho thông báo vào 7h tối hằng ngày
     const date = new Date(Date.now());
-    date.setHours(21, 0, 0, 0); // Đặt giờ là 19:00:00
+    date.setHours(21, 0, 0, 0); 
 
-    // Nếu thời gian đã qua 7h tối của ngày hiện tại, đặt lịch cho ngày hôm sau
     if (date.getTime() < Date.now()) {
       date.setDate(date.getDate() + 1);
     }
@@ -62,6 +61,12 @@ class store {
     notificationTime = date.getTime();
 
     dateFormat: string = 'dd/mm/yyyy';
+
+    themeColor: string = ThemeData[0].color;
+
+    setThemeColor(color: string) {
+      this.themeColor = color;
+  }
 
     setLanguage(lang: string) {
         this.language = lang;

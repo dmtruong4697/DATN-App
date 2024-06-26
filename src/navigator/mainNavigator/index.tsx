@@ -51,6 +51,7 @@ import GroupTransactionDetailScreen from "../../screens/groupTransactionDetailSc
 import SearchScreen from "../../screens/searchScreen";
 import FormatDateScreen from "../../screens/formatDateScreen";
 import NearbyATMScreen from "../../screens/nearbyATMScreen";
+import ChangeThemeScreen from "../../screens/changeThemeScreen";
 
 export type RootStackParamList = {
     Splash: {};
@@ -186,6 +187,8 @@ export type RootStackParamList = {
     FormatDate: {};
 
     NearbyATM: {};
+
+    ChangeTheme: {};
 
 };
 
@@ -590,6 +593,14 @@ const MainNavigator = () => {
         <Stack.Screen
             name="NearbyATM"
             component={NearbyATMScreen}
+            options={{
+                headerShown: false,
+            }}
+        />
+
+        <Stack.Screen
+            name="ChangeTheme"
+            component={ChangeThemeScreen}
             options={{
                 headerShown: false,
             }}

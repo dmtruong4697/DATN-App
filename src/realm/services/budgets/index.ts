@@ -144,3 +144,86 @@ export function deleteAllBudget(
         realm.delete(budgets);
     })
 };
+
+// cac ham helper
+function isNewDay(date: Date): boolean {
+    const today = new Date();
+    return (
+      date.getFullYear() !== today.getFullYear() ||
+      date.getMonth() !== today.getMonth() ||
+      date.getDate() !== today.getDate()
+    );
+  }
+  
+  function isNewWeek(date: Date): boolean {
+    const today = new Date();
+    const currentWeek = getWeekNumber(today);
+    const targetWeek = getWeekNumber(date);
+    return (
+      date.getFullYear() !== today.getFullYear() || currentWeek !== targetWeek
+    );
+  }
+  
+  function isNewMonth(date: Date): boolean {
+    const today = new Date();
+    return (
+      date.getFullYear() !== today.getFullYear() ||
+      date.getMonth() !== today.getMonth()
+    );
+  }
+  
+  function getWeekNumber(date: Date): number {
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+  }
+
+  export function resetBudget(
+    realm: Realm,
+    _id: Realm.BSON.ObjectId,
+  ) {
+    const budget = realm.objectForPrimaryKey<Budget>('Budget', _id);
+    let start = budget!.startTime;
+    let finish = budget!.finishTime;
+  
+    const currentDate = new Date();
+  
+    if (budget!.repeatType === 'day' && isNewDay(currentDate)) {
+      const startDate = new Date(start);
+      startDate.setDate(startDate.getDate() + 1);
+      start = startDate.toISOString().slice(0, 10);
+      finish = startDate.toISOString().slice(0, 10);
+    } else if (budget!.repeatType === 'week' && isNewWeek(currentDate)) {
+      const startDate = new Date(finish);
+      const finishDate = new Date(finish);
+  
+      startDate.setDate(startDate.getDate() + 1);
+      finishDate.setDate(finishDate.getDate() + 7);
+  
+      start = startDate.toISOString().slice(0, 10);
+      finish = finishDate.toISOString().slice(0, 10);
+    } else if (budget!.repeatType === 'month' && isNewMonth(currentDate)) {
+      let startDate = new Date(finish);
+      let finishDate = new Date(finish);
+  
+      startDate.setDate(startDate.getDate() + 1);
+      finishDate = getMonthEnd(startDate);
+  
+      start = startDate.toISOString().slice(0, 10);
+      finish = finishDate.toISOString().slice(0, 10);
+    } else if (budget!.repeatType === 'year') {
+      const startDate = new Date(finish);
+      const finishDate = new Date(finish);
+  
+      startDate.setFullYear(startDate.getFullYear() + 1);
+      finishDate.setFullYear(finishDate.getFullYear() + 1);
+  
+      start = startDate.toISOString().slice(0, 10);
+      finish = finishDate.toISOString().slice(0, 10);
+    }
+  
+    realm.write(() => {
+      budget!.startTime = start;
+      budget!.finishTime = finish;
+    });
+  }

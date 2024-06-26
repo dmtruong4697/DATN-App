@@ -4,7 +4,7 @@ import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import MenuItem from '../../components/menuItem';
-import { deleteBudgetById, getAllBudget, getBudgetDetail, } from '../../realm/services/budgets';
+import { deleteBudgetById, getAllBudget, getBudgetDetail, resetBudget, } from '../../realm/services/budgets';
 import { RealmContext } from '../../realm/models';
 import Button from '../../components/button';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
@@ -39,6 +39,7 @@ const BudgetScreen: React.FC<IProps>  = () => {
     useEffect(() => {
         setBudget(getAllBudget(realm)[0]);
         // renewBudgetById(realm, budget._id);
+        resetBudget(realm, budget._id);
         if(budget) {
         setResult(getBudgetDetail(realm, getAllBudget(realm)[0]._id, getAllBudget(realm)[0].startTime, getAllBudget(realm)[0].finishTime));
         const n = new Date();
