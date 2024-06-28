@@ -14,6 +14,7 @@ import { observer } from 'mobx-react'
 import { useTranslation } from 'react-i18next';
 import { SyncStore } from '../../mobx/sync';
 import { MenuDataWrapper } from '../../data/menuData';
+import { SettingStore } from '../../mobx/setting';
 
 interface IProps {}
 
@@ -32,7 +33,7 @@ const MenuScreen: React.FC<IProps>  = () => {
   return (
     <ScrollView contentContainerStyle={styles.viewContainer} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
       <View style={styles.viewTopContainer}>
-        <View style={styles.viewHeaderBar}>
+        <View style={[styles.viewHeaderBar]}>
           <View
             style={{
               flex : 1,

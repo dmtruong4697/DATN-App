@@ -238,12 +238,12 @@ const SignInScreen: FC = () => {
             style={styles.txtOr}
         >{t('sis-or')}</Text>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
             style={[styles.socialButton, {backgroundColor: '#FBFBFB'}]}
         >
             <Image style={styles.mediaIcon} source={require('../../../assets/icon/socialMedia/facebook.png')}/>
             <Text style={styles.socialButtonText}>{t('sis-connect with')} facebok</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
             style={[styles.socialButton, ]}

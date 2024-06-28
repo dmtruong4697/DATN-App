@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { colors } from "../../constants/colors";
+import { SettingStore } from "../../mobx/setting";
 
 export const styles = StyleSheet.create({
     viewContainer: {
@@ -21,6 +22,7 @@ export const styles = StyleSheet.create({
         width: '100%',
         // padding: 10,
         backgroundColor: colors.PrimaryColor,
+        // backgroundColor: SettingStore.themeColor,
         transform : [ { scaleX : 2 } ],
         borderBottomStartRadius : 200,
         borderBottomEndRadius : 200,

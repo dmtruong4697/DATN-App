@@ -31,7 +31,7 @@ const ThemeItem: React.FC<IProps>  = ({id, name, color}) => {
     <TouchableOpacity
         style={[styles.viewContainer, {backgroundColor: color}]}
         onPress={() => {
-            changeTheme(name);
+            changeTheme(color);
         }}
     >
         <View style={styles.viewText}>
@@ -39,7 +39,7 @@ const ThemeItem: React.FC<IProps>  = ({id, name, color}) => {
             {/* <Text>{t('hello')}</Text> */}
         </View>
 
-        {(SettingStore.dateFormat == name) && 
+        {(SettingStore.themeColor == color) && 
             <TouchableOpacity
                 style={styles.viewCheck}
                 onPress={() => {
