@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions, RefreshControl } from 'react-native'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, useIsFocused, useNavigation } from '@react-navigation/native';
@@ -60,6 +60,13 @@ const GroupListScreen: React.FC<IProps>  = () => {
     const handleJoinGroup = async() => {
       await joinGroup(navigation, inviteCode);
     }
+
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(async () => {
+      setRefreshing(true);
+      await fetchGroupList();
+      setRefreshing(false);
+    }, []);
   
   return (
     <View style={styles.viewContainer}>
@@ -94,13 +101,11 @@ const GroupListScreen: React.FC<IProps>  = () => {
           data={groupIds}
           keyExtractor={item => item._id.toString()}
           scrollEnabled={false}
-          renderItem={({item}) => (
-            <GroupCard
-              groupId={item._id.toString()}
-
-            />
+          renderItem={({ item }) => (
+            <GroupCard groupId={item._id.toString()} />
           )}
-          contentContainerStyle={{width: '100%', height: '100%', padding: 5, gap: 5,}}
+          contentContainerStyle={{ width: '100%', height: '100%', padding: 5, gap: 5 }}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         />
       </View>
 

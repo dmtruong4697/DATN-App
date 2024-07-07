@@ -26,9 +26,10 @@ async function createDailyNotification() {
       repeatFrequency: RepeatFrequency.DAILY,
     };
 
+    if(SettingStore.notificationEnable) {
     await notifee.createTriggerNotification(
       {
-        title: `Chào buổi tối ${UserStore.user.userName}!`,
+        title: `Chào buổi tối!`,
         body: generateDailyNotification(),
         android: {
           channelId: 'daily-reminder',
@@ -36,6 +37,7 @@ async function createDailyNotification() {
       },
       trigger,
     );
+    }
   }
 
   // ham format date

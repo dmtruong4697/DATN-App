@@ -119,7 +119,7 @@ const SettingScreen: React.FC<IProps>  = () => {
       {/* security */}
       <Text style={styles.txtGroupTitle}>NOTIFICATION</Text>
       <View style={styles.viewGroup}>
-        <FlatList
+        {/* <FlatList
           data={SettingMenuData3}
           keyExtractor={item => item.id}
           scrollEnabled={false}
@@ -136,6 +136,16 @@ const SettingScreen: React.FC<IProps>  = () => {
             />
           )}
           // contentContainerStyle={{width: layout.width-18, gap: 5,}}
+        /> */}
+        <SettingItem
+          id={'1234'}
+          title={'Enable Notification'}
+          // state={convertTime(createTime)}
+          // state={SettingStore.setNotificationEnable}
+          onPress={() => {}}
+          renderToggle={true}
+          toggleState={SettingStore.notificationEnable}
+          onPressToggle={() => SettingStore.setNotificationEnable(!SettingStore.notificationEnable)}
         />
         <SettingItem
           id={'123'}

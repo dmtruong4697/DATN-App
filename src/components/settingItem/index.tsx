@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, Switch } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -7,6 +7,7 @@ import { RealmContext } from '../../realm/models';
 import { Realm } from "realm";
 import { observer } from 'mobx-react'
 import { colors } from '../../constants/colors';
+import { SettingStore } from '../../mobx/setting';
 
 interface IProps {
     id: string,
@@ -18,14 +19,17 @@ interface IProps {
     onPressToggle?: () => void,
 }
 
-const SettingItem: React.FC<IProps>  = ({id, onPress, renderToggle, title, toggleState, state}) => {
+const SettingItem: React.FC<IProps>  = ({id, onPress, renderToggle, title, toggleState, state, onPressToggle}) => {
 
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const {useRealm} = RealmContext;
     const realm = useRealm();
 
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const [isEnabled, setIsEnabled] = useState(SettingStore.notificationEnable);
+    const toggleSwitch = () => {
+      setIsEnabled(previousState => !previousState);
+      SettingStore.setNotificationEnable(!isEnabled);
+    }
 
   return (
     <TouchableOpacity

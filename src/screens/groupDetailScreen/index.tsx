@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions, ScrollView, ToastAndroid } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ImageSourcePropType, FlatList, TextInput, useWindowDimensions, ScrollView, ToastAndroid, RefreshControl } from 'react-native'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { styles } from './styles'
 import { ParamListBase, RouteProp, useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
@@ -112,9 +112,18 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
       />,
       []
     );
+
+    // refresh
+    const [refreshing, setRefreshing] = useState(false);
+    const onRefresh = useCallback(async () => {
+      setRefreshing(true);
+      await fetchGroupInfo();
+      setRefreshing(false);
+    }, []);
   
   return (
-    <ScrollView contentContainerStyle={styles.viewContainer}>
+    <ScrollView contentContainerStyle={styles.viewContainer}  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+>
       <View style={styles.viewHeader}>
         <TouchableOpacity
           style={styles.btnBack}

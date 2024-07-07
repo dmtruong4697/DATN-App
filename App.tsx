@@ -49,11 +49,9 @@ function App(): React.JSX.Element {
   }
 
   async function createDailyNotification() {
-    // Tạo trigger cho thông báo vào 7h tối hằng ngày
     const date = new Date(Date.now());
-    date.setHours(21, 0, 0, 0); // Đặt giờ là 19:00:00
+    date.setHours(21, 0, 0, 0); 
 
-    // Nếu thời gian đã qua 7h tối của ngày hiện tại, đặt lịch cho ngày hôm sau
     if (date.getTime() < Date.now()) {
       date.setDate(date.getDate() + 1);
     }
@@ -66,9 +64,10 @@ function App(): React.JSX.Element {
       repeatFrequency: RepeatFrequency.DAILY,
     };
 
+    if(SettingStore.notificationEnable) {
     await notifee.createTriggerNotification(
       {
-        title: `Chào buổi tối ${UserStore.user.userName}!`,
+        title: `Chào buổi tối!`,
         body: generateDailyNotification(),
         android: {
           channelId: 'daily-reminder',
@@ -76,6 +75,7 @@ function App(): React.JSX.Element {
       },
       trigger,
     );
+    }
   }
 
   async function onMessageReceived(message: FirebaseMessagingTypes.RemoteMessage) {
