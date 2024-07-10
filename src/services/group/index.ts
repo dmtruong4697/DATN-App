@@ -2,6 +2,7 @@ import { NavigationProp } from "@react-navigation/native";
 import axios from "axios";
 import { API } from "../../constants/api";
 import { UserStore } from "../../mobx/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function createGroup(
     navigation: NavigationProp<any, any>,
@@ -9,6 +10,7 @@ export async function createGroup(
     currencyUnit: string,
 ) {
     try {
+      const token = await AsyncStorage.getItem('token');
       const responce = await axios.post(API + '/create-group',
         {
           name: name,
@@ -17,7 +19,7 @@ export async function createGroup(
         },
         {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
         }
       )
@@ -34,13 +36,14 @@ export async function createGroup(
 
 export async function getGroupList(): Promise<any> {
     try {
+      const token = await AsyncStorage.getItem('token');
       const responce = await axios.post(API + '/group-list',
         {
             
         },
         {
             headers: {
-                Authorization: UserStore.user.token,
+                Authorization: token,
             }
         }
       );
@@ -57,13 +60,14 @@ export async function getGroupDetail(
   groupId: string,
 ): Promise<any> {
   try {
+    const token = await AsyncStorage.getItem('token');
     const responce = await axios.post(API + '/get-group',
       {
           groupId: groupId,
       },
       {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
       }
     );
@@ -78,13 +82,14 @@ export async function getGroupDetail(
 
 export async function getGroupMember(groupId: string): Promise<any> {
   try {
+    const token = await AsyncStorage.getItem('token');
     const responce = await axios.post(API + '/group-member',
       {
         groupId: groupId,
       },
       {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
       }
     );
@@ -99,13 +104,14 @@ export async function getGroupMember(groupId: string): Promise<any> {
 
 export async function getGroupTransactions(groupId: string): Promise<any> {
   try {
+    const token = await AsyncStorage.getItem('token');
     const responce = await axios.post(API + '/group-transactions',
       {
         groupId: groupId,
       },
       {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
       }
     );
@@ -123,13 +129,14 @@ export async function joinGroup(
   inviteCode: string,
 ): Promise<any> {
   try {
+    const token = await AsyncStorage.getItem('token');
     const responce = await axios.post(API + '/join-group-by-id',
       {
         inviteCode: inviteCode,
       },
       {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
       }
     );
@@ -156,13 +163,14 @@ export async function joinGroup(
 
 export async function getGroupTotal(groupId: string): Promise<any> {
   try {
+    const token = await AsyncStorage.getItem('token');
     const responce = await axios.post(API + '/group-total',
       {
         groupId: groupId,
       },
       {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
       }
     );
@@ -177,13 +185,14 @@ export async function getGroupTotal(groupId: string): Promise<any> {
 
 export async function splitMoney(groupId: string): Promise<any> {
   try {
+    const token = await AsyncStorage.getItem('token');
     const responce = await axios.post(API + '/split-money',
       {
         groupId: groupId,
       },
       {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
       }
     );
@@ -200,13 +209,14 @@ export async function resetGroup(
   groupId: string,
 ): Promise<any> {
   try {
+    const token = await AsyncStorage.getItem('token');
     const responce = await axios.post(API + '/reset-transaction',
       {
         groupId: groupId,
       },
       {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
       }
     );
@@ -234,13 +244,14 @@ export async function deleteGroup(
   groupId: string,
 ): Promise<any> {
   try {
+    const token = await AsyncStorage.getItem('token');
     const responce = await axios.post(API + '/delete-group',
       {
         groupId: groupId,
       },
       {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
       }
     );

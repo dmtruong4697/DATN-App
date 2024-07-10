@@ -2,6 +2,7 @@ import { NavigationProp } from "@react-navigation/native";
 import axios from "axios";
 import { API } from "../../constants/api";
 import { UserStore } from "../../mobx/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function createGroupTransaction(
     navigation: NavigationProp<any, any>,
@@ -15,6 +16,7 @@ export async function createGroupTransaction(
     imageUrls: string,
 ) {
     try {
+      const token = await AsyncStorage.getItem('token');
       const responce = await axios.post(API + '/create-transaction',
         {
             userId: userId,
@@ -28,7 +30,7 @@ export async function createGroupTransaction(
         },
         {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
         }
       )
@@ -44,13 +46,14 @@ export async function createGroupTransaction(
 
 export async function getGroupTransaction(transactionId: string): Promise<any> {
   try {
+    const token = await AsyncStorage.getItem('token');
     const responce = await axios.post(API + '/get-transaction',
       {
         transactionId: transactionId,
       },
       {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
       }
     );
@@ -69,6 +72,7 @@ export async function deleteTransaction(
   groupId: string,
 ): Promise<any> {
   try {
+    const token = await AsyncStorage.getItem('token');
     const responce = await axios.post(API + '/delete-transaction',
       {
         transactionId: transactionId,
@@ -76,7 +80,7 @@ export async function deleteTransaction(
       },
       {
           headers: {
-              Authorization: UserStore.user.token,
+              Authorization: token,
           }
       }
     );

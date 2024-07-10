@@ -293,7 +293,7 @@ const AddBudgetScreen: React.FC<IProps> = () => {
         </View>
 
         {/* wallets */}
-        <View style={styles.viewFormItemContainer}>
+        {/* <View style={styles.viewFormItemContainer}>
           <Text style={styles.txtFormItemTitle}>WALLETS</Text>
           <TouchableOpacity 
             style={styles.viewFormItem}
@@ -304,7 +304,7 @@ const AddBudgetScreen: React.FC<IProps> = () => {
             <Text style={styles.txtTypeName}>{}</Text>
             <Image style={[styles.imgIcon, {marginRight: 0,}]} source={require('../../../assets/icon/addTransaction/down-1.png')}/>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* currency unit */}
         <View style={styles.viewFormItemContainer}>

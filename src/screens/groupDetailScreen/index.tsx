@@ -147,6 +147,20 @@ const GroupDetailScreen: React.FC<IProps>  = () => {
           {/* <Text style={styles.txtEdit}>Edit</Text> */}
         </TouchableOpacity>
         }
+
+        {(UserStore.user.id != groupDetail.groupOwnerId) &&
+        <TouchableOpacity
+          style={styles.btnBack}
+          onPress={() => {
+            // navigation.navigate('EditLoan', {_id: _id})
+            // console.log(groupDetail);
+            // handlePresentOptionModalPress();
+          }}
+        >
+          {/* <Image style={styles.imgButtonBack} source={require('../../../assets/icon/transaction/option.png')}/> */}
+          {/* <Text style={styles.txtEdit}>Edit</Text> */}
+        </TouchableOpacity>
+        }
       </View>
 
       {/* top group */}

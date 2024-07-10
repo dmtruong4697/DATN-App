@@ -51,7 +51,7 @@ const ShoppingListItemCard: React.FC<IProps>  = ({_id}) => {
         </TouchableOpacity>
 
         <Text style={styles.txtName}>{item?.name}</Text>
-        <Text style={styles.txtQuantity}>{item?.quantity} {item?.unit}</Text>
+        {/* <Text style={styles.txtQuantity}>{item?.quantity} {item?.unit}</Text> */}
     </TouchableOpacity>
   )
 }

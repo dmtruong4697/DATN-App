@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API } from "../../constants/api";
 import { UserStore } from "../../mobx/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function getUserInfo(
     userId: String,
@@ -27,13 +28,14 @@ export async function updateProfile(
   phoneNumber: string,
 ) {
   try {
+      const token = await AsyncStorage.getItem('token');
       const responce = await axios.post(API + '/update-profile', {
         userName: userName,
         phoneNumber: phoneNumber,
       },
       {
         headers: {
-          Authorization: UserStore.user.token,
+          Authorization: token,
         }
       });
 
@@ -71,12 +73,13 @@ export async function updateAvatar(
   file: FormData,
 ) {
   try {
+      const token = await AsyncStorage.getItem('token');
       const responce = await axios.post(API + '/update-avatar', 
         file
       ,
       {
         headers: {
-          Authorization: UserStore.user.token,
+          Authorization: token,
           "Accept": "multipart/form-data",
           "Content-Type": "multipart/form-data",
         }

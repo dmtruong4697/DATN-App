@@ -46,6 +46,7 @@ export async function login(
             UserStore.setIsLoading(false);
 
             await AsyncStorage.setItem('user', JSON.stringify(user));
+            await AsyncStorage.setItem('token', user.token!);
             navigation.navigate('Home');
             return message;
         } else {
@@ -102,6 +103,7 @@ export async function googleLogin(
             UserStore.setIsLoading(false);
 
             await AsyncStorage.setItem('user', JSON.stringify(user));
+            await AsyncStorage.setItem('token', user.token!);
 
             navigation.navigate('Home');
             return message;
@@ -139,6 +141,7 @@ export async function logout(
     await uploadData(realm);
     try {
         // UserStore.setIsLoading(true);
+        const token = await AsyncStorage.getItem('token');
         const responce = await axios.post(API + '/logout', 
         {
             userId: userId,
@@ -146,7 +149,7 @@ export async function logout(
         },
         {
             headers: {
-                Authorization: UserStore.user.token,
+                Authorization: token,
             }
         });
 
@@ -163,6 +166,7 @@ export async function logout(
             deleteAllWallet(realm);
 
             await AsyncStorage.removeItem('user');
+            await AsyncStorage.removeItem('token');
 
             UserStore.logoutUser();
             console.log(responce.data);
@@ -287,12 +291,13 @@ export async function changePassword(
     password: string,
 ) {
     try {
+        const token = await AsyncStorage.getItem('token');
         const responce = await axios.post(API + '/change-password', {
             password: password,
         },
         {
             headers: {
-                Authorization: UserStore.user.token,
+                Authorization: token,
             }
         });
 

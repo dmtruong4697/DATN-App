@@ -18,43 +18,49 @@ import { useTranslation } from 'react-i18next';
 
 interface IProps {}
 
-const BudgetScreen: React.FC<IProps>  = () => {
+const BudgetScreen: React.FC<IProps> = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { useRealm } = RealmContext;
+  const realm = useRealm();
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
+  const { t } = useTranslation();
 
-    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-    const {useRealm} = RealmContext;
-    const realm = useRealm();
-    const windowWidth = Dimensions.get('window').width;
-    const windowHeight = Dimensions.get('window').height;
-    const {t} = useTranslation();
+  const [budget, setBudget] = useState<any>(getAllBudget(realm)[0] || null);
+  const [result, setResult] = useState<any>(
+      budget
+          ? getBudgetDetail(realm, budget._id, budget.startTime, budget.finishTime)
+          : { transactions: undefined, total: 0 }
+  );
+  const [outstandingDay, setOutstandingDay] = useState<number>(0);
+  const [passedDay, setPassedDay] = useState<number>(0);
+  const isFocus = useIsFocused();
 
-    const [budget, setBudget] = useState<any>(getAllBudget(realm)[0]);
-    const [result, setResult] = useState<any>((getAllBudget(realm)[0])? getBudgetDetail(realm, getAllBudget(realm)[0]._id, getAllBudget(realm)[0].startTime, getAllBudget(realm)[0].finishTime):{
-      transactions: undefined,
-      total: 0,
-    });
-    const [outstandingDay, setOutstandingDay] = useState<number>(0);
-    const [passedDay, setPassedDay] = useState<number>(0)
-    const isFocus = useIsFocused();
-  
-    useEffect(() => {
-        setBudget(getAllBudget(realm)[0]);
-        // renewBudgetById(realm, budget._id);
-        resetBudget(realm, budget._id);
-        if(budget) {
-        setResult(getBudgetDetail(realm, getAllBudget(realm)[0]._id, getAllBudget(realm)[0].startTime, getAllBudget(realm)[0].finishTime));
-        const n = new Date();
-        const f = new Date(budget!.finishTime);
-        const s = new Date(budget!.startTime);
+  useEffect(() => {
+      const budgets = getAllBudget(realm);
+      if (budgets.length > 0) {
+          const currentBudget = budgets[0];
+          setBudget(currentBudget);
+          resetBudget(realm, currentBudget._id);
+          const detail = getBudgetDetail(realm, currentBudget._id, currentBudget.startTime, currentBudget.finishTime);
+          setResult(detail);
 
-        setOutstandingDay(Number(f.getDate()) - Number(n.getDate()));
-        setPassedDay(Number(n.getDate()) - Number(s.getDate()) +1);
-        }
-    }, [isFocus])
+          const n = new Date();
+          const f = new Date(currentBudget.finishTime);
+          const s = new Date(currentBudget.startTime);
 
-    const formatter = new Intl.NumberFormat('en-US', {
+          setOutstandingDay(Math.max(0, f.getDate() - n.getDate()));
+          setPassedDay(Math.max(0, n.getDate() - s.getDate() + 1));
+      } else {
+          setBudget(null);
+          setResult({ transactions: undefined, total: 0 });
+      }
+  }, [isFocus]);
+
+  const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: (budget)? budget!.unitCurrency:'VND',
-    });
+      currency: budget ? budget.unitCurrency : 'VND',
+  });
 
     //option bottom sheet
     const bottomSheetOptionModalRef = useRef<BottomSheetModal>(null);
@@ -105,21 +111,24 @@ const BudgetScreen: React.FC<IProps>  = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.viewContainer}>
-      {(!budget) && 
+    {!budget && (
         <View style={styles.viewEmpty}>
-          <Image style={styles.imgEmpty} source={require('../../../assets/illustration/transactionScreen/empty-box.png')}/>
-          <Text style={styles.txtEmptyTitle}>{t('bs-no budget')}</Text>
-          <Text style={styles.txtEmptyDescription}>{t('bs-start saving')}</Text>
-          <TouchableOpacity
-            style={styles.btnAdd}
-            onPress={() => {
-              navigation.navigate('AddBudget');
-            }}
-          >
-            <Text style={styles.txtAdd}>+ {t('bs-add budget')}</Text>
-          </TouchableOpacity>
+            <Image
+                style={styles.imgEmpty}
+                source={require('../../../assets/illustration/transactionScreen/empty-box.png')}
+            />
+            <Text style={styles.txtEmptyTitle}>{t('bs-no budget')}</Text>
+            <Text style={styles.txtEmptyDescription}>{t('bs-start saving')}</Text>
+            <TouchableOpacity
+                style={styles.btnAdd}
+                onPress={() => {
+                    navigation.navigate('AddBudget');
+                }}
+            >
+                <Text style={styles.txtAdd}>+ {t('bs-add budget')}</Text>
+            </TouchableOpacity>
         </View>
-      }
+    )}
 
       {(budget) && 
       <View>
@@ -204,7 +213,8 @@ const BudgetScreen: React.FC<IProps>  = () => {
         <TouchableOpacity
           style={styles.btnTransactions}
           onPress={() => {
-            console.log(result)
+            // console.log(result)
+            navigation.navigate('Transaction');
           }}
         >
           <Text style={styles.txtTransactions}>{t('bs-transactions')}</Text>

@@ -14,6 +14,7 @@ import { NavigationProp } from '@react-navigation/native';
 import { SavingType } from '../../screens/addSavingScreen';
 import { ObjectId } from "bson";
 import { SyncStore } from '../../mobx/sync';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const makeDataFile = async (realm: Realm) => {
     try {
@@ -41,6 +42,8 @@ export const makeDataFile = async (realm: Realm) => {
 
 export const uploadData = async (realm: Realm) => {
   try {
+      const token = await AsyncStorage.getItem('token');
+
       const loans = getAllLoan(realm);
       const transactions = getAllTransaction(realm);
       const transactionTypes = getAllTransactionType(realm);
@@ -63,7 +66,7 @@ export const uploadData = async (realm: Realm) => {
       },
     {
       headers: {
-        Authorization: UserStore.user.token,
+        Authorization: token,
       }
     })
 
@@ -102,12 +105,13 @@ export async function syncData(
   navigation: NavigationProp<any, any>,
 ) {
   try {
+      const token = await AsyncStorage.getItem('token');
       const responce = await axios.post(API + '/get-user-data', {
         dataId: UserStore.user.dataId,
       },
       {
         headers: {
-          Authorization: UserStore.user.token,
+          Authorization: token,
         }
       });
 
